@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace LocalChat
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainForm.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainForm : Window
     {
-        public MainWindow()
+        public MainForm()
         {
             InitializeComponent();
         }
