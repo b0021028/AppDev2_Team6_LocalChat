@@ -2,6 +2,9 @@ namespace LocalChatBase
 {
     public class DataManager
     {
+        /// <summary>
+        /// ƒf[ƒ^‚ğ’Ç‰Á‚µ‚½Û‚É”­‰Î‚µ‚Ü‚·
+        /// </summary>
         public event EventHandler <string> EvAddData = (Sender, args)  => { };
 
         /// <summary>
@@ -27,5 +30,6 @@ namespace LocalChatBase
         {
 
         }
+
     }
 }
