@@ -8,5 +8,32 @@ namespace LocalChatBase
 {
     internal class Message
     {
+        public void SendMessage()
+        {
+
+        }
+
+        public void EvSendMessageSuccess()
+        {
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void ReferenceMessage()
+        {
+
+        }
+
+        public void ReceptionMessage()
+        {
+
+        }
+
+        public void EvReceptionMessage()
+        {
+
+        }
     }
 }
