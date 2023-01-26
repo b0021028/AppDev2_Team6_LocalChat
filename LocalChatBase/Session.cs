@@ -1,10 +1,12 @@
 ﻿namespace LocalChatBase
 {
+
     /// <summary>
     /// クライアントとのコネクションを一つのセッションとして扱うクラス
     /// </summary>
     public class Session
     {
+
         // Public
         /// <summary>
         /// セッションが終了したとき発火する
@@ -33,7 +35,8 @@
         /// </summary>
         private System.Net.Sockets.NetworkStream _netStream { get; init; }
 
-        //  static Private
+
+        //  Static Private
         /// <summary>
         /// NetStream.Write のタイムアウト
         /// </summary>
@@ -43,7 +46,6 @@
         /// 送受信する時のStringの文字コード
         /// </summary>
         static private System.Text.Encoding s_encode { get; } = System.Text.Encoding.Default;
-
 
 
         /// <summary>
@@ -66,6 +68,7 @@
             }
         }
 
+
         /// <summary>
         /// セッションを切断します
         /// </summary>
@@ -74,12 +77,14 @@
 
         }
 
+
         /// <summary>
         /// 受信を開始します
         /// </summary>
         public void StartReception()
         {
         }
+
 
         /// <summary>
         /// テキストデータを送信します
