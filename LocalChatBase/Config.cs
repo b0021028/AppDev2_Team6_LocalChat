@@ -17,7 +17,12 @@ namespace LocalChatBase
         public void GetConfig()
         {
         }
-
+        public void ChangeConfig()
+        {
+        }
+        public void EvConfigChange()
+        {
+        }
         public void DetailConfig()
         {
         }
