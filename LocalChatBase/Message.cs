@@ -18,7 +18,7 @@ namespace LocalChatBase
         /// <summary>
         /// イベントハンドラー メッセージ送信され成功した時
         /// </summary>
-        public event EvSendMessageSuccess()
+        public event EvSendMessageSuccess<int> Trigger1 = dummy;
         {
 
         }
@@ -42,7 +42,7 @@ namespace LocalChatBase
         /// <summary>
         /// イベントハンドラー メッセージ受信した後
         /// </summary>
-        public event EvReceptionMessage()
+        public event EvReceptionMessage<int> Trigger1 = dummy;
         {
 
         }
