@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalChat", "LocalChat\LocalChat.csproj", "{74E7A427-DF4D-4BE4-9F6C-95D6BEE576EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalChat", "LocalChat\LocalChat.csproj", "{74E7A427-DF4D-4BE4-9F6C-95D6BEE576EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalChatBase", "LocalChatBase\LocalChatBase.csproj", "{0CA3D005-2B1C-4E88-BC7C-FF97FB969F41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{74E7A427-DF4D-4BE4-9F6C-95D6BEE576EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74E7A427-DF4D-4BE4-9F6C-95D6BEE576EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74E7A427-DF4D-4BE4-9F6C-95D6BEE576EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CA3D005-2B1C-4E88-BC7C-FF97FB969F41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CA3D005-2B1C-4E88-BC7C-FF97FB969F41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CA3D005-2B1C-4E88-BC7C-FF97FB969F41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CA3D005-2B1C-4E88-BC7C-FF97FB969F41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
