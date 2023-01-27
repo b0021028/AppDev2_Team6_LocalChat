@@ -47,6 +47,7 @@ namespace LocalChatBase
         }
 
 
+
         /// <summary>
         /// クライアント待ち受けを終了しようとする
         /// </summary>

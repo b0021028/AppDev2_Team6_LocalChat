@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace LocalChat
 {
     /// <summary>
-    /// NewSendToForm.xaml の相互作用ロジック
+    /// AddNewPartnerForm.xaml の相互作用ロジック
     /// </summary>
-    public partial class NewSendToForm : Window
+    public partial class AddNewPartnerForm : Window
     {
-        public NewSendToForm()
+        public AddNewPartnerForm()
         {
             InitializeComponent();
         }
