@@ -25,7 +25,22 @@ namespace LocalChat
             InitializeComponent();
         }
 
-        private void Button_Click()
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void UserChange(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void UserChange2(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }

@@ -11,9 +11,11 @@
             <RowDefinition/>
             <RowDefinition Height="0*"/>
         </Grid.RowDefinitions>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="0,99,0,0" Height="20" VerticalAlignment="Top" Width="40"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="0,119,0,0" VerticalAlignment="Top"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="0,84,0,0" Height="38" VerticalAlignment="Top" Width="117" Click="UserChange"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="0,122,0,0" VerticalAlignment="Top" Height="38" Width="117" Click="UserChange2"/>
         <Button Content="設定" HorizontalAlignment="Left" Height="41" Margin="0,393,0,0" VerticalAlignment="Top" Width="62"/>
+        <Label Content="既存のチャット" HorizontalAlignment="Left" Margin="0,58,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="MessageBox" HorizontalAlignment="Left" Height="27" Margin="280,393,0,0" TextWrapping="Wrap" Text="[新しいメッセージの入力]" VerticalAlignment="Top" Width="276" TextChanged="TextBox_TextChanged" Background="{x:Null}"/>
 
     </Grid>
 </Window>
