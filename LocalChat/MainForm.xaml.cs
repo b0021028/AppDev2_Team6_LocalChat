@@ -20,11 +20,63 @@ namespace LocalChat
     /// </summary>
     public partial class MainForm : Window
     {
+        /// <summary>
+        /// 初期化処理
+        /// </summary>
         public MainForm()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// 宛先、メッセージの追加
+        /// </summary>
+        public void Intialize()
+        {
+
+        }
+
+        /// <summary>
+        /// メッセージ追加
+        /// </summary>
+        public void AddMessage()
+        {
+
+        }
+
+        public void EndLocalChatCore()
+        {
+
+        }
+
+        public void UpdateChat()
+        {
+
+        }
+
+        public void UpdatePartnersList()
+        {
+
+        }
+
+        public void DisplayChat()
+        {
+
+        }
+
+        public void SendMessage()
+        {
+
+        }
+
+        //　イベント
+        public event EventHandler<int> EvInitialize = dummy;
+
+
+        public event EventHandler<int> EvEnd = dummy;
+
+
+        //　ボタンイベント
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
