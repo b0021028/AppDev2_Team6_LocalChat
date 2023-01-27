@@ -24,5 +24,10 @@ namespace LocalChat
         {
             InitializeComponent();
         }
+
+        private void Button_Click()
+        {
+
+        }
     }
 }
