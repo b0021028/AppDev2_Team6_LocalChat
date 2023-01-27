@@ -11,11 +11,25 @@
             <RowDefinition/>
             <RowDefinition Height="0*"/>
         </Grid.RowDefinitions>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="0,84,0,0" Height="38" VerticalAlignment="Top" Width="117" Click="UserChange"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="0,122,0,0" VerticalAlignment="Top" Height="38" Width="117" Click="UserChange2"/>
-        <Button Content="設定" HorizontalAlignment="Left" Height="41" Margin="0,393,0,0" VerticalAlignment="Top" Width="62"/>
-        <Label Content="既存のチャット" HorizontalAlignment="Left" Margin="0,58,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="MessageBox" HorizontalAlignment="Left" Height="27" Margin="280,393,0,0" TextWrapping="Wrap" Text="[新しいメッセージの入力]" VerticalAlignment="Top" Width="276" TextChanged="TextBox_TextChanged" Background="{x:Null}"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="0,64,0,0" Height="38" VerticalAlignment="Top" Width="181" Click="UserChange"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="0,102,0,0" VerticalAlignment="Top" Height="38" Width="181" Click="UserChange2"/>
+        <Button Content="設定" HorizontalAlignment="Left" Height="41" Margin="0,393,0,0" VerticalAlignment="Top" Width="62" Click="OpenAddNewPartnerForm"/>
+        <Label Content="既存のチャット" HorizontalAlignment="Left" Margin="0,37,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="MessageBox" HorizontalAlignment="Left" Height="27" Margin="189,393,0,0" TextWrapping="Wrap" Text="[新しいメッセージの入力]" VerticalAlignment="Top" Width="529" TextChanged="TextBox_TextChanged" Background="{x:Null}"/>
+        <Label Content="通信履歴" HorizontalAlignment="Left" Height="37" VerticalAlignment="Top" Width="95" Margin="45,-1,0,0" FontSize="18"/>
+        <Button Content="＋ 新規追加先　" HorizontalAlignment="Left" Margin="45,158,0,0" VerticalAlignment="Top" Click="Button_Click_1"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" Height="0" Margin="0,27,0,0" VerticalAlignment="Top" Width="800"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" Height="1" Margin="0,34,0,0" VerticalAlignment="Top" Width="800"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="424" Margin="181,10,0,0" VerticalAlignment="Top" Width="0"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="434" Margin="181,0,0,0" VerticalAlignment="Center" Width="0"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="424" Margin="176,0,0,0" VerticalAlignment="Top" Width="0"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="434" Margin="182,0,0,0" VerticalAlignment="Center" Width="0"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="444" Margin="184,0,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="0"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="434" Margin="182,0,0,0" VerticalAlignment="Center" Width="1"/>
+        <Label Content="IPアドレス" HorizontalAlignment="Left" Height="31" Margin="189,3,0,0" VerticalAlignment="Top" Width="100" FontSize="18"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="38" Margin="232,83,0,0" VerticalAlignment="Top" Width="214"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="38" Margin="554,158,0,0" VerticalAlignment="Top" Width="214"/>
+        <Button Content="送信ボタン" HorizontalAlignment="Left" Height="27" Margin="729,393,0,0" VerticalAlignment="Top" Width="61" Click="Send_Click"/>
 
     </Grid>
 </Window>

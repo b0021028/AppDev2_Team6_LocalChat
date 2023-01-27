@@ -44,5 +44,30 @@ namespace LocalChat
         {
 
         }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Send_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AddNewPartnerForm(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OpenAddNewPartnerForm(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
