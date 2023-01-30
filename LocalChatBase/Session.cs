@@ -1,4 +1,6 @@
-﻿namespace LocalChatBase
+﻿using System.Threading;
+
+namespace LocalChatBase
 {
 
     /// <summary>
@@ -47,6 +49,8 @@
         /// </summary>
         static private System.Text.Encoding s_encode { get; } = System.Text.Encoding.Default;
 
+        private CancellationTokenSource token { get; set; }
+        private bool run = false;
 
         /// <summary>
         /// クライアントとのコネクションを一つのセッションとする
@@ -61,6 +65,7 @@
                 _netStream = _client.GetStream();
                 _netStream.WriteTimeout = s_timeOut;
                 remoteEndPoint = (System.Net.IPEndPoint)_client.Client.RemoteEndPoint;
+                token = new CancellationTokenSource();
             }
             else
             {
@@ -74,6 +79,29 @@
         /// </summary>
         public void EndSession()
         {
+            try
+            {
+                token.Cancel();
+            }
+            finally
+            {
+                try
+                {
+                    _netStream.Close();
+                }
+                finally
+                {
+                    try
+                    {
+                        _client.Close();
+                    }
+                    finally
+                    {
+                        EvEndSession(this, remoteEndPoint);
+                    }
+
+                }
+            }
 
         }
 
@@ -83,6 +111,8 @@
         /// </summary>
         public void StartReception()
         {
+            new Thread(new ThreadStart(GetData)).Start();
+
         }
 
 
@@ -92,8 +122,53 @@
         /// <param name="data">送信するテキストデータ</param>
         public void SendData(string data)
         {
+            //データを送信する
+            _netStream.WriteTimeout = s_timeOut;
+
+            byte[] sendBytes = s_encode.GetBytes(data);
+
+            _netStream.Write(sendBytes, 0, sendBytes.Length);
+
         }
 
+        // Data受け取り
+        async private void GetData()
+        {
+            var token = this.token.Token;
+            while(true)
+            {
+                //クライアントから送られたデータを受信する
+                System.IO.MemoryStream ms = new System.IO.MemoryStream();
+                byte[] resBytes = new byte[256];
+                int resSize = 0;
+                do
+                {
+                    token.ThrowIfCancellationRequested();
+                    //データの一部を受信する
+                    resSize = await _netStream.ReadAsync(resBytes, 0, resBytes.Length);
+
+
+                    //Readが0を返した時はクライアントが切断したと判断
+                    if (resSize == 0)
+                    {
+                        Console.WriteLine("クライアントが切断しました。");
+                        break;
+                    }
+                    //受信したデータを蓄積する
+                    ms.Write(resBytes, 0, resSize);
+                    //まだ読み取れるデータがあるか、データの最後が\nでない時は、
+                    // 受信を続ける
+                } while (_netStream.DataAvailable);
+                //受信したデータを文字列に変換
+                string resMsg = s_encode.GetString(ms.GetBuffer(), 0, (int)ms.Length);
+
+                ms.Close();
+
+                EvReception(this, resMsg);
+
+            }
+
+        }
 
 
     }
