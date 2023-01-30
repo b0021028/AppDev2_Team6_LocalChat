@@ -23,5 +23,29 @@ namespace LocalChat
         {
             InitializeComponent();
         }
+
+        private void NewAddTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+        /// <summary>
+        /// OKボタンを押したときの処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OKButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// キャンセルボタンを押したときの処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }
