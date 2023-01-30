@@ -17,7 +17,7 @@ namespace LocalChatBase
         public static string Notification { get; } = "Notification";
 
     }
-    internal class Configuration
+    public class Configuration
     {
         /// <summary>
         /// イベントハンドラー 設定が変更された時
