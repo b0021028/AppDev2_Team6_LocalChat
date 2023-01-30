@@ -107,9 +107,14 @@ namespace LocalChat
 
         }
 
+        /// <summary>
+        /// メッセージ送信
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Send_Click(object sender, RoutedEventArgs e)
         {
-
+            TextBox.Text
         }
 
         private void AddNewPartnerForm(object sender, RoutedEventArgs e)
