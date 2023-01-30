@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using LocalChatBase;
 
+
 namespace LocalChat
 {
     /// <summary>
@@ -37,8 +38,23 @@ namespace LocalChat
         /// <param name="e"></param>
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
-            var input_address = NewAddTextBox.Text;
-            LocalChatBase.Partners.AddPartners(input_address);
+            string textValue = @"NewAddTextBox.Text";
+
+            IPAddress ipaddr;
+
+            bool ret = IPAddress.TryParse(textValue, out ipaddr);
+            if(!ret) {
+                MessageBox.Show("IPアドレスを読み込めませんでした。もう一度IPアドレスをご確認ください。",
+                    "エラー",
+                    MessageBoxButton.OK);
+
+            }
+            /// <summary>
+            /// データベースの欄にこのIPアドレスを追加する
+            /// </summary>
+            
+
+
         }
 
         /// <summary>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using LocalChat;
 
 namespace LocalChatBase
 {
@@ -16,7 +17,10 @@ namespace LocalChatBase
             if (Regex.IsMatch(input_address, @"[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}"))
             {
                 string address = input_address;
-
+                // データベースに追加するのか？わからん
+                DataManager.AddData(?, address, ?, ?);
+                // それともリスト?
+                LocalChat.MainForm.UpdatePartnersList(address);
             }
             else
             {
@@ -33,7 +37,7 @@ namespace LocalChatBase
         // 宛先のアドレス取得
         public void GetAddress()
         {
-
+            DataManager.GetData();
         }
 
         // 宛先追加イベント
