@@ -37,8 +37,8 @@ namespace LocalChat
         /// <param name="e"></param>
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
-            var address = NewAddTextBox.Text;
-            LocalChatBase.Partners.AddPartners(address);
+            var input_address = NewAddTextBox.Text;
+            LocalChatBase.Partners.AddPartners(input_address);
         }
 
         /// <summary>

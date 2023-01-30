@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace LocalChatBase
@@ -9,9 +10,18 @@ namespace LocalChatBase
     public class Partners
     {
         // 宛先追加
-        public static void AddPartners(string address)
+        public static void AddPartners(string input_address)
         {
-            string ipaddress = address;
+
+            if (Regex.IsMatch(input_address, @"[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}"))
+            {
+                string address = input_address;
+
+            }
+            else
+            {
+                
+            }
         }
 
         // 宛先取得
