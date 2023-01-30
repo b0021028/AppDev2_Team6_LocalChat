@@ -83,25 +83,23 @@ namespace LocalChatBase
             {
                 token.Cancel();
             }
-            finally
+            catch
+            {}
+            try
             {
-                try
-                {
-                    _netStream.Close();
-                }
-                finally
-                {
-                    try
-                    {
-                        _client.Close();
-                    }
-                    finally
-                    {
-                        EvEndSession(this, remoteEndPoint);
-                    }
-
-                }
+                _netStream.Close();
             }
+            catch
+            {}
+            try
+            {
+                _client.Close();
+            }
+            catch
+            {}
+            EvEndSession(this, remoteEndPoint);
+
+         
 
         }
 
