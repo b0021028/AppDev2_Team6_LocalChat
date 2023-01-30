@@ -26,23 +26,7 @@ namespace LocalChatBase
         /// </summary>
         public void ReferenceMessage()
         {
-            // オブジェクト作成
-            SQLiteConnection con = new SQLiteConnection("Data Source=tempfile.db.sqlite;Version=3;");
-            // dbを開いて接続
-            con.Open();
-            // sql文
-            try
-            {
-                string sql = "select * from temptable where Recipient = 'address'";
-                // sql文読み出し
-                SQLiteCommand com = new SQLiteCommand(sql, con);
-                SQLiteDataReader sdr = com.ExecuteReader();
-                sdr.Close();
-            }
-            finally
-            {
-                con.Close();
-            }
+
         }
 
          /// <summary>
