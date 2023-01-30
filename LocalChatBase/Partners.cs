@@ -6,7 +6,27 @@ using System.Threading.Tasks;
 
 namespace LocalChatBase
 {
-    internal class Partners
+    public class Partners
     {
+        // 宛先追加
+        public static void AddPartners(string address)
+        {
+            string ipaddress = address;
+        }
+
+        // 宛先取得
+        public void GetPartners()
+        {
+
+        }
+
+        // 宛先のアドレス取得
+        public void GetAddress()
+        {
+
+        }
+
+        // 宛先追加イベント
+        public event EventHandler<string> EvAddDestination = (Sender, args) => { };
     }
 }
