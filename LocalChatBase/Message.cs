@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SQLite;
 
 namespace LocalChatBase
 {
@@ -34,7 +35,28 @@ namespace LocalChatBase
         /// </summary>
         public void ReferenceMessage()
         {
-
+            // オブジェクト作成
+            SQLiteConnection con = new SQLiteConnection("Data Source=temp.file.db.sqlite;Version=3;");
+            // dbを開いて接続
+            con.Open();
+            // sql文
+            try
+            {
+                string sql = "select * from temptable where Recipient = 'address'and cnt = num";
+                // sql文読み出し
+                SQLiteCommand com = new SQLiteCommand(sql, con);
+                SQLiteDataReader sdr = com.ExecuteReader();
+                while (sdr.Read() == true)
+                {
+                    textBox1.Text += string.Format("id:{0:d}, code:{1}, name:{2}, price:{3:d}\r\n",
+                      (int)sdr["id"], (string)sdr["code"], (string)sdr["name"], (int)sdr["price"]);
+                }
+                sdr.Close();
+            }
+            finally
+            {
+                con.Close();
+            }
         }
 
          /// <summary>
