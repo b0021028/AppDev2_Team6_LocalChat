@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using LocaChatBase;
 
 namespace LocalChat
 {
@@ -33,7 +34,7 @@ namespace LocalChat
         /// </summary>
         public void Intialize()
         {
-
+            Partner_List = new List<string>();
         }
 
         /// <summary>
@@ -51,12 +52,12 @@ namespace LocalChat
 
         public void UpdateChat()
         {
-
+            LocalChat.DataManager.GetData();
         }
 
-        public void UpdatePartnersList()
+        public void UpdatePartnersList(string address)
         {
-
+            Partner_List.Add(address);
         }
 
         public void DisplayChat()

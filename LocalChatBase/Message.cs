@@ -22,11 +22,11 @@ namespace LocalChatBase
 
 
         /// <summary>
-        /// メッセージ記録から メッセージを 呼び出す ???
+        /// メッセージ記録から メッセージを 呼び出す
         /// </summary>
         public void ReferenceMessage()
         {
-
+            DataManager.GetData();
         }
 
          /// <summary>
