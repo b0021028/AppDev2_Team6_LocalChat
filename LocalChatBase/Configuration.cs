@@ -17,19 +17,19 @@ namespace LocalChatBase
         public static string Notification { get; } = "Notification";
 
     }
-    public class Configuration
+    public static class Configuration
     {
         /// <summary>
         /// イベントハンドラー 設定が変更された時
         /// </summary>
-        public event EventHandler EvConfigChange = (x, y)=>{};
-        public JsonDocument config = JsonSerializer.SerializeToDocument("{\"Notification}\":true");
+        public static event EventHandler EvConfigChange = (x, y)=>{};
+        public static JsonDocument config = JsonSerializer.SerializeToDocument("{\"Notification}\":true");
 
         /// <summary>
         /// 現在の設定を設定ファイル(config.json)に書き込む
         /// </summary>
         /// <returns></returns>
-        public bool OutputConfigFile()
+        public static bool OutputConfigFile()
         {
             return false;
         }
@@ -37,7 +37,7 @@ namespace LocalChatBase
         /// 設定ファイル(config.json)から設定を読み込む
         /// </summary>
         /// <returns></returns>
-        public bool LoadConfigFile()
+        public static bool LoadConfigFile()
         {
             try
             {
@@ -67,7 +67,7 @@ namespace LocalChatBase
         /// </summary>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public JsonDocument GetConfig()
+        public static JsonDocument GetConfig()
         {
             if (config != null)
             {
@@ -83,7 +83,7 @@ namespace LocalChatBase
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public bool ChangeConfig(ConfigKey key, string value)
+        public static bool ChangeConfig(ConfigKey key, string value)
         {
             return false;
         }
@@ -94,7 +94,7 @@ namespace LocalChatBase
         /// <param name="key" cref="string">設定の項目</param>
         /// <param name="value">設定の値</param>
         /// <returns></returns>
-        public bool ChangeConfig(string key, string value)
+        public static bool ChangeConfig(string key, string value)
         {
             return false;
         }
@@ -103,7 +103,7 @@ namespace LocalChatBase
         /// 設定の項目及び項目の変域を出力
         /// </summary>
         /// <returns></returns>
-        public bool DetailConfig()
+        public static bool DetailConfig()
         {
             return false;
         }
@@ -112,7 +112,7 @@ namespace LocalChatBase
         /// デフォルト設定の項目と値を取得する
         /// </summary>
         /// <returns>JsonDocument</returns>
-        public JsonDocument GetDefaultConfig()
+        public static JsonDocument GetDefaultConfig()
         {
             return JsonSerializer.SerializeToDocument("{}");
 
@@ -122,7 +122,7 @@ namespace LocalChatBase
         /// デフォルト設定に変更する
         /// </summary>
         /// <returns>成功したか</returns>
-        public bool DefaultConfig()
+        public static bool DefaultConfig()
         {
             return false;
         }
