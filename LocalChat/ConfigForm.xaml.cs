@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LocalChatBase;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace LocalChat
         public ConfigForm()
         {
             InitializeComponent();
-            foreach (var key in LocalChatBase.Configuration.GetConfig())
+            foreach (var key in Configuration.GetConfig(Configuration.Notification))
             {
                 if (key != null)
                 {
@@ -61,7 +62,7 @@ namespace LocalChat
         public void ApplyConfig()
         {
 
-            LocalChatBase.Configuration.ChangeConfig(LocalChatBase.Configuration.Notification);
+            LocalChatBase.Configuration.ChangeConfig(LocalChatBase.Configuration.Notification, "");
 
         }
 

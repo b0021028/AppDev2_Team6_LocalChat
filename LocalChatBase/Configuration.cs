@@ -12,17 +12,13 @@ using System.Threading.Tasks;
 
 namespace LocalChatBase
 {
-    public readonly struct ConfigKey
-    {
-        public static string Notification { get; } = "Notification";
-
-    }
     public static class Configuration
     {
+        public static string Notification = "Notification";
         /// <summary>
         /// イベントハンドラー 設定が変更された時
         /// </summary>
-        public static event EventHandler EvConfigChange = (x, y)=>{};
+        public static event EventHandler<string> EvConfigChange = (x, y)=>{};
         public static JsonDocument config = JsonSerializer.SerializeToDocument("{\"Notification}\":true");
 
         /// <summary>
@@ -31,6 +27,7 @@ namespace LocalChatBase
         /// <returns></returns>
         public static bool OutputConfigFile()
         {
+
             return false;
         }
         /// <summary>
@@ -78,17 +75,6 @@ namespace LocalChatBase
 
 
         /// <summary>
-        /// 非推奨 動作確認前
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static bool ChangeConfig(ConfigKey key, string value)
-        {
-            return false;
-        }
-
-        /// <summary>
         /// keyの設定を変更する。エラーの場合は差し戻す
         /// </summary>
         /// <param name="key" cref="string">設定の項目</param>
@@ -96,6 +82,20 @@ namespace LocalChatBase
         /// <returns></returns>
         public static bool ChangeConfig(string key, string value)
         {
+            var a = Json
+            EvConfigChange(null, key);
+            return false;
+        }
+
+        /// <summary>
+        /// 非推奨 動作確認前
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool ChangeConfig(int notification)
+        {
+
             return false;
         }
 
