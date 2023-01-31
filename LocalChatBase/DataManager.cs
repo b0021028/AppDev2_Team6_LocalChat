@@ -33,13 +33,13 @@ namespace LocalChatBase
         /// <summary>
         /// データを追加した際に発火します
         /// </summary>
-        public event EventHandler<string> EvAddData = (sender, args) => { };
+        public static event EventHandler<string> EvAddData = (sender, args) => { };
 
         /// <summary>
         /// データの追加をします 順番：受信フラグ、受け取り人、時間、メッセージ
         /// </summary>
         
-        public void AddData(object sender, EventArgs e, string IP, string Reception, string time, string Message)
+        public static void AddData(object sender, EventArgs e, string IP, string Reception, string time, string Message)
         {
             SQLiteConnection con = new SQLiteConnection("Data Source=temptable;");
 
@@ -71,7 +71,7 @@ namespace LocalChatBase
         /// <summary>
         /// データを初期化します データベース内のファイルを初期化する(データベース自体の削除)
         /// </summary>
-        public void InitializeData(string[] args)
+        public static void InitializeData(string[] args)
         {
             string FilePath = @"temptable.db";
             if(File.Exists(FilePath))
@@ -83,7 +83,7 @@ namespace LocalChatBase
         /// <summary>
         /// データを取得します
         /// </summary>
-        public void GetDatas(string IP)
+        public static void GetDatas(string IP)
         {
 
         }
