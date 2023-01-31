@@ -51,6 +51,7 @@ namespace LocalChatBase
             }
         }
 
+
         /// <summary>
         /// 待ち受け処理
         /// </summary>
@@ -68,7 +69,6 @@ namespace LocalChatBase
 
 
 
-
         /// <summary>
         /// クライアント待ち受けを終了しようとする
         /// </summary>
@@ -78,6 +78,7 @@ namespace LocalChatBase
             {
                 s_canceller.Cancel();
                 s_listener.Stop();
+                s_started = false;
             }
         }
 
