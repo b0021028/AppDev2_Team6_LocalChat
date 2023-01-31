@@ -22,7 +22,7 @@ namespace LocalChatBase
 
 
         /// <summary>
-        /// メッセージを送信し 成功したらtrueを返す
+        /// メッセージを送信し 成功したらtrueを返す 仮実装
         /// </summary>
         /// <param name="message">メッセージ</param>
         /// <param name="partner">宛先</param>
@@ -61,9 +61,7 @@ namespace LocalChatBase
         }
 
          /// <summary>
-         /// データからメッセージを取り出し
-         /// 受信確認を返送し
-         /// セッションを閉じて
+         /// メッセージを受け取り
          /// 受信イベントをイベント発行
          /// </summary>
         public void ReceptionMessage(Session session, string data)
