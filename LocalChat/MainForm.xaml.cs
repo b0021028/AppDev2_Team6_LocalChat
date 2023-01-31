@@ -22,7 +22,7 @@ namespace LocalChat
     public partial class MainForm : Window
     {
         /// <summary>
-        /// 初期化処理
+        /// 
         /// </summary>
         public MainForm()
         {
@@ -30,12 +30,15 @@ namespace LocalChat
         }
 
         /// <summary>
-        /// 宛先、メッセージの追加
+        /// 初期化処理
         /// </summary>
         public void Intialize()
         {
+
             var Partners_List = new List<string>();
+            var num = 0;
             LocalChatBase.DataManager.InitializeData();
+            
         }
 
         /// <summary>
@@ -43,23 +46,40 @@ namespace LocalChat
         /// </summary>
         public void AddMessage()
         {
-            LocalChatBase.Message.ReferenceMessage();
+            LocalChatBase.Messenger.ReferenceMessage();
         }
 
+        /// <summary>
+        /// 終了処理
+        /// </summary>
         public void EndLocalChatCore()
         {
 
         }
 
+
+        /// <summary>
+        /// チャット更新
+        /// </summary>
         public void UpdateChat()
         {
             LocalChatBase.DataManager.GetDatas(IP);
         }
 
+        private Button[] manyButtons;
+
+        /// <summary>
+        /// 宛先リスト更新 
+        /// </summary>
+        /// <param name="address"></param>
         public void UpdatePartnersList(string address)
         {
-
-            Partners_List.Add(address);
+            Partners_List = new LocalChatBase.Partners.GetPartners();
+            this.manyButtons[num].Name = "PartnersButton" + num;
+            this.manyButtons[num].Text = Partners_List[num];
+            this.manyButtons[num].Location = new Point(10, 10 + num * 22);
+            this.manyButtons[num].Size = new Size(80, 20);
+            num += 1;
         }
 
         public void DisplayChat()
@@ -67,6 +87,9 @@ namespace LocalChat
 
         }
 
+        /// <summary>
+        /// メッセージ送信
+        /// </summary>
         public void SendMessage()
         {
 
@@ -77,6 +100,10 @@ namespace LocalChat
 
 
         public event EventHandler<int> EvEnd = dummy;
+
+
+
+
 
 
         //　ボタンイベント
@@ -110,34 +137,42 @@ namespace LocalChat
 
         }
 
+
+
+
         /// <summary>
-        /// メッセージ送信
+        /// メッセージ送信ボタンの送信イベント
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Send_Click(object sender, RoutedEventArgs e)
         {
-            TextBox.Text
+            var text = MessageBox.Text;
+            if (text.Length != 0)
+            {
+                LocalChatBase.Messenger.SendMessage();
+
+            }
         }
 
-        private void AddNewPartnerForm(object sender, RoutedEventArgs e)
-        {
 
-        }
 
+
+        // 新規追加画面に移動
         private void OpenAddNewPartnerForm(object sender, RoutedEventArgs e)
         {
-
+            AddNewPartnerForm.ShowDialog(this);
         }
 
-        private void AddNewPartherForm(object sender, RoutedEventArgs e)
+        // 設定画面に移動
+        private void OpenConfigForm(object sender, RoutedEventArgs e)
         {
-
+            ConfigForm.ShowDialog(this);
         }
 
-        private void MoveAddNewPartherForm(object sender, RoutedEventArgs e)
+        private void ScrollPartners(object sender, ContextMenuEventArgs e)
         {
-            AddNewPartherForm.ShowDialog(this);
+
         }
     }
 }
