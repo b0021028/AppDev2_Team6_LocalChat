@@ -74,7 +74,7 @@ namespace LocalChat
         /// <param name="address"></param>
         public void UpdatePartnersList(string address)
         {
-
+            LocalChatBase.Partners.GetPartners();
             Partners_List.Add(address);
             this.manyButtons[num].Name = "PartnersButton" + num;
             this.manyButtons[num].Text = Partners_List[num];
