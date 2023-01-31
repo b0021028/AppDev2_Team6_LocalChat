@@ -43,7 +43,7 @@ namespace LocalChat
         /// </summary>
         public void AddMessage()
         {
-
+            LocalChatBase.Message.ReferenceMessage();
         }
 
         public void EndLocalChatCore()
@@ -128,6 +128,16 @@ namespace LocalChat
         private void OpenAddNewPartnerForm(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void AddNewPartherForm(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MoveAddNewPartherForm(object sender, RoutedEventArgs e)
+        {
+            AddNewPartherForm.ShowDialog(this);
         }
     }
 }
