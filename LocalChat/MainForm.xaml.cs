@@ -35,8 +35,9 @@ namespace LocalChat
         public void Intialize()
         {
             var Partners_List = new List<string>();
-            LocalChatBase.DataManager.InitializeData();
             var Button_num = 0;
+            LocalChatBase.DataManager.InitializeData();
+            
         }
 
         /// <summary>
