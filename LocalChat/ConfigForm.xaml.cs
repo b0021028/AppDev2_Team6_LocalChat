@@ -22,11 +22,15 @@ namespace LocalChat
     /// </summary>
     public partial class ConfigForm : Window
     {
-        private ObservableCollection<int> testData { get; set; } = new ObservableCollection<int>();
+        /// <summary>
+        /// コンフィグデータ
+        /// </summary>
         private Dictionary<string, Func<object>> config = new Dictionary<string, Func<object>>();
 
 
-        // 設定画面生成
+        /// <summary>
+        /// 設定画面生成
+        /// </summary>
         public ConfigForm()
         {
             InitializeComponent();
@@ -36,14 +40,15 @@ namespace LocalChat
 
         /// <summary>
         /// 仮実装 実際の動作とは異なります
+        /// 設定項目の作成
         /// </summary>
         private void CleanupContent()
         {
+            ConfigerContents.Children.Clear();
             var g = AddItemBase();
 
             var lbl = new Label();
             lbl.Content = "通知";
-            g.Children.Add(lbl);
 
 
             var radio = new RadioButton();
@@ -65,29 +70,17 @@ namespace LocalChat
             var grp = new WrapPanel();
             grp.Children.Add(radio);
             grp.Children.Add(radio2);
+
+            // 登録
+            g.Children.Add(lbl);
             g.Children.Add(grp);
+
+            // コンフィグデータとして登録
             Func<object> a = ()=> radio.IsChecked;
             config.Add(LocalChatBase.Configuration.Notification, a);
 
 
 
-        }
-
-        private void AddItemRadioButton(dynamic? args)
-        {
-            testData.Add(args);
-
-        }
-
-        private void AddItemSlider(dynamic? args)
-        {
-            testData.Add(args);
-
-        }
-
-        private void AddItemLabel(dynamic? args)
-        {
-            testData.Add(args);
         }
 
         /// <summary>
@@ -118,11 +111,21 @@ namespace LocalChat
             }
         }
 
+        /// <summary>
+        /// オッケーが押された時 ApplyConfigする
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
             ApplyConfig();
         }
 
+        /// <summary>
+        /// キャンセルが押された時 Closeする
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
