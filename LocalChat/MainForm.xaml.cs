@@ -37,8 +37,9 @@ namespace LocalChat
 
             var Partners_List = new List<string>();
             var num = 0;
-            LocalChatBase.DataManager.InitializeData();
-            
+            DataManager.InitializeData();
+            Connectioner.StartListen();
+            Connectioner.EvStartSession += ;
         }
 
         /// <summary>
@@ -46,7 +47,7 @@ namespace LocalChat
         /// </summary>
         public void AddMessage()
         {
-            LocalChatBase.Messenger.ReferenceMessage();
+            Messenger.ReferenceMessage();
         }
 
         /// <summary>
@@ -54,7 +55,10 @@ namespace LocalChat
         /// </summary>
         public void EndLocalChatCore()
         {
-
+            Connectioner.StopListen();
+            DataManager.IntializeData();
+            Configuration.OutputConfigFile();
+            this.Close();
         }
 
 
@@ -63,7 +67,7 @@ namespace LocalChat
         /// </summary>
         public void UpdateChat()
         {
-            LocalChatBase.DataManager.GetDatas(IP);
+            DataManager.GetDatas(IP);
         }
 
         private Button[] manyButtons;
@@ -112,16 +116,6 @@ namespace LocalChat
 
         }
 
-        private void UserChange(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void UserChange2(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
@@ -150,7 +144,7 @@ namespace LocalChat
             var text = MessageBox.Text;
             if (text.Length != 0)
             {
-                LocalChatBase.Messenger.SendMessage();
+                Messenger.SendMessage();
 
             }
         }
