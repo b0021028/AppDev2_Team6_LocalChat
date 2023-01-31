@@ -7,7 +7,7 @@ using System.Data.SQLite;
 
 namespace LocalChatBase
 {
-    internal class Message
+    public class Message
     {
 
 
@@ -26,7 +26,7 @@ namespace LocalChatBase
         /// </summary>
         public void ReferenceMessage()
         {
-            DataManager.GetData();
+            DataManager.GetDatas();
         }
 
          /// <summary>

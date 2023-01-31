@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using LocaChatBase;
+using LocalChatBase;
 
 namespace LocalChat
 {
@@ -34,7 +34,9 @@ namespace LocalChat
         /// </summary>
         public void Intialize()
         {
-            Partner_List = new List<string>();
+            var Partners_List = new List<string>();
+            LocalChatBase.DataManager.InitializeData();
+            var Button_num = 0;
         }
 
         /// <summary>
@@ -42,7 +44,7 @@ namespace LocalChat
         /// </summary>
         public void AddMessage()
         {
-
+            LocalChatBase.Message.ReferenceMessage();
         }
 
         public void EndLocalChatCore()
@@ -52,12 +54,19 @@ namespace LocalChat
 
         public void UpdateChat()
         {
-            LocalChat.DataManager.GetData();
+            LocalChatBase.DataManager.GetDatas(IP);
         }
 
+        private Button[] manyButtons;
         public void UpdatePartnersList(string address)
         {
-            Partner_List.Add(address);
+
+            Partners_List.Add(address);
+            this.manyButtons[Button_num].Name = "PartnersButton" + i;
+            this.manyButtons[Button_num].Text = Partners_List[i];
+            this.manyButtons[Button_num].Location = new Point(10, 10 + i * 22);
+            this.manyButtons[Button_num].Size = new Size(80, 20);
+            i += 1;
         }
 
         public void DisplayChat()
@@ -118,14 +127,19 @@ namespace LocalChat
             TextBox.Text
         }
 
-        private void AddNewPartnerForm(object sender, RoutedEventArgs e)
-        {
 
-        }
 
+
+        // 新規追加画面に移動
         private void OpenAddNewPartnerForm(object sender, RoutedEventArgs e)
         {
+            AddNewPartnerForm.ShowDialog(this);
+        }
 
+        // 設定画面に移動
+        private void OpenConfigForm(object sender, RoutedEventArgs e)
+        {
+            ConfigForm.ShowDialog(this);
         }
     }
 }

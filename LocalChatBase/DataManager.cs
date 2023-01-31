@@ -45,7 +45,7 @@ namespace LocalChatBase
         /// <summary>
         /// データを初期化します データベース内のファイルを初期化する(データベース自体の削除)
         /// </summary>
-        static void InitializeData(string[] args)
+        public void InitializeData(string[] args)
         {
             string FilePath = @"temptable.db";
             if(File.Exists(FilePath))
