@@ -23,11 +23,6 @@ namespace LocalChat
     /// </summary>
     public partial class AddNewPartnerForm : Window
     {
-        public AddNewPartnerForm()
-        {
-            InitializeComponent();
-        }
-
         
         /// <summary>
         /// OKボタンを押したときの処理
@@ -49,7 +44,7 @@ namespace LocalChat
             }
 
             /// <summary>
-            /// データベースの欄にこのIPアドレスを追加する
+            /// データベースの欄にこのIPアドレスを追加する(データベースの方にアドレスの値を渡す)
             /// </summary>
             var sqlConnection = new SQLiteConnectionStringBuilder { DataSource = "temptable.db" };
 
