@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace LocalChatBase
 {
+    /// <summary>
+    /// 宛先とiPアドレスを管理するクラス
+    /// </summary>
     public class Partners
     {
         /// <summary>
@@ -46,7 +49,7 @@ namespace LocalChatBase
         /// <summary>
         /// 宛先取得
         /// </summary>
-        public ICollection<string> GetPartners()
+        public static ICollection<string> GetPartners()
         {
             return partners.Values;
         }
@@ -54,9 +57,16 @@ namespace LocalChatBase
         /// <summary>
         /// 宛先のアドレス取得
         /// </summary>
-        public void GetAddress()
+        public static IPAddress GetAddress(string name)
         {
-
+            foreach(var partner in partners)
+            {
+                if (partner.Value == name)
+                {
+                    return partner.Key;
+                }
+            }
+            throw new IndexOutOfRangeException();
 ;
         }
 
