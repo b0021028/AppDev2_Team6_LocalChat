@@ -16,7 +16,7 @@ namespace LocalChatBase
         public event EventHandler<System.Net.IPEndPoint> EvEndSession = (sender, args) => { };
 
         /// <summary>
-        /// StartReception() で データを受信したとき発火する
+        /// StartReception() の後 データを受信したとき発火する
         /// </summary>
         public event EventHandler<string> EvReception = (sender, args) => { };
 
@@ -49,8 +49,11 @@ namespace LocalChatBase
         /// </summary>
         static private System.Text.Encoding s_encode { get; } = System.Text.Encoding.Default;
 
-        private CancellationTokenSource token { get; set; }
-        private bool run = false;
+        /// <summary>
+        /// キャンセルトークン
+        /// </summary>
+        private CancellationTokenSource _token { get; set; }
+        //private bool _started = false;
 
         /// <summary>
         /// クライアントとのコネクションを一つのセッションとする
@@ -65,7 +68,7 @@ namespace LocalChatBase
                 _netStream = _client.GetStream();
                 _netStream.WriteTimeout = s_timeOut;
                 remoteEndPoint = (System.Net.IPEndPoint)_client.Client.RemoteEndPoint;
-                token = new CancellationTokenSource();
+                _token = new CancellationTokenSource();
             }
             else
             {
@@ -81,7 +84,7 @@ namespace LocalChatBase
         {
             try
             {
-                token.Cancel();
+                _token.Cancel();
             }
             catch
             {}
@@ -109,7 +112,7 @@ namespace LocalChatBase
         /// </summary>
         public void StartReception()
         {
-            new Task(GetData).Start();
+            new Task(Run).Start();
 
         }
 
@@ -129,8 +132,10 @@ namespace LocalChatBase
 
         }
 
-        // Data受け取り
-        async private void GetData()
+        /// <summary>
+        /// データ受信処理部
+        /// </summary>
+        async private void Run()
         {
             while(true)
             {
@@ -140,7 +145,7 @@ namespace LocalChatBase
                 int resSize = 0;
                 do
                 {
-                    this.token.Token.ThrowIfCancellationRequested();
+                    this._token.Token.ThrowIfCancellationRequested();
                     //データの一部を受信する
                     resSize = await _netStream.ReadAsync(resBytes, 0, resBytes.Length);
 
