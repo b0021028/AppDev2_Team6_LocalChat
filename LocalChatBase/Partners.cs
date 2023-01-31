@@ -24,9 +24,9 @@ namespace LocalChatBase
         public static Dictionary<IPAddress, string> partners=new Dictionary<IPAddress, string>;
 
         /// <summary>
-        /// 宛先の構文が正しいか確認し追加
+        /// 宛先の追加登録
         /// </summary>
-        /// <param name="partner"></param>
+        /// <param name="partner">とりあえずstring のIPv4アドレス</param>
         public static void AddPartners(string partner)
         {
 
@@ -54,9 +54,13 @@ namespace LocalChatBase
             return partners.Values;
         }
 
+
         /// <summary>
         /// 宛先のアドレス取得
         /// </summary>
+        /// <param name="name">宛先の名前</param>
+        /// <returns>IPアドレス</returns>
+        /// <exception cref="IndexOutOfRangeException"></exception>
         public static IPAddress GetAddress(string name)
         {
             foreach(var partner in partners)
@@ -74,8 +78,8 @@ namespace LocalChatBase
         /// <summary>
         /// ipアドレスをチェックする
         /// </summary>
-        /// <param name="ip"></param>
-        /// <returns></returns>
+        /// <param name="ip">チェックするipアドレス</param>
+        /// <returns>とりあえずtrue</returns>
         private static bool checkip(IPAddress ip)
         {
             return true;
