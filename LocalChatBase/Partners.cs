@@ -13,7 +13,7 @@ namespace LocalChatBase
         // 宛先追加
         public static void AddPartners(string input_address)
         {
-
+            // ipアドレスが入力されているか
             if (Regex.IsMatch(input_address, @"[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}"))
             {
                 string address = input_address;
@@ -22,7 +22,7 @@ namespace LocalChatBase
             }
             else
             {
-                
+                MessageBox.Show("正しい値を入力してください。");
             }
         }
 
