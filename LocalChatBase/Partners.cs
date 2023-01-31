@@ -20,6 +20,7 @@ namespace LocalChatBase
                 // データベースに追加するのか？わからん
                 DataManager.AddData(?, address, ?, ?);
                 // それともリスト?
+                // 宛先はリストっぽいやつに
                 LocalChat.MainForm.UpdatePartnersList(address);
             }
             else
