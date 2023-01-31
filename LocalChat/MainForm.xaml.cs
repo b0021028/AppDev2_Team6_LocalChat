@@ -52,7 +52,7 @@ namespace LocalChat
 
         public void UpdateChat()
         {
-            LocalChat.DataManager.GetData();
+            LocalChatBase.DataManager.GetData();
         }
 
         public void UpdatePartnersList(string address)

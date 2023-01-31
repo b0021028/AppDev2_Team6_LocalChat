@@ -17,7 +17,7 @@ namespace LocalChatBase
             if (Regex.IsMatch(input_address, @"[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}"))
             {
                 string address = input_address;
-                // データベースに追加するのか？わからん
+                // データベースに追加するのか？
                 DataManager.AddData(?, address, ?, ?);
                 // それともリスト?
                 LocalChat.MainForm.UpdatePartnersList(address);

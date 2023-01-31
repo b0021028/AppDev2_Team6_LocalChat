@@ -26,7 +26,7 @@ namespace LocalChatBase
         /// </summary>
         public void ReferenceMessage()
         {
-            DataManager.GetData();
+            DataManager.GetDatas();
         }
 
          /// <summary>
