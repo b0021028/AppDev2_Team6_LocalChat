@@ -1,3 +1,4 @@
+using Org.BouncyCastle.Tls;
 using System;
 using System.Data;
 using System.Data.SQLite;
@@ -32,20 +33,38 @@ namespace LocalChatBase
         /// <summary>
         /// データを追加した際に発火します
         /// </summary>
-        public event EventHandler
+        public event EventHandler<string> EvAddData = (sender, args) => { };
 
         /// <summary>
         /// データの追加をします 順番：受信フラグ、受け取り人、時間、メッセージ
         /// </summary>
-        public void AddData(string IP, string Reception, string time, string Message)
+        
+        public void AddData(object sender, EventArgs e, string IP, string Reception, string time, string Message)
         {
-            var Data = (IP, Reception, time, Message);
+            SQLiteConnection con = new SQLiteConnection("Data Source=temptable;");
+
+            con.Open();
+            // データの追加を試みる
+            try
+            {
+                string sql = $"insert into temptable (RaceiveFlag, Recipient, Time, Message) values ({IP}, {Reception}, {time}, {Message});";
+                SQLiteCommand com = new SQLiteCommand(sql, con);
+                com.ExecuteNonQuery();
+            }
+            finally
+            {
+                con.Close();
+            }
+            
+
+            EvAddData(this, Reception);
+
         }
 
         /// <summary>
         /// データを初期化します データベース内のファイルを初期化する(データベース自体の削除)
         /// </summary>
-        static void InitializeData(string[] args)
+        public void InitializeData(string[] args)
         {
             string FilePath = @"temptable.db";
             if(File.Exists(FilePath))

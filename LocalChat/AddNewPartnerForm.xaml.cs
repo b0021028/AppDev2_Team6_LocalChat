@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -27,10 +28,7 @@ namespace LocalChat
             InitializeComponent();
         }
 
-        private void NewAddTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
+        
         /// <summary>
         /// OKボタンを押したときの処理
         /// </summary>
@@ -49,11 +47,22 @@ namespace LocalChat
                     MessageBoxButton.OK);
 
             }
+
             /// <summary>
             /// データベースの欄にこのIPアドレスを追加する
             /// </summary>
-            
+            var sqlConnection = new SQLiteConnectionStringBuilder { DataSource = "temptable.db" };
 
+            using (var cn = new SQLiteConnection(sqlConnection.ToString()))
+            {
+                cn.Open();
+
+                using (var cmd = new SQLiteCommand(cn))
+                {
+                    string.Format("", ipaddr);
+                    cmd.Inserttemptable(string.Format("{}, NULL, NULL, NULL", ipaddr));
+                }
+            }
 
         }
 
