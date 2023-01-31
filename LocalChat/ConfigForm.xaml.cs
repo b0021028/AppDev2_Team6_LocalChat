@@ -28,15 +28,7 @@ namespace LocalChat
         public ConfigForm()
         {
             InitializeComponent();
-            foreach (var key in Configuration.GetConfig(Configuration.Notification))
-            {
-                if (key != null)
-                {
-                    AddItemRadioButton(key);
-                }
-
-            }
-
+            
         }
 
 
@@ -62,7 +54,7 @@ namespace LocalChat
         public void ApplyConfig()
         {
 
-            LocalChatBase.Configuration.ChangeConfig(LocalChatBase.Configuration.Notification, "");
+            LocalChatBase.Configuration.ChangeConfig(LocalChatBase.Configuration.Notification, "true" );
 
         }
 

@@ -125,7 +125,7 @@ namespace LocalChatBase
         }
 
         /// <summary>
-        /// 設定の項目及び項目の変域を出力未実装
+        /// 設定の項目及び項目の変域を出力 未実装
         /// </summary>
         /// <returns></returns>
         public static bool DetailConfig()
@@ -134,7 +134,7 @@ namespace LocalChatBase
         }
 
         /// <summary>
-        /// デフォルト設定の項目と値を取得する未実装
+        /// デフォルト設定の項目と値を取得する 未実装
         /// </summary>
         /// <returns>JsonDocument</returns>
         public static dynamic GetDefaultConfig()
@@ -144,7 +144,7 @@ namespace LocalChatBase
         }
 
         /// <summary>
-        /// デフォルト設定に変更する未実装
+        /// デフォルト設定に変更する 未実装
         /// </summary>
         /// <returns>成功したか</returns>
         public static bool DefaultConfig()
