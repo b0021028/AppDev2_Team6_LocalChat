@@ -22,7 +22,7 @@ namespace LocalChat
     public partial class MainForm : Window
     {
         /// <summary>
-        /// 初期化処理
+        /// 
         /// </summary>
         public MainForm()
         {
@@ -30,10 +30,11 @@ namespace LocalChat
         }
 
         /// <summary>
-        /// 宛先、メッセージの追加
+        /// 初期化処理
         /// </summary>
         public void Intialize()
         {
+
             var Partners_List = new List<string>();
             var Button_num = 0;
             LocalChatBase.DataManager.InitializeData();
@@ -48,6 +49,9 @@ namespace LocalChat
             LocalChatBase.Message.ReferenceMessage();
         }
 
+        /// <summary>
+        /// 終了処理
+        /// </summary>
         public void EndLocalChatCore()
         {
 
@@ -67,7 +71,7 @@ namespace LocalChat
             this.manyButtons[Button_num].Text = Partners_List[i];
             this.manyButtons[Button_num].Location = new Point(10, 10 + i * 22);
             this.manyButtons[Button_num].Size = new Size(80, 20);
-            i += 1;
+            Button_num += 1;
         }
 
         public void DisplayChat()
@@ -125,7 +129,7 @@ namespace LocalChat
         /// <param name="e"></param>
         private void Send_Click(object sender, RoutedEventArgs e)
         {
-            TextBox.Text
+            LocalChatBase.Message.SendMessage();
         }
 
 
