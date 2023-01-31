@@ -24,7 +24,7 @@ namespace LocalChatBase
         /// <summary>
         /// 宛先を登録している辞書
         /// </summary>
-        public static Dictionary<IPAddress, string> partners = new Dictionary<IPAddress, string>();
+        private static Dictionary<IPAddress, string> partners = new Dictionary<IPAddress, string>();
 
         /// <summary>
         /// 宛先の追加登録

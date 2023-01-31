@@ -47,10 +47,11 @@ namespace LocalChatBase
         /// <summary>
         /// 宛先のメッセージを取得する 未完成
         /// </summary>
+        /// <param name="partner">宛先</param>
+        /// <returns></returns>
         public dynamic ReferenceMessage(string partner)
         {
-
-            DataManager.GetDatas();
+            DataManager.GetDatas(Partners.GetAddress(partner).ToString());
             return new List<string>() { };
         }
 
