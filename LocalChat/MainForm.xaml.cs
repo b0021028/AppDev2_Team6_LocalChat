@@ -36,7 +36,7 @@ namespace LocalChat
         {
 
             var Partners_List = new List<string>();
-            var Button_num = 0;
+            var num = 0;
             LocalChatBase.DataManager.InitializeData();
             
         }
@@ -76,11 +76,11 @@ namespace LocalChat
         {
 
             Partners_List.Add(address);
-            this.manyButtons[Button_num].Name = "PartnersButton" + i;
-            this.manyButtons[Button_num].Text = Partners_List[i];
-            this.manyButtons[Button_num].Location = new Point(10, 10 + i * 22);
-            this.manyButtons[Button_num].Size = new Size(80, 20);
-            Button_num += 1;
+            this.manyButtons[num].Name = "PartnersButton" + num;
+            this.manyButtons[num].Text = Partners_List[num];
+            this.manyButtons[num].Location = new Point(10, 10 + num * 22);
+            this.manyButtons[num].Size = new Size(80, 20);
+            num += 1;
         }
 
         public void DisplayChat()
@@ -169,6 +169,11 @@ namespace LocalChat
         private void OpenConfigForm(object sender, RoutedEventArgs e)
         {
             ConfigForm.ShowDialog(this);
+        }
+
+        private void ScrollPartners(object sender, ContextMenuEventArgs e)
+        {
+
         }
     }
 }
