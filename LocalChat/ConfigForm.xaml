@@ -9,14 +9,12 @@
     <Grid>
         <Button x:Name="OkButton" Content="OK" HorizontalAlignment="Left" Margin="75,0,0,25" VerticalAlignment="Bottom" Width="100" Height="25" Click="OkButton_Click"/>
         <Button x:Name="CancelButton" Content="キャンセル" HorizontalAlignment="Right" Margin="0,0,75,25" VerticalAlignment="Bottom" Height="25" Width="100" Click="CancelButton_Click"/>
-        <Grid x:Name="ConfigGrid" Margin="75,75,75,75">
-            <ItemsControl ItemsSource="{Binding testData}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </Grid>
+        <ScrollViewer Margin="25,25,25,69" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <StackPanel x:Name="ConfigerContents"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0">
+
+
+            </StackPanel>
+        </ScrollViewer>
 
     </Grid>
 </Window>

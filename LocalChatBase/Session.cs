@@ -16,7 +16,7 @@ namespace LocalChatBase
         public event EventHandler<System.Net.IPEndPoint> EvEndSession = (sender, args) => { };
 
         /// <summary>
-        /// StartReception() で データを受信したとき発火する
+        /// StartReception() の後 データを受信したとき発火する
         /// </summary>
         public event EventHandler<string> EvReception = (sender, args) => { };
 
@@ -49,8 +49,11 @@ namespace LocalChatBase
         /// </summary>
         static private System.Text.Encoding s_encode { get; } = System.Text.Encoding.Default;
 
-        private CancellationTokenSource token { get; set; }
-        private bool run = false;
+        /// <summary>
+        /// キャンセルトークン
+        /// </summary>
+        private CancellationTokenSource _token { get; set; }
+        //private bool _started = false;
 
         /// <summary>
         /// クライアントとのコネクションを一つのセッションとする
@@ -65,7 +68,7 @@ namespace LocalChatBase
                 _netStream = _client.GetStream();
                 _netStream.WriteTimeout = s_timeOut;
                 remoteEndPoint = (System.Net.IPEndPoint)_client.Client.RemoteEndPoint;
-                token = new CancellationTokenSource();
+                _token = new CancellationTokenSource();
             }
             else
             {
@@ -81,27 +84,25 @@ namespace LocalChatBase
         {
             try
             {
-                token.Cancel();
+                _token.Cancel();
             }
-            finally
+            catch
+            {}
+            try
             {
-                try
-                {
-                    _netStream.Close();
-                }
-                finally
-                {
-                    try
-                    {
-                        _client.Close();
-                    }
-                    finally
-                    {
-                        EvEndSession(this, remoteEndPoint);
-                    }
-
-                }
+                _netStream.Close();
             }
+            catch
+            {}
+            try
+            {
+                _client.Close();
+            }
+            catch
+            {}
+            EvEndSession(this, remoteEndPoint);
+
+         
 
         }
 
@@ -111,7 +112,7 @@ namespace LocalChatBase
         /// </summary>
         public void StartReception()
         {
-            new Thread(new ThreadStart(GetData)).Start();
+            new Task(Run).Start();
 
         }
 
@@ -120,21 +121,22 @@ namespace LocalChatBase
         /// テキストデータを送信します
         /// </summary>
         /// <param name="data">送信するテキストデータ</param>
-        public void SendData(string data)
+        async public void SendData(string data)
         {
             //データを送信する
             _netStream.WriteTimeout = s_timeOut;
 
             byte[] sendBytes = s_encode.GetBytes(data);
 
-            _netStream.Write(sendBytes, 0, sendBytes.Length);
+            await _netStream.WriteAsync(sendBytes, 0, sendBytes.Length);
 
         }
 
-        // Data受け取り
-        async private void GetData()
+        /// <summary>
+        /// データ受信処理部
+        /// </summary>
+        async private void Run()
         {
-            var token = this.token.Token;
             while(true)
             {
                 //クライアントから送られたデータを受信する
@@ -143,7 +145,7 @@ namespace LocalChatBase
                 int resSize = 0;
                 do
                 {
-                    token.ThrowIfCancellationRequested();
+                    this._token.Token.ThrowIfCancellationRequested();
                     //データの一部を受信する
                     resSize = await _netStream.ReadAsync(resBytes, 0, resBytes.Length);
 
