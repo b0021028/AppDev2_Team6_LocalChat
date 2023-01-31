@@ -21,7 +21,10 @@ namespace LocalChatBase
         /// </summary>
         public static event EventHandler<string> EvAddDestination = (Sender, args) => { };
 
-        public static Dictionary<IPAddress, string> partners=new Dictionary<IPAddress, string>;
+        /// <summary>
+        /// 宛先を登録している辞書
+        /// </summary>
+        public static Dictionary<IPAddress, string> partners = new Dictionary<IPAddress, string>();
 
         /// <summary>
         /// 宛先の追加登録
@@ -29,16 +32,19 @@ namespace LocalChatBase
         /// <param name="partner">とりあえずstring のIPv4アドレス</param>
         public static void AddPartners(string partner)
         {
-
+            // sintax チェック
             if (Regex.IsMatch(partner, @"[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}"))
             {
                 var ip = IPAddress.Parse(partner);
+                // 許可されたIPか確認
                 if (checkip(ip))
                 {
                     // ipアドレスを追加登録
-                    partners.Add(ip, partner);
-                    // イベント発行
-                    EvAddDestination(null, partner);
+                    if (partners.TryAdd(ip, partner))
+                    {
+                        // イベント発行
+                        EvAddDestination(null, partner);
+                    }
                     return;
                 }
             }
