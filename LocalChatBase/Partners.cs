@@ -39,10 +39,6 @@ namespace LocalChatBase
                     return;
                 }
             }
-            else
-            {
-
-            }
         }
 
 
