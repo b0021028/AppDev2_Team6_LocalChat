@@ -109,7 +109,7 @@ namespace LocalChatBase
         /// </summary>
         public void StartReception()
         {
-            new Thread(new ThreadStart(GetData)).Start();
+            new Task(GetData).Start();
 
         }
 
@@ -118,21 +118,20 @@ namespace LocalChatBase
         /// テキストデータを送信します
         /// </summary>
         /// <param name="data">送信するテキストデータ</param>
-        public void SendData(string data)
+        async public void SendData(string data)
         {
             //データを送信する
             _netStream.WriteTimeout = s_timeOut;
 
             byte[] sendBytes = s_encode.GetBytes(data);
 
-            _netStream.Write(sendBytes, 0, sendBytes.Length);
+            await _netStream.WriteAsync(sendBytes, 0, sendBytes.Length);
 
         }
 
         // Data受け取り
         async private void GetData()
         {
-            var token = this.token.Token;
             while(true)
             {
                 //クライアントから送られたデータを受信する
@@ -141,7 +140,7 @@ namespace LocalChatBase
                 int resSize = 0;
                 do
                 {
-                    token.ThrowIfCancellationRequested();
+                    this.token.Token.ThrowIfCancellationRequested();
                     //データの一部を受信する
                     resSize = await _netStream.ReadAsync(resBytes, 0, resBytes.Length);
 

@@ -15,22 +15,69 @@ namespace LocalChatBase
         /// <summary>
         /// セッションが生まれた時に発火する
         /// </summary>
-        public static event EventHandler<Session> EvStartSession = (sender, args) => { };
+        public  static event EventHandler<Session> EvStartSession = (sender, args) => { };
 
+        /// <summary>
+        /// 待ち受けるやつ
+        /// </summary>
+        private static System.Net.Sockets.TcpListener s_listener { get; set; }
 
-        /// 止めるフラグ
-        private static bool s_run = false;
+        /// <summary>
+        /// 待ち受けIPアドレス
+        /// </summary>
+        private static IPAddress s_ip = IPAddress.Any;
+
+        /// <summary>
+        /// 待ち受けポート
+        /// </summary>
+        private static UInt16 s_port = 6228;
+
+        /// <summary>
+        /// キャンセル用
+        /// </summary>
+        private static CancellationTokenSource s_canceller = new CancellationTokenSource();
+        private static bool s_started  = false;
 
         /// <summary>
         /// クライアント待ち受けを開始する (ip=any, port=6228)
         /// </summary>
-        public static void StartListen()
+        public void StartListen()
         {
-            s_run = true;
-            while (s_run)
+            if (!s_started)
             {
+                s_started = true;
+                s_listener = new System.Net.Sockets.TcpListener(IPAddress.Any, s_port);
+                new Task(Run).Start();
+            }
+        }
+
+        /// <summary>
+        /// 待ち受け処理
+        /// </summary>
+        async private void Run()
+        {
+            while (true){
+                s_canceller.Token.ThrowIfCancellationRequested();
+                var cl = await s_listener.AcceptTcpClientAsync();
                 var session = new Session(new System.Net.Sockets.TcpClient());
                 EvStartSession(null, session);
+            }
+
+        }
+
+
+
+
+
+        /// <summary>
+        /// クライアント待ち受けを終了しようとする
+        /// </summary>
+        async public void StopListen()
+        {
+            if (s_started)
+            {
+                s_canceller.Cancel();
+                s_listener.Stop();
             }
         }
 
@@ -46,15 +93,6 @@ namespace LocalChatBase
             return new Session(new System.Net.Sockets.TcpClient(ip.ToString(), port));
         }
 
-
-
-        /// <summary>
-        /// クライアント待ち受けを終了しようとする
-        /// </summary>
-        async public static void StopListen()
-        {
-            s_run = false;
-        }
 
     }
 }
