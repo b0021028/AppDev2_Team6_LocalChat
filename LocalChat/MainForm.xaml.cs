@@ -158,5 +158,10 @@ namespace LocalChat
         {
             ConfigForm.ShowDialog(this);
         }
+
+        private void ScrollPartners(object sender, ContextMenuEventArgs e)
+        {
+
+        }
     }
 }
