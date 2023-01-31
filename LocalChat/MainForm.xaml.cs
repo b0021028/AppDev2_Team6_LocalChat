@@ -57,12 +57,21 @@ namespace LocalChat
 
         }
 
+
+        /// <summary>
+        /// チャット更新
+        /// </summary>
         public void UpdateChat()
         {
             LocalChatBase.DataManager.GetDatas(IP);
         }
 
         private Button[] manyButtons;
+
+        /// <summary>
+        /// 宛先リスト更新 
+        /// </summary>
+        /// <param name="address"></param>
         public void UpdatePartnersList(string address)
         {
 
@@ -79,6 +88,9 @@ namespace LocalChat
 
         }
 
+        /// <summary>
+        /// メッセージ送信
+        /// </summary>
         public void SendMessage()
         {
 
