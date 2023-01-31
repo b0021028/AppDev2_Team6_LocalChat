@@ -23,17 +23,22 @@ namespace LocalChatBase
         /// <summary>
         /// 宛先の構文が正しいか確認し追加
         /// </summary>
-        /// <param name="input_address"></param>
+        /// <param name="partner"></param>
         public static void AddPartners(string partner)
         {
 
             if (Regex.IsMatch(partner, @"[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}"))
             {
                 var ip = IPAddress.Parse(partner);
-                // リストにipアドレスを追加
-                partners.Add(ip, partner);
-                EvAddDestination(null, partner);
-            }   
+                if (checkip(ip))
+                {
+                    // ipアドレスを追加登録
+                    partners.Add(ip, partner);
+                    // イベント発行
+                    EvAddDestination(null, partner);
+                    return;
+                }
+            }
             else
             {
 
@@ -59,18 +64,16 @@ namespace LocalChatBase
 ;
         }
 
-        private IPAddress myips()
+
+        /// <summary>
+        /// ipアドレスをチェックする
+        /// </summary>
+        /// <param name="ip"></param>
+        /// <returns></returns>
+        private static bool checkip(IPAddress ip)
         {
-            var nicList = NetworkInterface.GetAllNetworkInterfaces();
-
-            foreach (NetworkInterface nic in nicList)
-            {
-                nic.GetIPv4Statistics();
-
-
-            }
-
-
+            return true;
+        }
 
     }
 }
