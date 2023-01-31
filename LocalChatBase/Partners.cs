@@ -45,10 +45,10 @@ namespace LocalChatBase
         }
 
 
-
         /// <summary>
-        /// 宛先取得
+        /// 宛先をすべて取得する
         /// </summary>
+        /// <returns>宛先が入った ICollectionで返す</returns>
         public static ICollection<string> GetPartners()
         {
             return partners.Values;
