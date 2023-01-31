@@ -1,44 +1,76 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.NetworkInformation;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using LocalChat;
 
 namespace LocalChatBase
 {
     public class Partners
     {
-        // 宛先追加
-        public static void AddPartners(string input_address)
+        /// <summary>
+        /// 宛先追加イベント
+        /// </summary>
+        public static event EventHandler<string> EvAddDestination = (Sender, args) => { };
+
+        public static Dictionary<IPAddress, string> partners=new Dictionary<IPAddress, string>;
+
+        /// <summary>
+        /// 宛先の構文が正しいか確認し追加
+        /// </summary>
+        /// <param name="input_address"></param>
+        public static void AddPartners(string partner)
         {
-            // ipアドレスが入力されているか
-            if (Regex.IsMatch(input_address, @"[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}"))
+
+            if (Regex.IsMatch(partner, @"[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}"))
             {
-                string address = input_address;
+                var ip = IPAddress.Parse(partner);
                 // リストにipアドレスを追加
-                LocalChat.MainForm.UpdatePartnersList(address);
-            }
+                partners.Add(ip, partner);
+                EvAddDestination(null, partner);
+            }   
             else
             {
-                MessageBox.Show("正しい値を入力してください。");
+
             }
         }
 
-        // 宛先取得
-        public void GetPartners()
+
+
+        /// <summary>
+        /// 宛先取得
+        /// </summary>
+        public ICollection<string> GetPartners()
         {
-            LocalChat.MainForm.UpdatePartnersList();
+            return partners.Values;
         }
 
-        // 宛先のアドレス取得
+        /// <summary>
+        /// 宛先のアドレス取得
+        /// </summary>
         public void GetAddress()
         {
-            DataManager.GetData();
+
+;
         }
 
-        // 宛先追加イベント
-        public event EventHandler<string> EvAddDestination = (Sender, args) => { };
+        private IPAddress myips()
+        {
+            var nicList = NetworkInterface.GetAllNetworkInterfaces();
+
+            foreach (NetworkInterface nic in nicList)
+            {
+                nic.GetIPv4Statistics();
+
+
+            }
+
+
+
     }
 }

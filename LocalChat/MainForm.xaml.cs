@@ -46,7 +46,7 @@ namespace LocalChat
         /// </summary>
         public void AddMessage()
         {
-            LocalChatBase.Message.ReferenceMessage();
+            LocalChatBase.Messenger.ReferenceMessage();
         }
 
         /// <summary>
@@ -103,6 +103,10 @@ namespace LocalChat
         public event EventHandler<int> EvEnd = dummy;
 
 
+
+
+
+
         //　ボタンイベント
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -134,14 +138,22 @@ namespace LocalChat
 
         }
 
+
+
+
         /// <summary>
-        /// メッセージ送信
+        /// メッセージ送信ボタンの送信イベント
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Send_Click(object sender, RoutedEventArgs e)
         {
-            LocalChatBase.Message.SendMessage();
+            var text = MessageBox.Text;
+            if (text.Length != 0)
+            {
+                LocalChatBase.Messenger.SendMessage();
+
+            }
         }
 
 
