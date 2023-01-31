@@ -17,9 +17,7 @@ namespace LocalChatBase
             if (Regex.IsMatch(input_address, @"[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}"))
             {
                 string address = input_address;
-                // データベースに追加するのか？
-                DataManager.AddData(?, address, ?, ?);
-                // それともリスト?
+                // リストにipアドレスを追加
                 LocalChat.MainForm.UpdatePartnersList(address);
             }
             else
@@ -31,7 +29,7 @@ namespace LocalChatBase
         // 宛先取得
         public void GetPartners()
         {
-
+            LocalChat.MainForm.UpdatePartnersList();
         }
 
         // 宛先のアドレス取得
