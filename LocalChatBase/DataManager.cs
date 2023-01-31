@@ -50,14 +50,21 @@ namespace LocalChatBase
                 string sql = $"insert into temptable (RaceiveFlag, Recipient, Time, Message) values ({IP}, {Reception}, {time}, {Message});";
                 SQLiteCommand com = new SQLiteCommand(sql, con);
                 com.ExecuteNonQuery();
+
+                EvAddData(this, Reception);
             }
+            catch
+            {
+
+            }
+
             finally
             {
                 con.Close();
             }
             
 
-            EvAddData(this, Reception);
+
 
         }
 
