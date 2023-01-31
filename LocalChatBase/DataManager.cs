@@ -11,7 +11,7 @@ namespace LocalChatBase
         /// <summary>
         /// データベースの作成とテーブルの作成
         /// </summary>
-        static void Main(string[] args)
+        static void Main()
         {
             var sqlConnectionSb = new SQLiteConnectionStringBuilder { DataSource = "temptable" };
             using (var cn = new SQLiteConnection(sqlConnectionSb.ToString()))
@@ -51,7 +51,7 @@ namespace LocalChatBase
                 SQLiteCommand com = new SQLiteCommand(sql, con);
                 com.ExecuteNonQuery();
 
-                EvAddData(this, Reception);
+                EvAddData(null, Reception);
             }
             catch
             {
@@ -71,7 +71,7 @@ namespace LocalChatBase
         /// <summary>
         /// データを初期化します データベース内のファイルを初期化する(データベース自体の削除)
         /// </summary>
-        public static void InitializeData(string[] args)
+        public static void InitializeData()
         {
             string FilePath = @"temptable.db";
             if(File.Exists(FilePath))
