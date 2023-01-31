@@ -22,7 +22,7 @@ namespace LocalChatBase
 
         private static string s_dataSource { get; } = "Data Source=temptable";
 
-        /*// <summary> よくわからない
+        /// <summary>
         /// データベースの作成とテーブルの作成
         /// </summary>
         static void Main()
@@ -42,7 +42,7 @@ namespace LocalChatBase
                     cmd.ExecuteNonQuery();
                 }
             }
-        }*/
+        }
 
         /// <summary>
         /// データの追加をします 順番：受信フラグ、受け取り人、時間、メッセージ
