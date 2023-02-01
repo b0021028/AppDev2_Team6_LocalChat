@@ -5,23 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LocalChat"
         mc:Ignorable="d"
-        Title="MainForm" Height="450" Width="800">
-    <Grid HorizontalAlignment="Right" Width="800" RenderTransformOrigin="0.544,0.5">
+        Title="MainForm" Height="436" Width="750">
+    <Grid RenderTransformOrigin="0.544,0.5" Margin="4,0,0,8" HorizontalAlignment="Left" Width="746">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="0*"/>
         </Grid.RowDefinitions>
-        <Button Content="設定" HorizontalAlignment="Left" Height="41" Margin="0,393,0,0" VerticalAlignment="Top" Width="62" Click="OpenConfigForm"/>
+        <Button Content="設定" HorizontalAlignment="Left" Height="41" Margin="8,355,0,0" VerticalAlignment="Top" Width="62" Click="OpenConfigForm"/>
         <Label Content="既存のチャット" HorizontalAlignment="Left" Margin="0,37,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="MessageText" HorizontalAlignment="Left" Height="27" Margin="189,393,0,0" TextWrapping="Wrap" Text="[新しいメッセージの入力]" VerticalAlignment="Top" Width="522" Background="{x:Null}"/>
+        <TextBox x:Name="MessageText" HorizontalAlignment="Left" Height="27" Margin="178,369,0,0" TextWrapping="Wrap" Text="[新しいメッセージの入力]" VerticalAlignment="Top" Width="482" Background="{x:Null}"/>
         <Label Content="通信履歴" HorizontalAlignment="Left" Height="37" VerticalAlignment="Top" Width="95" Margin="45,-1,0,0" FontSize="18"/>
-        <Button Content="＋ 新規追加先　" HorizontalAlignment="Left" Margin="39,358,0,0" VerticalAlignment="Top" Click="OpenAddNewPartnerForm" Background="White"/>
-    
+        <Button Content="＋ 新規追加先　" HorizontalAlignment="Left" Margin="45,320,0,0" VerticalAlignment="Top" Click="OpenAddNewPartnerForm" Background="White"/>
+
         <Label x:Name="ChatTitle" Content="" HorizontalAlignment="Left" Height="31" Margin="189,3,0,0" VerticalAlignment="Top" Width="100" FontSize="18"/>
-        <Button Content="送信ボタン" HorizontalAlignment="Left" Height="27" Margin="729,393,0,0" VerticalAlignment="Top" Width="61" Click="Send_Click" RenderTransformOrigin="0,0.52"/>
+        <Button Content="送信ボタン" Height="27" Margin="674,369,0,0" VerticalAlignment="Top" Click="Send_Click" RenderTransformOrigin="0,0.52" HorizontalAlignment="Left" Width="62"/>
         <GridSplitter HorizontalAlignment="Left" Height="436" Margin="171,0,0,0" VerticalAlignment="Center" Width="2" Background="#FF150505" RenderTransformOrigin="0.5,0.5">
             <GridSplitter.RenderTransform>
-                
+
                 <TransformGroup>
                     <ScaleTransform ScaleX="-1"/>
                     <SkewTransform/>
@@ -30,15 +30,15 @@
                 </TransformGroup>
             </GridSplitter.RenderTransform>
         </GridSplitter>
-        <ScrollViewer  Margin="0,63,634,97" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer  Margin="0,63,580,97" VerticalScrollBarVisibility="Auto">
             <StackPanel x:Name="PartnersList" >
             </StackPanel>
         </ScrollViewer>
-        <ScrollViewer Margin="178,50,0,56" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Margin="178,57,10,56" VerticalScrollBarVisibility="Auto">
             <StackPanel x:Name="DisplayMessage" >
             </StackPanel>
         </ScrollViewer>
-        <GridSplitter HorizontalAlignment="Center" Height="2" Margin="0,33,0,0" VerticalAlignment="Top" Width="800" Background="#FF160909" RenderTransformOrigin="0.5,0.5">
+        <GridSplitter HorizontalAlignment="Left" Height="2" Margin="0,30,0,0" VerticalAlignment="Top" Width="758" Background="#FF160909" RenderTransformOrigin="0.5,0.5">
             <GridSplitter.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1"/>
