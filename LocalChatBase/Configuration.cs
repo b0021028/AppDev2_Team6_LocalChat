@@ -63,10 +63,10 @@ namespace LocalChatBase
                     // デシリアライズされたデータは、自動的にaccountの
                     // メンバ変数に格納されます 
                     //
-                    JsonReader reader = new JsonTextReader(file);
-                    var account = JsonConvert.DeserializeObject<Config>(reader.ToString());
+                    string reader = new JsonTextReader(file).ToString()??"{}";
+                    Config jsonData = JsonConvert.DeserializeObject<Config>(reader)??s_config.Clone();
 
-                    s_config.Notification = account.Notification;
+                    s_config.Notification = jsonData.Notification;
                 }
 
             }
