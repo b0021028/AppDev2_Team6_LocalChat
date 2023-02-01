@@ -31,6 +31,7 @@ namespace LocalChat
         {
             if (Configuration.GetConfig().Notification)
             {
+                this.Focusable = false;
                 ShowInTaskbar = false;
                 //*
                 ResizeMode = ResizeMode.NoResize;
