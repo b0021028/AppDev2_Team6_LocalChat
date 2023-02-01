@@ -102,7 +102,8 @@ namespace LocalChatBase
         /// <returns></returns>
         private static string textdeconvate(string txt)
         {
-            return txt ;
+            string fixtxt = (JObject.Parse(txt).GetValue("data")?? "").ToString() ;
+            return fixtxt;
         }
 
 
