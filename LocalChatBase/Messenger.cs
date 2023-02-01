@@ -22,7 +22,7 @@ namespace LocalChatBase
         /// </summary>
         public event EventHandler<DateTime> EvReceptionMessage = (sender, args) => { };
 
-
+        public string massage = "";
         /// <summary>
         /// メッセージを送信し 成功したらtrueを返す 仮実装
         /// </summary>
@@ -70,11 +70,13 @@ namespace LocalChatBase
         /// <param name="data"></param>
         public void ReceptionMessage(Session session, string data)
         {
-            if (data != "")
+            string message = textdeconvate(data);
+            if (message != "")
             {
-                
+                this.massage = message;
                 //JsonSerializer.Deserialize<Data>(data);
                 EvReceptionMessage(this, DateTime.Now);
+
                 session.SendData(textconvate("ReMessage", DateTime.Now));
             }
             session.EndSession();
@@ -89,7 +91,17 @@ namespace LocalChatBase
         /// <returns></returns>
         private static string textconvate(string format, object o)
         {
-            return $"version{{\"version\":0,\"dataformat\":{{\"name\":\"{format}\",\"version\":1}},\"data\":\"{(o??"").ToString()}";
+            return $"version{{\"version\":0,\"dataformat\":{{\"name\":\"{format}\",\"version\":1}},\"data\":\"{(o ?? "").ToString()}";
+        }
+        /// <summary>
+        /// テキストをを型から出す
+        /// </summary>
+        /// <param name="format">データフォーマット</param>
+        /// <param name="o"><データ/param>
+        /// <returns></returns>
+        private static string textdeconvate(string txt)
+        {
+            return txt ;
         }
 
 
