@@ -21,8 +21,19 @@ namespace LocalChat
     /// </summary>
     public partial class MainForm : Window
     {
+
         /// <summary>
-        /// 
+        /// 初期化された後発火する
+        /// </summary>
+        public event EventHandler<bool> EvInitialize = (sender, args) => { };
+
+        /// <summary>
+        /// 終了処理がされた後発火する
+        /// </summary>
+        public event EventHandler<int> EvEnd = (sender, args) => { };
+
+        /// <summary>
+        /// メイン画面 チャットを見れます
         /// </summary>
         public MainForm()
         {
@@ -40,7 +51,10 @@ namespace LocalChat
         {
             DataManager.InitializeData();
             Connectioner.StartListen();
-            //Connectioner.EvStartSession += ;
+            Partners.EvAddDestination += (sender,e) => { UpdatePartnersList()};
+            EvInitialize(this, true);
+
+
         }
 
 
@@ -61,14 +75,15 @@ namespace LocalChat
             Connectioner.StopListen();
             DataManager.InitializeData();
             Configuration.OutputConfigFile();
-            this.Close();
+            EvEnd(this, 0);
+            base.Close();
         }
 
 
 
 
         /// <summary>
-        /// 宛先リスト更新 
+        /// 宛先リスト更新
         /// </summary>
         /// <param name="address"></param>
         public void UpdatePartnersList()
@@ -94,42 +109,63 @@ namespace LocalChat
         {
             // チャット画面リセット処理
             DisplayMessage.Children.Clear();
+
+            // タイトル変更
             ChatTitle.Content = selectedPartner;
 
-            // var Message_list = DataManager.GetDatas(IP);
-            var Message_list = LocalChatBase.Messenger.ReferenceMessage(selectedPartner);
-
+            // メッセージ履歴取得
             // メッセージ数分繰り返す
-            foreach (var message in Message_list)
+            foreach (var messagedata in LocalChatBase.Messenger.ReferenceMessage(selectedPartner))
             {
                 var grid = new Grid();
 
                 
 
-                if (message.receptionFlag)
+                if (messagedata.receptionFlag)
                 //ここに受信、送信側で位置の分岐を作りたい、メッセージラベルを自分が右、相手が左に表示したい
                 {
-                    var label = new Label();
-                    label.Width = double.NaN;
-                    // コントロールのプロパティ
-                    // Label_num.Name = "MessageLabel" + i;
-                    label.Content = message;
+                    var pLabel = new Label();
+                    pLabel.Content = messagedata.ip;
+                    grid.Children.Add(pLabel);
                 }
-                This.DisplayMessage.Children.Add();
+
+                var tLabel = new Label();
+                tLabel.Content = messagedata.time;
+                grid.Children.Add(tLabel);
+
+                var mLabel = new Label();
+                mLabel.Content = messagedata.message;
+                grid.Children.Add(mLabel);
+                
+
+                grid.Width = double.NaN;
+                
+
+
+
+
+
+                this.DisplayMessage.Children.Add(grid);
 
             }
-
 
 
 
         }
 
         /// <summary>
-        /// チャット更新
+        /// チャット更新 仮実装 チャット画面消去付き
         /// </summary>
         public void UpdateChat()
         {
-            //DataManager.GetDatas(IP);
+            if (ChatTitle.Content != null)
+            {
+                var title = ChatTitle.Content.ToString();
+                if (title != null && title != "")
+                {
+                    DisplayChat(title);
+                }
+            }
         }
 
             /// <summary>
@@ -137,24 +173,16 @@ namespace LocalChat
             /// </summary>
         public void SendMessage()
         {
-
+            var partner = ChatTitle.Content.ToString();
             string message = MessageText.Text;
-            LocalChatBase.Messenger.SendMessage(message, partner);
+            if (partner != null && message.Trim('　',' ','\n')!="")
+            {
+                LocalChatBase.Messenger.SendMessage(message, partner);
+
+            }
 
         }
 
-        //　イベント
-        public event EventHandler<int> EvInitialize = (sender, args) => { };
-
-
-        public event EventHandler<int> EvEnd = (sender, args) => { };
-
-
-
-
-
-
-        //　ボタンイベント
 
 
         /// <summary>
@@ -164,14 +192,17 @@ namespace LocalChat
         /// <param name="e"></param>
         private void Send_Click(object sender, RoutedEventArgs e)
         {
-            var text = MessageText.Text;
+            string text = MessageText.Text;
             // 文字数が0ではない
             if (text.Length != 0)
             {
-                //現在の宛先取得===========================================================================
-                var name = "";
-                //送信
-                Messenger.SendMessage(text, name);
+                //現在の宛先取得
+                string name = ChatTitle.Content.ToString()??"";
+                if (name != "")
+                {
+                    //送信
+                    Messenger.SendMessage(text, name);
+                }
 
             }
         }
@@ -195,5 +226,14 @@ namespace LocalChat
         {
 
         }
+
+
+        public new void Close()
+        {
+            EndLocalChatCore();
+        }
+
+
+
     }
 }
