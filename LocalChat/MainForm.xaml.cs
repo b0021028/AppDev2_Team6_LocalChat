@@ -78,13 +78,52 @@ namespace LocalChat
         /// <param name="address"></param>
         public void UpdatePartnersList(string address)
         {
-            Partners_List = new LocalChatBase.Partners.GetPartners();
-            this.manyButtons[num].Name = "PartnersButton" + num;
-            this.manyButtons[num].Text = Partners_List[num];
+            {
+                InitializeComponent();
+                PartnersList = Partners.GetAddress();
+            }
+            /*public Form1()
+            {
+                InitializeComponent();
+            }
+            */
+            /*
+            private void button1_Click(object sender, EventArgs e)
+            {
+                if (this.manyButtons != null)
+                {
+                    MessageBox.Show("フォームはすでに表示されています");
+                    return;
+                }
+            */
+            // ボタンのインスタンス作成()
+            /*
+            this.manyButtons = new Button[5];
+            for (int i = 0; i < this.manyButtons.Length; i++)
+            {
+                this.manyButtons[i] = new Button();
+
+                // コントロールのプロパティ
+                this.manyButtons[i].Name = "OriginalButton" + i;
+                this.manyButtons[i].Text = "ボタン" + i;
+                this.manyButtons[i].Location = new Point(10, 10 + i * 22);
+                this.manyButtons[i].Size = new Size(80, 20);
+
+                // フォームへの追加
+                this.Controls.Add(this.manyButtons[i]);
+            }
+        }
+            */
+
+            this.manyButtons[num].Name = "PartnerButton" + num;
+            this.manyButtons[num].Text = address
             this.manyButtons[num].Location = new Point(10, 10 + num * 22);
             this.manyButtons[num].Size = new Size(80, 20);
-            num += 1;
+            num += 1
+            
         }
+
+
 
         public void DisplayChat()
         {
