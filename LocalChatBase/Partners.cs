@@ -33,7 +33,7 @@ namespace LocalChatBase
         public static bool AddPartners(string partner)
         {
             // sintax チェック
-            if (Regex.IsMatch(partner, @"[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}"))
+            if (Regex.IsMatch(partner, @"[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"))
             {
                 IPAddress ip;
                 var isip = IPAddress.TryParse(partner, out ip);
