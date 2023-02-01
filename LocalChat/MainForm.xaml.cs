@@ -79,7 +79,7 @@ namespace LocalChat
                     var Button_num = new Button();
                     //Button_num.Name = "PartnerButton" + ;
                     Button_num.Content = partner;
-                    Button_num.Click += (o, e)=> { if (o != null) { DisplayChat(((Button)o).Content); } };
+                    Button_num.Click += (o, e) => { if (o != null) { var t = ((Button)o).Content.ToString(); if (t != null) { DisplayChat(t); } } };
                     PartnersList.Children.Add(Button_num);
                 }
             }
