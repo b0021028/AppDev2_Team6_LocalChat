@@ -63,7 +63,7 @@ namespace LocalChat
                 radio.Content = "On";
 
                 var radio2 = new RadioButton();
-                radio.Content = "Off";
+                radio2.Content = "Off";
                 if (LocalChatBase.Configuration.GetConfig().Notification)
                 {
                     radio.IsChecked = true;
@@ -96,13 +96,19 @@ namespace LocalChat
         /// 設定項目を表示するパネルを作成
         /// </summary>
         /// <returns>設定項目用グリッド 1行2列</returns>
-        private Grid AddItemBase()
+        private StackPanel AddItemBase()
         {
-            var g = new Grid();
+            var g = new StackPanel();
+            g.Width = double.NaN;
+            //g.Background = new SolidColorBrush(Colors.Black);
             g.VerticalAlignment = VerticalAlignment.Top;
-            g.HorizontalAlignment = HorizontalAlignment.Left;
-            g.ColumnDefinitions.Add(new ColumnDefinition());
-            g.ColumnDefinitions.Add(new ColumnDefinition());
+            /*var col = new ColumnDefinition();
+            col.Width = GridLength.Auto;
+            g.ColumnDefinitions.Add(col);
+            col = new ColumnDefinition();
+            col.Width = GridLength.Auto;
+            g.ColumnDefinitions.Add(col);//*/
+            g.Orientation = Orientation.Horizontal;
             ConfigerContents.Children.Add(g);
             return g;
         }
