@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:LocalChat"
         mc:Ignorable="d"
         Title="MainForm" Height="436" Width="750">
-    <Grid ShowGridLines="True">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="10*"/>
@@ -16,13 +16,15 @@
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0" Grid.Row="0">
+            <Border BorderBrush="Black" BorderThickness="1"/>
             <Label Content="通信履歴" FontSize="18" HorizontalAlignment="Center"/>
-
         </Grid>
         <Grid Grid.Column="1" Grid.Row="0">
+            <Border BorderBrush="Black" BorderThickness="1"/>
             <Label x:Name="ChatTitle" Content="" Height="31" FontSize="18" Margin="10,0,10,0"/>
         </Grid>
         <Grid Grid.Column="0" Grid.Row="1">
+            <Border BorderBrush="Black" BorderThickness="1"/>
             <Grid Margin="10,0,10,10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -43,6 +45,7 @@
             </Grid>
         </Grid>
         <Grid Grid.Column="1" Grid.Row="1">
+            <Border BorderBrush="Black" BorderThickness="1"/>
             <Grid Margin="10,10,10,10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="7*"/>
