@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:LocalChat"
         mc:Ignorable="d"
         Title="MainForm" Height="436" Width="750">
-    <Grid>
+    <Grid ShowGridLines="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="10*"/>
@@ -15,12 +15,12 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0" Grid.Row="0">
-            <Label Content="通信履歴" HorizontalAlignment="Left" Height="37" VerticalAlignment="Top" Width="95" Margin="45,-1,0,0" FontSize="18"/>
+        <Grid Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Label Content="通信履歴" HorizontalAlignment="Left" Height="37" VerticalAlignment="Top" Width="95" FontSize="18"/>
 
         </Grid>
         <Grid Grid.Column="1" Grid.Row="0">
-            <Label x:Name="ChatTitle" Content="" HorizontalAlignment="Left" Height="31" VerticalAlignment="Bottom" Width="100" FontSize="18"/>
+            <Label x:Name="ChatTitle" Content="" HorizontalAlignment="Left" Height="31" VerticalAlignment="Center" FontSize="18" Margin="10,0,0,0"/>
         </Grid>
         <Grid Grid.Column="0" Grid.Row="1">
             <Grid Margin="10,0,0,10">
@@ -52,7 +52,7 @@
                     <ColumnDefinition Width="7*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <ScrollViewer Grid.Row="0" Grid.RowSpan="1" Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                <ScrollViewer Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0" VerticalScrollBarVisibility="Auto">
                     <StackPanel x:Name="DisplayMessage" >
                     </StackPanel>
                 </ScrollViewer>
