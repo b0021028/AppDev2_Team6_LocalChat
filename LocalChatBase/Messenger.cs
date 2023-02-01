@@ -93,6 +93,7 @@ namespace LocalChatBase
         {
             return $"version{{\"version\":0,\"dataformat\":{{\"name\":\"{format}\",\"version\":1}},\"data\":\"{(o ?? "").ToString()}";
         }
+
         /// <summary>
         /// テキストをを型から出す
         /// </summary>
