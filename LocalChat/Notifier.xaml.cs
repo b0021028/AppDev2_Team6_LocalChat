@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic;
+﻿using LocalChatBase;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,17 +29,22 @@ namespace LocalChat
         
         async public new void Show()
         {
-            ResizeMode = ResizeMode.NoResize;
-            this.IsEnabled = false;
-            var sysWidth = System.Windows.SystemParameters.WorkArea.Width;
-            var sysHeight = System.Windows.SystemParameters.WorkArea.Height;
-            Width = sysWidth/5;
-            Height = sysHeight/4;
-            WindowStartupLocation = WindowStartupLocation.Manual;
-            Left = sysWidth - Width;
-            Top = sysHeight - Height;
-            base.Show();
-            await Task.Delay(3000);
+            if (Configuration.GetConfig().Notification)
+            {
+                /*
+                ResizeMode = ResizeMode.NoResize;
+                this.IsEnabled = false;
+                var sysWidth = System.Windows.SystemParameters.WorkArea.Width;
+                var sysHeight = System.Windows.SystemParameters.WorkArea.Height;
+                Width = sysWidth/5;
+                Height = sysHeight/4;
+                WindowStartupLocation = WindowStartupLocation.Manual;
+                Left = sysWidth - Width;
+                Top = sysHeight - Height;
+                */
+                base.Show();
+                await Task.Delay(3000);
+            }
             this.Close();
         }
 

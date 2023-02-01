@@ -55,7 +55,7 @@
                     <ColumnDefinition Width="7*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <ScrollViewer Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                <ScrollViewer x:Name="ChatScroll" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0" VerticalScrollBarVisibility="Auto">
                     <StackPanel x:Name="DisplayMessage" >
                     </StackPanel>
                 </ScrollViewer>

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
 using LocalChatBase;
 
 namespace LocalChat
@@ -48,13 +49,13 @@ namespace LocalChat
             Configuration.LoadConfigFile();
 
             // イベント登録 宛先が追加された時 -> GUI宛先リスト更新
-            Partners.EvAddDestination += (sender,e) => { UpdatePartnersList(); };
+            Partners.EvAddDestination += (sender,e) => { Dispatcher.Invoke(UpdatePartnersList); };
 
             // イベント登録 通信セッション開始 -> データ受信時 -> メッセージ受け取り
             Connectioner.EvStartSession += (sender, e) => {e.EvReception += Messenger.ReceptionMessage;e.StartReception(); };
 
             // イベント登録 データ保存処理
-            Messenger.EvReceptionMessage += (sender, e) => { DataManager.AddData(e.receptionFlag, e.ip, e.time, e.message);new Notifier(e.message).Show(); };
+            Messenger.EvReceptionMessage += (sender, e) => { DataManager.AddData(e.receptionFlag, e.ip, e.time, e.message); Partners.AddPartners(e.ip.ToString()??""); Task.Run(new Notifier(e.message).Show); };
 
             // イベント登録 データ保存処理
             Messenger.EvSendMessageSuccess += (sender, e) => { DataManager.AddData(e.receptionFlag, e.ip, e.time, e.message); };
@@ -129,12 +130,29 @@ namespace LocalChat
             // タイトル変更
             ChatTitle.Content = selectedPartner;
 
+
             // メッセージ履歴取得
             // メッセージ数分繰り返す
             foreach (var messagedata in Messenger.ReferenceMessage(selectedPartner))
             {
-                var stack = new StackPanel();
 
+                var onemessage = new Grid();
+                onemessage.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+                onemessage.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+                onemessage.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
+                onemessage.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
+                onemessage.Width = double.NaN;
+
+                // タイムスタンプ
+                var tLabel = new Label();
+                tLabel.Content = messagedata.time.ToString();
+                onemessage.Children.Add(tLabel);
+
+                // メッセージ
+                var mLabel = new Label();
+                mLabel.FontSize = 18;
+                mLabel.Content = messagedata.message;
+                onemessage.Children.Add(mLabel);
 
                 //ここに受信、送信側で位置の分岐を作りたい、メッセージラベルを自分が右、相手が左に表示したい
                 if (messagedata.receptionFlag)
@@ -142,24 +160,48 @@ namespace LocalChat
                     // 送信者 ipアドレス
                     var pLabel = new Label();
                     pLabel.Content = messagedata.ip;
-                    stack.Children.Add(pLabel);
+                    onemessage.Children.Add(pLabel);
+                    Grid.SetColumn(pLabel, 0);
+                    Grid.SetRow(pLabel, 0);
+
+                    Grid.SetColumn(tLabel, 1);
                 }
-                // タイムスタンプ
-                var tLabel = new Label();
-                tLabel.Content = messagedata.time;
-                stack.Children.Add(tLabel);
-
-                var mLabel = new Label();
-                mLabel.Content = messagedata.message;
-                stack.Children.Add(mLabel);
+                else
+                {
+                    Grid.SetColumn(tLabel, 0);
+                }
+                Grid.SetRow(tLabel, 0);
 
 
-                stack.Width = double.NaN;
+                Grid.SetColumn(mLabel, 0);
+                Grid.SetRow(mLabel, 1);
+                Grid.SetColumnSpan(mLabel, 2);
 
 
-                DisplayMessage.Children.Add(stack);
+                var chatgrid = new Grid();
+                chatgrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+                chatgrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+                chatgrid.Width = double.NaN;
+                var borderline = new Border() { BorderBrush = new SolidColorBrush(Colors.Black), BorderThickness = new Thickness(1) };
+                chatgrid.Children.Add(borderline);
+                chatgrid.Children.Add(onemessage);
+
+                if (messagedata.receptionFlag)
+                {
+                    Grid.SetColumn(borderline, 0);
+                    Grid.SetColumn(onemessage, 0);
+                }
+                else
+                {
+                    Grid.SetColumn(borderline, 1);
+                    Grid.SetColumn(onemessage, 1);
+                }
+
+                DisplayMessage.Children.Add(chatgrid);
+                ChatScroll.ScrollToBottom();
 
             }
+
 
 
 
