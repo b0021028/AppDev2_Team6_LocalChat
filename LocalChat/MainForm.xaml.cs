@@ -234,7 +234,19 @@ namespace LocalChat
             EndLocalChatCore();
         }
 
+        private void MessageText_TextChanged(object sender, TextChangedEventArgs e)
+        {
 
+            if (MessageText.Text == "")
+            {
+                MessageText.Background = null;
+            }
+            else
+            {
 
+                MessageText.Background = new SolidColorBrush(Colors.White);
+            }
+
+        }
     }
 }
