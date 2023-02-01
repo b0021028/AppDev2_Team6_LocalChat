@@ -71,7 +71,7 @@ namespace LocalChat
 
 
         /// <summary>
-        /// メッセージ追加
+        /// メッセージ追加 未実装
         /// </summary>
         public void AddMessage()
         {
@@ -132,16 +132,16 @@ namespace LocalChat
             {
                 var grid = new Grid();
 
-                
 
                 if (messagedata.receptionFlag)
                 //ここに受信、送信側で位置の分岐を作りたい、メッセージラベルを自分が右、相手が左に表示したい
                 {
+                    // 送信者 ipアドレス
                     var pLabel = new Label();
                     pLabel.Content = messagedata.ip;
                     grid.Children.Add(pLabel);
                 }
-
+                // タイムスタンプ
                 var tLabel = new Label();
                 tLabel.Content = messagedata.time;
                 grid.Children.Add(tLabel);
@@ -149,16 +149,12 @@ namespace LocalChat
                 var mLabel = new Label();
                 mLabel.Content = messagedata.message;
                 grid.Children.Add(mLabel);
-                
+
 
                 grid.Width = double.NaN;
-                
 
 
-
-
-
-                this.DisplayMessage.Children.Add(grid);
+                DisplayMessage.Children.Add(grid);
 
             }
 

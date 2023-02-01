@@ -67,6 +67,7 @@ namespace LocalChatBase
         /// <param name="message"></param>
         public static void AddData(bool reception, IPAddress ip, DateTime time, string message)
         {
+            Main();
             using (var conn = new SQLiteConnection(s_dataSource))
             {
                 conn.Open();
