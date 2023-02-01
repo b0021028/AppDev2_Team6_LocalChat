@@ -39,7 +39,7 @@ namespace LocalChatBase
         private static string s_dataSource { get; } = $"Data Source={s_datapath};Version=3;";
 
 
-        private static List<Data> NearDatabase = new();
+        public static List<Data> NearDatabase = new();
         private static bool IsDatabaseMode = false;
 
         /// <summary>
@@ -218,8 +218,8 @@ namespace LocalChatBase
             }
             else
             {
-                var x = NearDatabase.Where(x => x.ip == ip);
-                return (List<Data>)x;
+                var x = NearDatabase.Where(x => x.ip.Equals(ip)).ToList();
+                return x;
             }
         }
 

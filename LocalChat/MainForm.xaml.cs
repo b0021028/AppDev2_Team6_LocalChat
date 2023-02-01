@@ -66,7 +66,7 @@ namespace LocalChat
             // イベント登録 データ保存処理
             Messenger.EvReceptionMessage += (sender, e) => { DataManager.AddData(e.receptionFlag, e.ip, e.time, e.message); };
 
-            // イベント登録 新規データ取得時チャット画面更新
+            // イベント登録 新規データ取得時チャット画面更新 動いてない
             DataManager.EvAddData += (sender, e)=> { this.Dispatcher.Invoke(UpdateChat); };
 
             // 受信待ち受け開始
@@ -138,13 +138,13 @@ namespace LocalChat
 
             // メッセージ履歴取得
             // メッセージ数分繰り返す
-            foreach (var messagedata in LocalChatBase.Messenger.ReferenceMessage(selectedPartner))
+            foreach (var messagedata in Messenger.ReferenceMessage(selectedPartner))
             {
                 var stack = new StackPanel();
 
 
-                if (messagedata.receptionFlag)
                 //ここに受信、送信側で位置の分岐を作りたい、メッセージラベルを自分が右、相手が左に表示したい
+                if (messagedata.receptionFlag)
                 {
                     // 送信者 ipアドレス
                     var pLabel = new Label();
@@ -179,26 +179,33 @@ namespace LocalChat
         {
             if (ChatTitle.Content != null)
             {
-                var title = ChatTitle.Content.ToString();
+                string title = ChatTitle.Content.ToString()?? "";
                 if (title != null && title != "")
                 {
                     DisplayChat(title);
                 }
             }
+            MessageBox.Show("jgariosgioarhiouhg");
         }
 
         /// <summary>
         /// メッセージ送信
         /// </summary>
-        public void SendMessage()
+        async public Task SendMessage()
         {
-            var partner = ChatTitle.Content.ToString();
-            string message = MessageText.Text;
-            if (partner != null && message.Trim('　',' ','\n')!="")
+            sendButton.IsEnabled = false;
+            //現在の宛先取得
+            string name = ChatTitle.Content.ToString()??"";
+            string text = MessageText.Text;
+            // 文字数が0ではない
+            if (name != "" && text.Trim('　',' ','\n','\t').Length != 0)
             {
-                LocalChatBase.Messenger.SendMessage(message, partner);
-
+                //送信
+                var a = await Messenger.SendMessage(text, name).WaitAsync(TimeSpan.FromSeconds(10));
+                var t = a;
+                MessageText.Text = "";
             }
+            sendButton.IsEnabled = true;
 
         }
 
@@ -209,25 +216,9 @@ namespace LocalChat
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        async private void Send_Click(object sender, RoutedEventArgs e)
+        private void Send_Click(object sender, RoutedEventArgs e)
         {
-            sendButton.IsEnabled = false;
-            string text = MessageText.Text;
-            // 文字数が0ではない
-            if (text.Length != 0)
-            {
-                //現在の宛先取得
-                string name = ChatTitle.Content.ToString()??"";
-                if (name != "")
-                {
-                    //送信
-                    var a = await Messenger.SendMessage(text, name).WaitAsync(TimeSpan.FromSeconds(10));
-                    var t = a;
-                    MessageText.Text = t.ToString();
-                }
-
-            }
-            sendButton.IsEnabled = true;
+            SendMessage();
         }
 
 
