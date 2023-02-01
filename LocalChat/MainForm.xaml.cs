@@ -101,7 +101,7 @@ namespace LocalChat
         {
             var Message_list = DataManager.GetDatas(IP);
                 // メッセージ数分繰り返す
-                for (int i = 0; i < Message_list.Lenth; i++)
+                for (int i = 0; i < Message_list.Length; i++)
                 //for (int message_num = 0; i < this.MessageLabels.Length; i++)
                 {
                     //ここに受信、送信側で位置の分岐を作りたい
