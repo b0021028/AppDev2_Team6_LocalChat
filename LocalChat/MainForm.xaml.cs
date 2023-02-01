@@ -1,19 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using LocalChatBase;
-using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace LocalChat
 {
@@ -64,7 +54,10 @@ namespace LocalChat
             Connectioner.EvStartSession += (sender, e) => {e.EvReception += Messenger.ReceptionMessage;e.StartReception(); };
 
             // イベント登録 データ保存処理
-            Messenger.EvReceptionMessage += (sender, e) => { DataManager.AddData(e.receptionFlag, e.ip, e.time, e.message); };
+            Messenger.EvReceptionMessage += (sender, e) => { DataManager.AddData(e.receptionFlag, e.ip, e.time, e.message);new Notifier(e.message).Show(); };
+
+            // イベント登録 データ保存処理
+            Messenger.EvSendMessageSuccess += (sender, e) => { DataManager.AddData(e.receptionFlag, e.ip, e.time, e.message); };
 
             // イベント登録 新規データ取得時チャット画面更新 動いてない
             DataManager.EvAddData += (sender, e)=> { this.Dispatcher.Invoke(UpdateChat); };
@@ -181,12 +174,11 @@ namespace LocalChat
             if (ChatTitle.Content != null)
             {
                 string title = ChatTitle.Content.ToString()?? "";
-                if (title != null && title != "")
+                if (title != "")
                 {
                     DisplayChat(title);
                 }
             }
-            MessageBox.Show("jgariosgioarhiouhg");
         }
 
         /// <summary>
