@@ -59,22 +59,6 @@ namespace LocalChat
                 this.Close();
             }
 
-            /// <summary>
-            /// データベースの欄にこのIPアドレスを追加する(データベースの方にアドレスの値を渡す)
-            /// </summary>
-            var sqlConnection = new SQLiteConnectionStringBuilder { DataSource = "temptable.db" };
-
-            using (var cn = new SQLiteConnection(sqlConnection.ToString()))
-            {
-                cn.Open();
-
-                using (var cmd = new SQLiteCommand(cn))
-                {
-                    string.Format("", ipaddr);
-                    cmd.Inserttemptable(string.Format("{}, NULL, NULL, NULL", ipaddr));
-                }
-            }*/
-
         }
         
         /// <summary>
