@@ -22,7 +22,7 @@ namespace LocalChat
     public partial class MainForm : Window
     {
         /// <summary>
-        /// 
+        /// メイン画面
         /// </summary>
         public MainForm()
         {
