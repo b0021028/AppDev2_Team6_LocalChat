@@ -29,6 +29,9 @@ namespace LocalChat
             InitializeComponent();
         }
 
+
+
+
         /// <summary>
         /// 初期化処理
         /// </summary>
@@ -36,10 +39,9 @@ namespace LocalChat
         {
 
             var Partners_List = new List<string>();
-            var ip_num = 0;
             DataManager.InitializeData();
             Connectioner.StartListen();
-            Connectioner.EvStartSession += ;
+            //Connectioner.EvStartSession += ;
         }
 
         /// <summary>
@@ -47,7 +49,7 @@ namespace LocalChat
         /// </summary>
         public void AddMessage()
         {
-            Messenger.ReferenceMessage();
+         //   Messenger.ReferenceMessage();
         }
 
         /// <summary>
@@ -56,111 +58,83 @@ namespace LocalChat
         public void EndLocalChatCore()
         {
             Connectioner.StopListen();
-            DataManager.IntializeData();
+            DataManager.InitializeData();
             Configuration.OutputConfigFile();
             this.Close();
         }
 
+
+
+
+        /// <summary>
+        /// 宛先リスト更新 
+        /// </summary>
+        /// <param name="address"></param>
+        public void UpdatePartnersList()
+        {
+            var partnersList = Partners.GetPartners();
+            {
+                foreach (var partner in partnersList)
+                {
+                    var Button_num = new Button();
+                    //Button_num.Name = "PartnerButton" + ;
+                    Button_num.Content = partner;
+                    Button_num.Click += (o, e) => { if (o != null) { var t = ((Button)o).Content.ToString(); if (t != null) { DisplayChat(t); } } };
+                    PartnersList.Children.Add(Button_num);
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// チャット画面表示
+        /// </summary>
+        public void DisplayChat(string selectedPartner)
+        {
+            // チャット画面リセット処理
+            DisplayMessage.Children.Clear();
+            ChatTitle.Content = selectedPartner;
+
+            // var Message_list = DataManager.GetDatas(IP);
+            var Message_list = LocalChatBase.Messenger.ReferenceMessage(selectedPartner);
+
+            // メッセージ数分繰り返す
+            foreach (var message in Message_list)
+            {
+                var Label_num = new Label();
+
+                // コントロールのプロパティ
+                // Label_num.Name = "MessageLabel" + i;
+                Label_num.Content = message;
+                
+
+                if (message.receptionFlag)
+                //ここに受信、送信側で位置の分岐を作りたい、メッセージラベルを自分が右、相手が左に表示したい
+                {
+                    this.DisplayMessage.Children.Add(new Label());
+                }
+
+            }
+
+
+
+
+
+
+            // チャット画面更新処理
+            UpdateChat();
+
+
+        }
 
         /// <summary>
         /// チャット更新
         /// </summary>
         public void UpdateChat()
         {
-            DataManager.GetDatas(IP);
+            //DataManager.GetDatas(IP);
         }
 
-        private Button[] PartnersButtons;
-
-        /// <summary>
-        /// 宛先リスト更新 
-        /// </summary>
-        /// <param name="address"></param>
-        public void UpdatePartnersList(string address)
-        {
-            {
-                InitializeComponent();
-                PartnersList = Partners.GetAddress();
-            }
-            /*public Form1()
-            {
-                InitializeComponent();
-            }
-            */
-            /*
-            private void button1_Click(object sender, EventArgs e)
-            {
-                if (this.manyButtons != null)
-                {
-                    MessageBox.Show("フォームはすでに表示されています");
-                    return;
-                }
-            */
-            // ボタンのインスタンス作成()
-            /*
-            this.manyButtons = new Button[5];
-            for (int i = 0; i < this.manyButtons.Length; i++)
-            {
-                this.manyButtons[i] = new Button();
-
-                // コントロールのプロパティ
-                this.manyButtons[i].Name = "OriginalButton" + i;
-                this.manyButtons[i].Text = "ボタン" + i;
-                this.manyButtons[i].Location = new Point(10, 10 + i * 22);
-                this.manyButtons[i].Size = new Size(80, 20);
-
-                // フォームへの追加
-                this.Controls.Add(this.manyButtons[i]);
-            }
-        }
-            */
-
-            this.PartnersButtons[ip_num].Name = "PartnerButton" + ip_num;
-            this.PartnersButtons[ip_num].Text = address;
-            this.PartnersButtons[ip_num].Location = new Point(10, 10 + ip_num * 22);
-            this.PartnersButtons[ip_num].Size = new Size(80, 20);
-            ip_num += 1;
-        }
-
-
-        private Label[] MessageLabels;
-        public void DisplayChat(Message)
-        {
-            {
-                InitializeComponent();
-                this.MessageLabels = null;
-            }
-            /*public Form1()
-            {
-                InitializeComponent();
-            }
-            */
-            /*
-            private void button1_Click(object sender, EventArgs e)
-            {
-                if (this.MessageLabels != null)
-                {
-                    MessageBox.Show("フォームはすでに表示されています");
-                    return;
-                }
-            */
-                // ボタンのインスタンス作成(5つ)
-                this.MessageLabels = new Label[5];
-                for (int i = 0; i < this.MessageLabels.Length; i++)
-                {
-                    this.MessageLabels[i] = new Label();
-
-                    // コントロールのプロパティ
-                    this.MessageLabels[i].Name = "MessageLabel" + i;
-                    this.MessageLabels[i].Text = ;
-                    this.MessageLabels[i].Location = new Point(10, 10 + i * 22);
-                    this.MessageLabels[i].Size = new Size(80, 20);
-
-                    // フォームへの追加
-                    this.Controls.Add(this.MessageLabels[i]);
-                }
-            }
-        }
             /// <summary>
             /// メッセージ送信
             /// </summary>
@@ -170,10 +144,10 @@ namespace LocalChat
         }
 
         //　イベント
-        public event EventHandler<int> EvInitialize = dummy;
+        public event EventHandler<int> EvInitialize = (sender, args) => { };
 
 
-        public event EventHandler<int> EvEnd = dummy;
+        public event EventHandler<int> EvEnd = (sender, args) => { };
 
 
 
@@ -181,27 +155,6 @@ namespace LocalChat
 
 
         //　ボタンイベント
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-
 
 
         /// <summary>
@@ -211,10 +164,14 @@ namespace LocalChat
         /// <param name="e"></param>
         private void Send_Click(object sender, RoutedEventArgs e)
         {
-            var text = MessageBox.Text;
+            var text = MessageText.Text;
+            // 文字数が0ではない
             if (text.Length != 0)
             {
-                Messenger.SendMessage();
+                //現在の宛先取得===========================================================================
+                var name = "";
+                //送信
+                Messenger.SendMessage(text, name);
 
             }
         }
@@ -225,13 +182,13 @@ namespace LocalChat
         // 新規追加画面に移動
         private void OpenAddNewPartnerForm(object sender, RoutedEventArgs e)
         {
-            AddNewPartnerForm.ShowDialog(this);
+            new AddNewPartnerForm().ShowDialog();
         }
 
         // 設定画面に移動
         private void OpenConfigForm(object sender, RoutedEventArgs e)
         {
-            ConfigForm.ShowDialog(this);
+            new ConfigForm().ShowDialog();
         }
 
         private void ScrollPartners(object sender, ContextMenuEventArgs e)

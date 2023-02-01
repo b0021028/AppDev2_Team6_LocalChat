@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
@@ -24,10 +23,20 @@ namespace LocalChat
     /// </summary>
     public partial class AddNewPartnerForm : Window
     {
+
+
+        /// <summary>
+        /// 設定画面生成
+        /// </summary>
         public AddNewPartnerForm()
         {
             InitializeComponent();
+            this.ResizeMode = ResizeMode.NoResize;
+            this.Title = "新規宛先追加";
         }
+
+
+
         /// <summary>
         /// OKボタンを押したときの処理
         /// </summary>
@@ -36,8 +45,36 @@ namespace LocalChat
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
             // テキストボックスから、ボックス内の値を取得
-            var parther = new Partners(NewAddTextBox.Text);
-            
+            string textValue = NewAddTextBox.Text.Trim(' ', '　','\n');
+
+            bool ret = Partners.AddPartners(textValue);
+            if(!ret) {
+                MessageBox.Show("IPアドレスを読み込めませんでした。もう一度IPアドレスをご確認ください。",
+                    "エラー",
+                    MessageBoxButton.OK);
+
+            }
+            else
+            {
+                this.Close();
+            }
+
+            /*// <summary>
+            /// データベースの欄にこのIPアドレスを追加する(データベースの方にアドレスの値を渡す)
+            /// </summary>
+            var sqlConnection = new SQLiteConnectionStringBuilder { DataSource = "temptable.db" };
+
+            using (var cn = new SQLiteConnection(sqlConnection.ToString()))
+            {
+                cn.Open();
+
+                using (var cmd = new SQLiteCommand(cn))
+                {
+                    string.Format("", ipaddr);
+                    cmd.Inserttemptable(string.Format("{}, NULL, NULL, NULL", ipaddr));
+                }
+            }*/
+
         }
         
         /// <summary>

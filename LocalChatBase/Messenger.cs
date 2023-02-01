@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SQLite;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace LocalChatBase
 {
@@ -13,25 +15,28 @@ namespace LocalChatBase
         /// <summary>
         /// イベントハンドラー メッセージ送信され成功した時
         /// </summary>
-        public event EventHandler<DateTime> EvSendMessageSuccess = (sender, args) => { };
+        public static event EventHandler<DateTime> EvSendMessageSuccess = (sender, args) => { };
 
         /// <summary>
         /// イベントハンドラー メッセージ受信した後
         /// </summary>
-        public event EventHandler<DateTime> EvReceptionMessage = (sender, args) => { };
+        public static event EventHandler<DateTime> EvReceptionMessage = (sender, args) => { };
 
-
+        /// <summary>
+        /// メッセージ保存
+        /// </summary>
+        public static string massage = "";
         /// <summary>
         /// メッセージを送信し 成功したらtrueを返す 仮実装
         /// </summary>
         /// <param name="message">メッセージ</param>
         /// <param name="partner">宛先</param>
-        public bool SendMessage(string message, string partner)
+        public static bool SendMessage(string message, string partner)
         {
             try
             {
                 var session = Connectioner.CreateSession(Partners.GetAddress(partner), 6228);
-                session.EvReception += (e,r) => { if (e != null) { ((Session)e).EndSession(); } };
+                session.EvReception += (sender, args) => { if (sender != null) { ((Session)sender).EndSession(); } };
                 session.SendData(textconvate("Message", message));
                 session.StartReception();
 
@@ -41,7 +46,7 @@ namespace LocalChatBase
                 return false;
             }
 
-            EvSendMessageSuccess(this, DateTime.Now);
+            EvSendMessageSuccess(null, DateTime.Now);
 
             return true;
         }
@@ -49,30 +54,36 @@ namespace LocalChatBase
 
 
         /// <summary>
-        /// 宛先のメッセージを取得する 未完成 DataManager完成待ち
+        /// 宛先のメッセージを取得する
         /// </summary>
         /// <param name="partner">宛先</param>
         /// <returns></returns>
-        public dynamic ReferenceMessage(string partner)
+        public static List<Data> ReferenceMessage(string partner)
         {
-            // 保留
-            //DataManager.GetDatas(Partners.GetAddress(partner).ToString());
-            return new List<string>() { };
+            List<Data> ret = DataManager.GetDatas(Partners.GetAddress(partner));
+            return ret;
         }
 
          /// <summary>
+         /// データの受信イベントに登録してください 呼び出すな
          /// メッセージを受け取り
          /// 受信イベントをイベント発行
-         /// </summary>
-        public void ReceptionMessage(Session session, string data)
+        /// </summary>
+        /// <param name="session"></param>
+        /// <param name="data"></param>
+        public static void ReceptionMessage(Session session, string data)
         {
-            if (data != "")
+            string message = textdeconvate(data);
+            if (message != "")
             {
+                Messenger.massage = message;
+                //JsonSerializer.Deserialize<Data>(data);
+                EvReceptionMessage(null, DateTime.Now);
+
                 session.SendData(textconvate("ReMessage", DateTime.Now));
             }
             session.EndSession();
 
-            EvReceptionMessage(this, DateTime.Now);
         }
 
         /// <summary>
@@ -81,9 +92,20 @@ namespace LocalChatBase
         /// <param name="format">データフォーマット</param>
         /// <param name="o"><データ/param>
         /// <returns></returns>
-        private string textconvate(string format, object o)
+        private static string textconvate(string format, object o)
         {
-            return $"version{{\"version\":0,\"dataformat\":{{\"name\":\"{format}\",\"version\":1}},\"data\":\"{(o??"").ToString()}";
+            return $"version{{\"version\":0,\"dataformat\":{{\"name\":\"{format}\",\"version\":1}},\"data\":\"{(o ?? "").ToString()}";
+        }
+
+        /// <summary>
+        /// テキストをを型から出す
+        /// </summary>
+        /// <param name="format">データフォーマット</param>
+        /// <param name="o"><データ/param>
+        /// <returns></returns>
+        private static string textdeconvate(string txt)
+        {
+            return txt ;
         }
 
 

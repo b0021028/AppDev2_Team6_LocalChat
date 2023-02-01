@@ -38,17 +38,25 @@ namespace LocalChatBase
         /// <summary>
         /// 現在の設定を設定ファイル(config.json)に書き込む
         /// </summary>
-        /// <returns></returns>
+        /// <returns>成功したか</returns>
         public static bool OutputConfigFile()
         {
-            var t = JsonConvert.SerializeObject(s_config.Clone());
-            File.WriteAllText(FILEPATH, t);
-            return false;
+            try
+            {
+                var t = JsonConvert.SerializeObject(s_config.Clone());
+                File.WriteAllText(FILEPATH, t);
+
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
         }
         /// <summary>
         /// 設定ファイル(config.json)から設定を読み込む
         /// </summary>
-        /// <returns></returns>
+        /// <returns>読込みに成功したか</returns>
         public static bool LoadConfigFile()
         {
             try
@@ -66,12 +74,14 @@ namespace LocalChatBase
                     string reader = new JsonTextReader(file).ToString()??"{}";
                     Config jsonData = JsonConvert.DeserializeObject<Config>(reader)??s_config.Clone();
 
+                    // 設定変更する
                     s_config.Notification = jsonData.Notification;
                 }
 
             }
             catch
             {
+                s_config = s_defaltConfig.Clone();
                 return false;
             }
             return true;
@@ -80,7 +90,7 @@ namespace LocalChatBase
         /// <summary>
         /// 現在の設定をすべて取得
         /// </summary>
-        /// <returns></returns>
+        /// <returns>コンフィグ</returns>
         public static Config GetConfig()
         {
             return s_config.Clone();
@@ -92,7 +102,7 @@ namespace LocalChatBase
         /// </summary>
         /// <param name="key" cref="string">設定の項目</param>
         /// <param name="value">設定の値</param>
-        /// <returns></returns>
+        /// <returns>成功したか</returns>
         public static bool ChangeConfig(string key, object value)
         {
             if (key == Notification)
@@ -117,7 +127,7 @@ namespace LocalChatBase
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        /// <returns></returns>
+        /// <returns>特定のコンフィグの変更に成功したか</returns>
         public static bool ChangeConfig(int notification)
         {
 
@@ -127,8 +137,8 @@ namespace LocalChatBase
         /// <summary>
         /// 設定の項目及び項目の変域を出力 未実装
         /// </summary>
-        /// <returns></returns>
-        public static bool DetailConfig()
+        /// <returns>[設定項目 変域]かな？</returns>
+        public static dynamic DetailConfig()
         {
             return false;
         }
@@ -136,7 +146,7 @@ namespace LocalChatBase
         /// <summary>
         /// デフォルト設定の項目と値を取得する 未実装
         /// </summary>
-        /// <returns>JsonDocument</returns>
+        /// <returns>JsonDocument? 辞書かリスト</returns>
         public static dynamic GetDefaultConfig()
         {
             return ("{}");
