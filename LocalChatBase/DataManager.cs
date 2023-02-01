@@ -1,4 +1,6 @@
 
+using Mysqlx.Crud;
+using Org.BouncyCastle.Cms;
 using System;
 using System.Data;
 using System.Data.SQLite;
@@ -47,12 +49,29 @@ namespace LocalChatBase
             {
                 connect.Open();
 
-                string sql = "CREATE TABLE MESSAGES (RECEIVEFLAG NUMERIC NOT NULL, RECIPIENT TEXT NOT NULL, TIME NUMERIC NOT NULL, MESSAGE TEXT NOT NULL ); ";
+                string sql =
+                    "CREATE TABLE MESSAGES ("+
+                    "RECEIVEFLAG NUMERIC NOT NULL, "+
+                    "RECIPIENT TEXT NOT NULL, "+"" +
+                    "TIME NUMERIC NOT NULL, "+
+                    "MESSAGE TEXT NOT NULL"+
+                    "); ";
                 try
                 {
                     var cmd = new SQLiteCommand(sql, connect);
                     cmd.ExecuteNonQuery();
 
+                    sql = "SELECT RECIPIENT, RECEIVEFLAG, TIME, MESSAGE FROM MESSAGES WHERE RECIPIENT='10.146.221.28';";
+                    cmd = new SQLiteCommand(sql, connect);
+                    cmd.ExecuteNonQuery();
+
+                    cmd = connect.CreateCommand();
+                    cmd.CommandText = "INSERT INTO MESSAGES (RECEIVEFLAG, RECIPIENT, TIME, MESSAGE) VALUES (@flag, @ip, @time, @message);";
+                    cmd.Parameters.AddWithValue("@flag", true);
+                    cmd.Parameters.AddWithValue("@ip", IPAddress.Parse("0.0.0.0"));
+                    cmd.Parameters.AddWithValue("@time", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@message", "testtestesttesttest");
+                    cmd.ExecuteNonQuery();
                 }
                 finally
                 {
@@ -64,30 +83,26 @@ namespace LocalChatBase
         /// <summary>
         /// データの追加をします 順番：受信フラグ、受け取り人、時間、メッセージ
         /// </summary>
-        /// <param name="reception"></param>
+        /// <param name="receptionflag"></param>
         /// <param name="ip"></param>
         /// <param name="time"></param>
         /// <param name="message"></param>
-        public static void AddData(bool reception, IPAddress ip, DateTime time, string message)
+        public static void AddData(bool receptionflag, IPAddress ip, DateTime time, string message)
         {
-            using (var conn = new SQLiteConnection(s_dataSource))
+            using (var connect = new SQLiteConnection(s_dataSource))
             {
-                conn.Open();
+                connect.Open();
                 // データの追加を試みる
-                using (SQLiteTransaction sqlt = conn.BeginTransaction())
-                {
-                    var cmd = conn.CreateCommand();
-                    cmd.CommandText = "INSERT INTO MESSAGES (RACEIVEFLAG, RECIPIENT, TIME, MESSAGE) VALUES (@reception, @ip, @time, @message);";
-                    cmd.Parameters.AddWithValue("@reception", reception);
-                    cmd.Parameters.AddWithValue("@ip", ip);
-                    cmd.Parameters.AddWithValue("@time", time);
-                    cmd.Parameters.AddWithValue("@message", message);
-                    cmd.ExecuteNonQuery();
+                var cmd = connect.CreateCommand();
+                cmd.CommandText = "INSERT INTO MESSAGES (RECEIVEFLAG, RECIPIENT, TIME, MESSAGE) VALUES (@flag, @ip, @time, @message);";
+                cmd.Parameters.AddWithValue("@flag", receptionflag);
+                cmd.Parameters.AddWithValue("@ip", ip);
+                cmd.Parameters.AddWithValue("@time", time);
+                cmd.Parameters.AddWithValue("@message", message);
+                cmd.ExecuteNonQuery();
 
-                    EvAddData(null, reception);
-                    sqlt.Commit();
-                }
-                conn.Close();
+                EvAddData(null, receptionflag);
+                connect.Close();
             }
         }
 
@@ -122,13 +137,26 @@ namespace LocalChatBase
         public static List<Data> GetDatas(IPAddress ip)
         {
             SQLiteDataReader reader;
-
-            using (var conn = new SQLiteConnection(s_dataSource))
+            int count = 0;
+            using (var conntect = new SQLiteConnection(s_dataSource))
             {
-                conn.Open();
-                var command = conn.CreateCommand();
-                command.CommandText = "SELECT RECIPIENT, RECEIVEFLAG, TIME, MESSAGE FROM TEMPTABLE WHERE IP=@ip;";
+                conntect.Open();
+                var command = conntect.CreateCommand();
+                command.CommandText = "SELECT COUNT(*) FROM MESSAGES;";
+                try
+                {
+                    count = (int)command.ExecuteReader().GetValue(0);
+
+                }
+                catch (InvalidOperationException e)
+                {
+                    count = 0;
+                }
+                command = conntect.CreateCommand();
+                command.CommandText = "SELECT RECIPIENT, RECEIVEFLAG, TIME, MESSAGE FROM MESSAGES WHERE RECIPIENT=@ip;";
                 command.Parameters.AddWithValue("@ip", ip);
+
+
                 // データの取得
                 ////
                 try // =========================================================================================================================================================debug
@@ -146,7 +174,7 @@ namespace LocalChatBase
             }
 
 
-            for (int i=0; i< reader.StepCount; i++)
+            for (int i=0; i< count; i++)
             {
                 ret.Add(new Data(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3)));
                 reader.NextResult();

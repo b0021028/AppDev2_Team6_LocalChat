@@ -67,7 +67,7 @@ namespace LocalChat
             Messenger.EvReceptionMessage += (sender, e) => { DataManager.AddData(e.receptionFlag, e.ip, e.time, e.message); };
 
             // イベント登録 新規データ取得時チャット画面更新
-            DataManager.EvAddData += (sender, e)=> { UpdateChat(); };
+            DataManager.EvAddData += (sender, e)=> { this.Dispatcher.Invoke(UpdateChat); };
 
             // 受信待ち受け開始
             Connectioner.StartListen();

@@ -141,38 +141,43 @@ namespace LocalChatBase
         /// </summary>
         async private void Run()
         {
-            while(true)
+            try
             {
-                //クライアントから送られたデータを受信する
-                System.IO.MemoryStream ms = new System.IO.MemoryStream();
-                byte[] resBytes = new byte[256];
-                int resSize = 0;
-                do
+                while(true)
                 {
-                    this._token.Token.ThrowIfCancellationRequested();
-                    //データの一部を受信する
-                    resSize = await _netStream.ReadAsync(resBytes, 0, resBytes.Length);
-
-
-                    //Readが0を返した時はクライアントが切断したと判断
-                    if (resSize == 0)
+                    //クライアントから送られたデータを受信する
+                    System.IO.MemoryStream ms = new System.IO.MemoryStream();
+                    byte[] resBytes = new byte[256];
+                    int resSize = 0;
+                    do
                     {
-                        Console.WriteLine("クライアントが切断しました。");
-                        break;
-                    }
-                    //受信したデータを蓄積する
-                    ms.Write(resBytes, 0, resSize);
-                    //まだ読み取れるデータがあるか、データの最後が\nでない時は、
-                    // 受信を続ける
-                } while (_netStream.DataAvailable);
-                //受信したデータを文字列に変換
-                string resMsg = s_encode.GetString(ms.GetBuffer(), 0, (int)ms.Length);
+                        this._token.Token.ThrowIfCancellationRequested();
+                        //データの一部を受信する
+                        resSize = await _netStream.ReadAsync(resBytes, 0, resBytes.Length);
 
-                ms.Close();
 
-                EvReception(this, resMsg);
+                        //Readが0を返した時はクライアントが切断したと判断
+                        if (resSize == 0)
+                        {
+                            Console.WriteLine("クライアントが切断しました。");
+                            break;
+                        }
+                        //受信したデータを蓄積する
+                        ms.Write(resBytes, 0, resSize);
+                        //まだ読み取れるデータがあるか、データの最後が\nでない時は、
+                        // 受信を続ける
+                    } while (_netStream.DataAvailable);
+                    //受信したデータを文字列に変換
+                    string resMsg = s_encode.GetString(ms.GetBuffer(), 0, (int)ms.Length);
+
+                    ms.Close();
+
+                    EvReception(this, resMsg);
+
+                }
 
             }
+            catch(OperationCanceledException e) { }
 
         }
 
