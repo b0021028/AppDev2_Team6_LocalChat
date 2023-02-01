@@ -7,7 +7,7 @@ using System.Net;
 
 namespace LocalChatBase
 {
-    public struct Data
+    public class Data
     {
         IPAddress ip { get; init; }
         bool receptionFlag { get; init; }
@@ -120,15 +120,16 @@ namespace LocalChatBase
             {
                 conn.Open();
                 var command = conn.CreateCommand();
-                command.CommandText = "SELECT RaceiveFlag, Recipient, Time, Message FROM TEMPTABLE WHERE IP=@ip;";
+                command.CommandText = "SELECT Recipient, RaceiveFlag, Time, Message FROM TEMPTABLE WHERE IP=@ip;";
                 command.Parameters.AddWithValue("@ip", ip);
                 // ÉfÅ[É^ÇÃéÊìæ
                 reader = command.ExecuteReader();
             }
-            var ret = new List<Data>();
-            foreach (var data in reader)
+            List<Data> ret = new ();
+            for (int i=0; i< reader.StepCount; i++)
             {
                 ret.Add(new Data(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3)));
+                reader.NextResult();
             }
 
 

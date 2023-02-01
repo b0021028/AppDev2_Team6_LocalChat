@@ -61,6 +61,7 @@ namespace LocalChatBase
         public static List<Data> ReferenceMessage(string partner)
         {
             List<Data> ret = DataManager.GetDatas(Partners.GetAddress(partner));
+            foreach (Data data in ret) {data }
             return ret;
         }
 
