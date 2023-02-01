@@ -209,8 +209,9 @@ namespace LocalChat
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Send_Click(object sender, RoutedEventArgs e)
+        async private void Send_Click(object sender, RoutedEventArgs e)
         {
+            sendButton.IsEnabled = false;
             string text = MessageText.Text;
             // 文字数が0ではない
             if (text.Length != 0)
@@ -220,11 +221,13 @@ namespace LocalChat
                 if (name != "")
                 {
                     //送信
-                    var a = Messenger.SendMessage(text, name);
-                    MessageText.Text = a.ToString();
+                    var a = await Messenger.SendMessage(text, name).WaitAsync(TimeSpan.FromSeconds(10));
+                    var t = a;
+                    MessageText.Text = t.ToString();
                 }
 
             }
+            sendButton.IsEnabled = true;
         }
 
 

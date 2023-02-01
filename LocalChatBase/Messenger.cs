@@ -33,25 +33,15 @@ namespace LocalChatBase
         /// <param name="partner">宛先</param>
         async public static Task<bool> SendMessage(string message, string partner)
         {
-            //try
-            //{
-                var session = Connectioner.CreateSession(Partners.GetAddress(partner), 6228);
-                session.EvReception += (sender, args) => { if (sender != null) { ((Session)sender).EndSession(); flg = false; } };
-                flg = true;
-                await session.SendData(textconvate("Message", message));
-                session.StartReception();
+            var session = Connectioner.CreateSession(Partners.GetAddress(partner), 6228);
+            session.EvReception += (sender, args) => { if (sender != null) { ((Session)sender).EndSession();flg = true; } };
+            flg = false;
+            await session.SendData(textconvate("Message", message)).WaitAsync(TimeSpan.FromSeconds(10));
+            session.StartReception();
 
-                session.EndSession();
-
-            /*}
-            catch
-            {
-                return false;
-            }
-            */
             EvSendMessageSuccess(null, DateTime.Now);
+            return flg;
 
-            return true;
         }
 
 
@@ -101,7 +91,7 @@ namespace LocalChatBase
         /// <returns></returns>
         private static string textconvate(string format, object o)
         {
-            return $"version{{\"version\":0,\"dataformat\":{{\"name\":\"{format}\",\"version\":1}},\"data\":\"{(o ?? "").ToString()}";
+            return $"{{version{{\"version\":0,\"dataformat\":{{\"name\":\"{format}\",\"version\":1}},\"data\":\"{(o ?? "").ToString()}\"}}";
         }
 
         /// <summary>
