@@ -155,10 +155,7 @@ namespace LocalChat
 
 
         //　ボタンイベント
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
 
-        }
 
         /// <summary>
         /// メッセージ送信ボタンの送信イベント
@@ -170,10 +167,11 @@ namespace LocalChat
             var text = MessageBox.Text;
             if (text.Length != 0)
             {
+                string massage = TextBox.Text;
                 //現在の宛先取得===========================================================================
                 var name = "";
                 //送信
-                Messenger.SendMessage("sampleメッセージ", name);
+                Messenger.SendMessage(massage, name);
 
             }
         }
