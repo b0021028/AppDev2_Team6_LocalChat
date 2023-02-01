@@ -20,7 +20,7 @@
 
         </Grid>
         <Grid Grid.Column="1" Grid.Row="0">
-            <Label x:Name="ChatTitle" Content="" HorizontalAlignment="Left" Height="31" VerticalAlignment="Center" FontSize="18" Margin="10,0,0,0"/>
+            <Label x:Name="ChatTitle" Content="" Height="31" FontSize="18" Margin="10,0,10,0"/>
         </Grid>
         <Grid Grid.Column="0" Grid.Row="1">
             <Grid Margin="10,0,10,10">
