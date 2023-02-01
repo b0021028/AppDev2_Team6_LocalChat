@@ -31,12 +31,13 @@
             </GridSplitter.RenderTransform>
         </GridSplitter>
         <ScrollViewer  Margin="0,63,634,97" VerticalScrollBarVisibility="Auto">
-            <Grid x:Name="PartnersList" >
-            </Grid>
+            <StackPanel x:Name="PartnersList" >
+            </StackPanel>
         </ScrollViewer>
-        <ScrollViewer Margin="178,50,0,56" VerticalScrollBarVisibility="Auto"/>
-        <Grid x:Name="DisplayMessage" >
-        </Grid>
+        <ScrollViewer Margin="178,50,0,56" VerticalScrollBarVisibility="Auto">
+            <StackPanel x:Name="DisplayMessage" >
+            </StackPanel>
+        </ScrollViewer>
         <GridSplitter HorizontalAlignment="Center" Height="2" Margin="0,33,0,0" VerticalAlignment="Top" Width="800" Background="#FF160909" RenderTransformOrigin="0.5,0.5">
             <GridSplitter.RenderTransform>
                 <TransformGroup>
