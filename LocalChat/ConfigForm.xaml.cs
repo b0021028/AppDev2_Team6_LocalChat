@@ -134,6 +134,7 @@ namespace LocalChat
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
             ApplyConfig();
+            this.Close();
         }
 
         /// <summary>
