@@ -88,6 +88,7 @@ namespace LocalChat
         /// <param name="address"></param>
         public void UpdatePartnersList()
         {
+            PartnersList.Children.Clear();
             var partnersList = Partners.GetPartners();
             {
                 foreach (var partners in partnersList)

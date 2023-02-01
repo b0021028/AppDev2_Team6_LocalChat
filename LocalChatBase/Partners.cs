@@ -35,18 +35,23 @@ namespace LocalChatBase
             // sintax チェック
             if (Regex.IsMatch(partner, @"[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}"))
             {
-                var ip = IPAddress.Parse(partner);
-                // 許可されたIPか確認
-                if (checkip(ip))
+                IPAddress ip;
+                var isip = IPAddress.TryParse(partner, out ip);
+                if (isip &&ip != null)
                 {
-                    // ipアドレスを追加登録
-                    if (partners.TryAdd(ip, partner))
+                    // 許可されたIPか確認
+                    if (checkip(ip))
                     {
-                        // イベント発行
-                        EvAddDestination(null, partner);
+                        // ipアドレスを追加登録
+                        if (partners.TryAdd(ip, partner))
+                        {
+                            // イベント発行
+                            EvAddDestination(null, partner);
+                        }
+                        return true;
                     }
-                    return true;
                 }
+
             }
             return false;
         }

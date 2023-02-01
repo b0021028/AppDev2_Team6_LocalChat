@@ -49,7 +49,7 @@ namespace LocalChatBase
 
                 using (var cmd = new SQLiteCommand(cn))
                 {
-                    cmd.CommandText = "CREATE TEMPORARY TABLE temptable (" +
+                    cmd.CommandText = "CREATE TABLE IF NOT EXISTS TEMPTABLE (" +
                 "ReceiveFlag NUMERIC NOT NULL," +
                 "Recipient TEXT NOT NULL, " +
                 "Time NUMERIC NOT NULL," +
@@ -75,7 +75,7 @@ namespace LocalChatBase
                 using (SQLiteTransaction sqlt = conn.BeginTransaction())
                 {
                     var cmd = conn.CreateCommand();
-                    cmd.CommandText = "insert into temptable (RaceiveFlag, Recipient, Time, Message) values (@reception, @ip, @time, @message);";
+                    cmd.CommandText = "insert into TEMPTABLE (RaceiveFlag, Recipient, Time, Message) values (@reception, @ip, @time, @message);";
                     cmd.Parameters.AddWithValue("@reception", reception);
                     cmd.Parameters.AddWithValue("@ip", ip);
                     cmd.Parameters.AddWithValue("@time", time);
@@ -114,18 +114,29 @@ namespace LocalChatBase
         /// <returns></returns>
         public static List<Data> GetDatas(IPAddress ip)
         {
+            Main();
             SQLiteDataReader reader;
 
             using (var conn = new SQLiteConnection(s_dataSource))
             {
                 conn.Open();
                 var command = conn.CreateCommand();
-                command.CommandText = "SELECT Recipient, RaceiveFlag, Time, Message FROM TEMPTABLE WHERE IP=@ip;";
+                command.CommandText = "SELECT Recipient, ReceiveFlag, Time, Message FROM TEMPTABLE WHERE IP=@ip;";
                 command.Parameters.AddWithValue("@ip", ip);
                 // ÉfÅ[É^ÇÃéÊìæ
-                reader = command.ExecuteReader();
+                try
+                {
+                    reader = command.ExecuteReader();
+                }
+                catch { reader = null; }
             }
             List<Data> ret = new ();
+
+            if (reader == null)
+            {
+                return ret;
+            }
+
             for (int i=0; i< reader.StepCount; i++)
             {
                 ret.Add(new Data(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3)));

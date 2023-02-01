@@ -73,7 +73,7 @@ namespace LocalChat
             this.Close();
         }
 
-        private void NewAddTextBox_KeyUp(object sender, KeyEventArgs e)
+        private void NewAddTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {

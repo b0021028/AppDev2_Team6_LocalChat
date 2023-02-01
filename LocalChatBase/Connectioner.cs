@@ -47,6 +47,7 @@ namespace LocalChatBase
             {
                 s_started = true;
                 s_listener = new System.Net.Sockets.TcpListener(IPAddress.Any, s_port);
+                s_listener.Start();
                 new Task(Run).Start();
             }
         }
@@ -55,11 +56,11 @@ namespace LocalChatBase
         /// <summary>
         /// 待ち受け処理
         /// </summary>
-        async static private void Run()
+        static private void Run()
         {
             while (true){
                 s_canceller.Token.ThrowIfCancellationRequested();
-                var cl = await s_listener.AcceptTcpClientAsync();
+                var cl = s_listener.AcceptTcpClient();
                 var session = new Session(cl);
                 EvStartSession(null, session);
             }
