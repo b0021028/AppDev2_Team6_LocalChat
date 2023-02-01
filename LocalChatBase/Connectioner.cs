@@ -10,7 +10,7 @@ namespace LocalChatBase
     /// <summary>
     /// セッションを生成するクラス
     /// </summary>
-    public class Connectioner
+    public static class Connectioner
     {
         /// <summary>
         /// セッションが生まれた時に発火する
@@ -41,7 +41,7 @@ namespace LocalChatBase
         /// <summary>
         /// クライアント待ち受けを開始する (ip=any, port=6228)
         /// </summary>
-        public void StartListen()
+        public static void StartListen()
         {
             if (!s_started)
             {
@@ -55,12 +55,12 @@ namespace LocalChatBase
         /// <summary>
         /// 待ち受け処理
         /// </summary>
-        async private void Run()
+        async static private void Run()
         {
             while (true){
                 s_canceller.Token.ThrowIfCancellationRequested();
                 var cl = await s_listener.AcceptTcpClientAsync();
-                var session = new Session(new System.Net.Sockets.TcpClient());
+                var session = new Session(cl);
                 EvStartSession(null, session);
             }
 
@@ -72,7 +72,7 @@ namespace LocalChatBase
         /// <summary>
         /// クライアント待ち受けを終了しようとする
         /// </summary>
-        async public void StopListen()
+        static public void StopListen()
         {
             if (s_started)
             {

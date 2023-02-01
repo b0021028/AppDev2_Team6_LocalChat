@@ -36,7 +36,7 @@ namespace LocalChat
         {
 
             var Partners_List = new List<string>();
-            var num = 0;
+            var ip_num = 0;
             DataManager.InitializeData();
             Connectioner.StartListen();
             Connectioner.EvStartSession += ;
@@ -70,7 +70,7 @@ namespace LocalChat
             DataManager.GetDatas(IP);
         }
 
-        private Button[] manyButtons;
+        private Button[] PartnersButtons;
 
         /// <summary>
         /// 宛先リスト更新 
@@ -78,22 +78,92 @@ namespace LocalChat
         /// <param name="address"></param>
         public void UpdatePartnersList(string address)
         {
-            Partners_List = new LocalChatBase.Partners.GetPartners();
-            this.manyButtons[num].Name = "PartnersButton" + num;
-            this.manyButtons[num].Text = Partners_List[num];
-            this.manyButtons[num].Location = new Point(10, 10 + num * 22);
-            this.manyButtons[num].Size = new Size(80, 20);
-            num += 1;
+            {
+                InitializeComponent();
+                PartnersList = Partners.GetAddress();
+            }
+            /*public Form1()
+            {
+                InitializeComponent();
+            }
+            */
+            /*
+            private void button1_Click(object sender, EventArgs e)
+            {
+                if (this.manyButtons != null)
+                {
+                    MessageBox.Show("フォームはすでに表示されています");
+                    return;
+                }
+            */
+            // ボタンのインスタンス作成()
+            /*
+            this.manyButtons = new Button[5];
+            for (int i = 0; i < this.manyButtons.Length; i++)
+            {
+                this.manyButtons[i] = new Button();
+
+                // コントロールのプロパティ
+                this.manyButtons[i].Name = "OriginalButton" + i;
+                this.manyButtons[i].Text = "ボタン" + i;
+                this.manyButtons[i].Location = new Point(10, 10 + i * 22);
+                this.manyButtons[i].Size = new Size(80, 20);
+
+                // フォームへの追加
+                this.Controls.Add(this.manyButtons[i]);
+            }
+        }
+            */
+
+            this.PartnersButtons[ip_num].Name = "PartnerButton" + ip_num;
+            this.PartnersButtons[ip_num].Text = address;
+            this.PartnersButtons[ip_num].Location = new Point(10, 10 + ip_num * 22);
+            this.PartnersButtons[ip_num].Size = new Size(80, 20);
+            ip_num += 1;
         }
 
-        public void DisplayChat()
+
+        private Label[] MessageLabels;
+        public void DisplayChat(Message)
         {
+            {
+                InitializeComponent();
+                this.MessageLabels = null;
+            }
+            /*public Form1()
+            {
+                InitializeComponent();
+            }
+            */
+            /*
+            private void button1_Click(object sender, EventArgs e)
+            {
+                if (this.MessageLabels != null)
+                {
+                    MessageBox.Show("フォームはすでに表示されています");
+                    return;
+                }
+            */
+                // ボタンのインスタンス作成(5つ)
+                this.MessageLabels = new Label[5];
+                for (int i = 0; i < this.MessageLabels.Length; i++)
+                {
+                    this.MessageLabels[i] = new Label();
 
+                    // コントロールのプロパティ
+                    this.MessageLabels[i].Name = "MessageLabel" + i;
+                    this.MessageLabels[i].Text = ;
+                    this.MessageLabels[i].Location = new Point(10, 10 + i * 22);
+                    this.MessageLabels[i].Size = new Size(80, 20);
+
+                    // フォームへの追加
+                    this.Controls.Add(this.MessageLabels[i]);
+                }
+            }
         }
-
-        /// <summary>
-        /// メッセージ送信
-        /// </summary>
+            /// <summary>
+            /// メッセージ送信
+            /// </summary>
         public void SendMessage()
         {
 

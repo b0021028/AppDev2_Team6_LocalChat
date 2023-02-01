@@ -27,7 +27,7 @@ namespace LocalChat
         public Notifier(string message)
         {
             InitializeComponent();
-            message
+            _ = message;
         }
 
         async public new void Show()

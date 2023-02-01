@@ -31,7 +31,7 @@ namespace LocalChatBase
             try
             {
                 var session = Connectioner.CreateSession(Partners.GetAddress(partner), 6228);
-                session.EvReception += (e,r) => {((Session)e).EndSession(); };
+                session.EvReception += (e,r) => { if (e != null) { ((Session)e).EndSession(); } };
                 session.SendData(textconvate("Message", message));
                 session.StartReception();
 

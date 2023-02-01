@@ -34,6 +34,8 @@ namespace LocalChat
         public ConfigForm()
         {
             InitializeComponent();
+            this.ResizeMode = ResizeMode.NoResize;
+            this.Title = "設定画面";
             CleanupContent();
         }
 
@@ -45,41 +47,47 @@ namespace LocalChat
         private void CleanupContent()
         {
             ConfigerContents.Children.Clear();
-            var g = AddItemBase();
 
-            var lbl = new Label();
-            lbl.Content = "通知";
-
-
-            var radio = new RadioButton();
-            radio.Content = "On";
-
-            var radio2 = new RadioButton();
-            radio.Content = "Off";
-            if (LocalChatBase.Configuration.GetConfig().Notification)
+            // Notificationテスト実装 本来はfor などでやろうとした
+            if (true)
             {
-                radio.IsChecked = true;
-                radio2.IsChecked = false;
+
+
+                // 説明欄設定
+                var lbl = new Label();
+                lbl.Content = "通知";
+
+
+                // Radioボタン設定
+                var radio = new RadioButton();
+                radio.Content = "On";
+
+                var radio2 = new RadioButton();
+                radio.Content = "Off";
+                if (LocalChatBase.Configuration.GetConfig().Notification)
+                {
+                    radio.IsChecked = true;
+                    radio2.IsChecked = false;
+                }
+                else
+                {
+                    radio.IsChecked = false;
+                    radio2.IsChecked = true;
+                }
+                var grp = new WrapPanel();
+                grp.Children.Add(radio);
+                grp.Children.Add(radio2);
+
+                // 画面に登録
+                var g = AddItemBase();
+                g.Children.Add(lbl);
+                g.Children.Add(grp);
+
+                // コンフィグデータとして登録
+                Func<object> a = ()=> radio.IsChecked;
+                config.Add(LocalChatBase.Configuration.Notification, a);
+
             }
-            else
-            {
-                radio.IsChecked = false;
-                radio2.IsChecked = true;
-            }
-
-            var grp = new WrapPanel();
-            grp.Children.Add(radio);
-            grp.Children.Add(radio2);
-
-            // 登録
-            g.Children.Add(lbl);
-            g.Children.Add(grp);
-
-            // コンフィグデータとして登録
-            Func<object> a = ()=> radio.IsChecked;
-            config.Add(LocalChatBase.Configuration.Notification, a);
-
-
 
         }
 
