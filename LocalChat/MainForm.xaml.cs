@@ -113,8 +113,8 @@ namespace LocalChat
                     this.Controls.Add(this.MessageLabels[i]);
                 // コーユーの
                 this.PartnersList.Children.Add(new Button());
-                }
             }
+        }
             /// <summary>
             /// メッセージ送信
             /// </summary>
