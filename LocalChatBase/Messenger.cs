@@ -22,6 +22,9 @@ namespace LocalChatBase
         /// </summary>
         public event EventHandler<DateTime> EvReceptionMessage = (sender, args) => { };
 
+        /// <summary>
+        /// メッセージ保存
+        /// </summary>
         public string massage = "";
         /// <summary>
         /// メッセージを送信し 成功したらtrueを返す 仮実装
@@ -33,7 +36,7 @@ namespace LocalChatBase
             try
             {
                 var session = Connectioner.CreateSession(Partners.GetAddress(partner), 6228);
-                session.EvReception += (e,r) => { if (e != null) { ((Session)e).EndSession(); } };
+                session.EvReception += (sender, args) => { if (sender != null) { ((Session)sender).EndSession(); } };
                 session.SendData(textconvate("Message", message));
                 session.StartReception();
 

@@ -97,7 +97,13 @@ namespace LocalChatBase
             string FilePath = @"temptable.db";
             if(File.Exists(FilePath))
             {
-                File.Delete(FilePath);
+                try
+                {
+                    File.Delete(FilePath);
+                }
+                catch
+                {
+                }
             }
         }
 
