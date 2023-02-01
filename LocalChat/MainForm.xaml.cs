@@ -115,7 +115,7 @@ namespace LocalChat
         }
             */
 
-            this.PartnersButtons[ip_num].Name = "PartnersButton" + ip_num;
+            this.PartnersButtons[ip_num].Name = "PartnerButton" + ip_num;
             this.PartnersButtons[ip_num].Text = address;
             this.PartnersButtons[ip_num].Location = new Point(10, 10 + ip_num * 22);
             this.PartnersButtons[ip_num].Size = new Size(80, 20);
