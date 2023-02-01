@@ -32,7 +32,7 @@ namespace LocalChatBase
         /// </summary>
         public static bool flg = false;
         /// <summary>
-        /// メッセージを送信し 成功したらtrueを返す 仮実装
+        /// メッセージを送信し 成功したらtrueを返すかも(曖昧) 仮実装
         /// </summary>
         /// <param name="message">メッセージ</param>
         /// <param name="partner">宛先</param>
