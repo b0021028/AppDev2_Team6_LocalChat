@@ -45,10 +45,11 @@ namespace LocalChat
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
             // テキストボックスから、ボックス内の値を取得
-            string textValue = NewAddTextBox.Text.Trim(' ', '　','\n');
+            string textValue = NewAddTextBox.Text.Trim(' ', '　', '\n');
 
             bool ret = Partners.AddPartners(textValue);
-            if(!ret) {
+            if (!ret)
+            {
                 MessageBox.Show("IPアドレスを読み込めませんでした。もう一度IPアドレスをご確認ください。",
                     "エラー",
                     MessageBoxButton.OK);
@@ -58,9 +59,10 @@ namespace LocalChat
             {
                 this.Close();
             }
-
         }
-        
+
+            
+ 
         /// <summary>
         /// キャンセルボタンを押したときの処理
         /// </summary>
@@ -69,15 +71,6 @@ namespace LocalChat
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-        }
-
-        private void NewAddTextBox_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                OKButton_Click(sender, e);
-
-            }
         }
     }
 }
