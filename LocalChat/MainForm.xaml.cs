@@ -137,7 +137,9 @@ namespace LocalChat
             /// </summary>
         public void SendMessage()
         {
-            string text = MessageText.Text;
+
+            string message = MessageText.Text;
+            LocalChatBase.Messenger.SendMessage(message, partner);
 
         }
 
