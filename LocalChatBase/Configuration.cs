@@ -64,7 +64,7 @@ namespace LocalChatBase
                     // メンバ変数に格納されます 
                     //
                     string reader = new JsonTextReader(file).ToString()??"{}";
-                    var jsonData = JsonConvert.DeserializeObject<Config>(reader);
+                    Config jsonData = JsonConvert.DeserializeObject<Config>(reader)??s_config.Clone();
 
                     s_config.Notification = jsonData.Notification;
                 }
