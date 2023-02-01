@@ -115,7 +115,7 @@ namespace LocalChat
                     // Label_num.Name = "MessageLabel" + i;
                     label.Content = message;
                 }
-                this.DisplayMessage.Children.Add();
+                This.DisplayMessage.Children.Add();
 
             }
 
@@ -137,6 +137,7 @@ namespace LocalChat
             /// </summary>
         public void SendMessage()
         {
+            string text = MessageText.Text;
 
         }
 
