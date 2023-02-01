@@ -70,7 +70,7 @@ namespace LocalChat
             DataManager.GetDatas(IP);
         }
 
-        private Button[] manyButtons;
+        private Button[] PartnersButtons;
 
         /// <summary>
         /// 宛先リスト更新 
@@ -115,8 +115,8 @@ namespace LocalChat
         }
             */
 
-            this.manyButtons[ip_num].Name = "PartnerButton" + ip_num;
-            this.manyButtons[ip_num].Text = address
+            this.PartnersButtons[ip_num].Name = "PartnerButton" + ip_num;
+            this.PartnersButtons[ip_num].Text = address
             this.manyButtons[ip_num].Location = new Point(10, 10 + ip_num * 22);
             this.manyButtons[ip_num].Size = new Size(80, 20);
             ip_num += 1
@@ -153,7 +153,7 @@ namespace LocalChat
 
                     // コントロールのプロパティ
                     this.manyLabels[i].Name = "MessageLabel" + i;
-                    this.manyLabels[i].Text = "";
+                    this.manyLabels[i].Text = ;
                     this.manyLabels[i].Location = new Point(10, 10 + i * 22);
                     this.manyLabels[i].Size = new Size(80, 20);
 
