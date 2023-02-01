@@ -18,13 +18,12 @@ using LocalChatBase;
 
 namespace LocalChat
 {
+    //
     /// <summary>
     /// AddNewPartnerForm.xaml の相互作用ロジック
     /// </summary>
     public partial class AddNewPartnerForm : Window
     {
-
-
         /// <summary>
         /// 設定画面生成
         /// </summary>
@@ -79,6 +78,11 @@ namespace LocalChat
             {
                 OKButton_Click(sender, e);
             }
+        }
+
+        private void NewSendToForm_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.NewAddTextBox.Focus();
         }
     }
 }

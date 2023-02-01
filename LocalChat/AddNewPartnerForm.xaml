@@ -5,6 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LocalChat"
         mc:Ignorable="d"
+<<<<<<< HEAD
+        Title="NewSendToForm" Height="186" Width="322" Loaded="NewSendToForm_Loaded">
+    <Grid Margin="0,0,0,1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="34*"/>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="5*"/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="OKButton" Content="OK" HorizontalAlignment="Left" Height="24" Margin="30,133,0,0" VerticalAlignment="Top" Width="70" Click="OKButton_Click"/>
+        <Button x:Name="CancelButton" Content="キャンセル" Height="24" Margin="222,133,30,0" VerticalAlignment="Top" BorderBrush="Black" Grid.ColumnSpan="3" Click="CancelButton_Click"/>
+        <TextBox x:Name="NewAddTextBox" Height="25" TextWrapping="Wrap" VerticalAlignment="Center" Margin="30,0,30,0" Grid.ColumnSpan="3" BorderBrush="Black" KeyDown="NewAddTextBox_KeyDown"/>
+        <Label x:Name="NewAddLabel" Content="新しい送信先を入力してください" HorizontalAlignment="Left" Height="27" Margin="30,40,0,0" VerticalAlignment="Top" Width="160"/>
+=======
         Title="NewSendToForm" Height="186" Width="322">
     <Grid Margin="10,10,10,10">
         <Grid.ColumnDefinitions>
@@ -21,6 +34,7 @@
         <Button Grid.Row="2" Grid.Column="2" x:Name="CancelButton" Content="キャンセル" Height="24" VerticalAlignment="Top" BorderBrush="Black" Grid.ColumnSpan="2" Click="CancelButton_Click" HorizontalAlignment="Left" Width="70"/>
         <TextBox Grid.Row="1" Grid.ColumnSpan="3" x:Name="NewAddTextBox" Height="25" TextWrapping="Wrap" VerticalAlignment="Center" Margin="30,0,30,0" BorderBrush="Black" KeyDown="NewAddTextBox_KeyDown"/>
         <Label Grid.Row="0" Grid.ColumnSpan="3" x:Name="NewAddLabel" Content="新しい送信先を入力してください" HorizontalAlignment="Center" Height="27" Width="160"/>
+>>>>>>> d3e3179d7c5162ac517a36278971e43c2b1a6e78
 
     </Grid>
 </Window>
