@@ -28,7 +28,7 @@ namespace LocalChatBase
         /// <summary>
         /// イベントハンドラー 設定が変更された時
         /// </summary>
-        public static event EventHandler<string> EvConfigChange = (x, y)=>{};
+        public static event EventHandler<string> EvConfigChange = (sender, args) => { };
         private static Config s_config = new Config() {Notification=true };
         private static Config s_defaltConfig = new Config() { Notification=true};
 

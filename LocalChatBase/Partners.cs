@@ -19,7 +19,7 @@ namespace LocalChatBase
         /// <summary>
         /// 宛先追加イベント
         /// </summary>
-        public static event EventHandler<string> EvAddDestination = (Sender, args) => { };
+        public static event EventHandler<string> EvAddDestination = (sender, args) => { };
 
         /// <summary>
         /// 宛先を登録している辞書
