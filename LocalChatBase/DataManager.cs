@@ -43,7 +43,8 @@ namespace LocalChatBase
         /// </summary>
         static void Main()
         {
-            var sqlConnectionSb = new SQLiteConnectionStringBuilder { DataSource = "temptable" };
+            var sqlConnectionSb = new SQLiteConnectionStringBuilder();
+            sqlConnectionSb.DataSource = s_datapath;
             using (var cn = new SQLiteConnection(sqlConnectionSb.ToString()))
             {
                 cn.Open();
@@ -67,7 +68,6 @@ namespace LocalChatBase
         /// <param name="message"></param>
         public static void AddData(bool reception, IPAddress ip, DateTime time, string message)
         {
-            Main();
             using (var conn = new SQLiteConnection(s_dataSource))
             {
                 conn.Open();
@@ -106,6 +106,10 @@ namespace LocalChatBase
                 }
             }
         }
+        public static void InitializeData(bool? t)
+        {
+            InitializeData();
+        }
 
         /// <summary>
         /// ÉfÅ[É^ÇéÊìæÇµÇ‹Ç∑
@@ -114,7 +118,6 @@ namespace LocalChatBase
         /// <returns></returns>
         public static List<Data> GetDatas(IPAddress ip)
         {
-            Main();
             SQLiteDataReader reader;
 
             using (var conn = new SQLiteConnection(s_dataSource))

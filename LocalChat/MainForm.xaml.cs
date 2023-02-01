@@ -38,6 +38,7 @@ namespace LocalChat
         public MainForm()
         {
             InitializeComponent();
+            this.Title = "Local Chat (ローカルチャット)";
             Intialize();
         }
 
@@ -50,7 +51,7 @@ namespace LocalChat
         public void Intialize()
         {
             // データ保存管理の初期化
-            DataManager.InitializeData();
+            DataManager.InitializeData(null);
 
             // コンフィグ読込み
             Configuration.LoadConfigFile();
@@ -89,8 +90,11 @@ namespace LocalChat
         /// </summary>
         public void EndLocalChatCore()
         {
+            // 待ち受け終了
             Connectioner.StopListen();
+            // DataManager初期化
             DataManager.InitializeData();
+            // コンフィグ保存
             Configuration.OutputConfigFile();
             EvEnd(this, 0);
             base.Close();
