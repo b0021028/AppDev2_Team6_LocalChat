@@ -60,7 +60,7 @@
                     </StackPanel>
                 </ScrollViewer>
                 <Grid Grid.Row="1" Grid.Column="0" Margin="0,0,0,10">
-                    <TextBox TextWrapping="Wrap" Text="[新しいメッセージの入力]" IsEnabled="False"/>
+                    <TextBox  IsTabStop="False" TextWrapping="Wrap" Text="[新しいメッセージの入力]" IsEnabled="False"/>
                     <TextBox x:Name="MessageText" TextWrapping="Wrap" Text="" TextChanged="MessageText_TextChanged" Background="{x:Null}"/>
 
                 </Grid>
