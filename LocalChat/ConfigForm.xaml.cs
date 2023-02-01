@@ -74,7 +74,8 @@ namespace LocalChat
                     radio.IsChecked = false;
                     radio2.IsChecked = true;
                 }
-                var grp = new WrapPanel();
+                var grp = new StackPanel();
+                grp.Orientation = Orientation.Horizontal;
                 grp.Children.Add(radio);
                 grp.Children.Add(radio2);
 
