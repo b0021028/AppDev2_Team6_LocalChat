@@ -60,7 +60,7 @@ namespace LocalChatBase
         /// <returns></returns>
         public static List<Data> ReferenceMessage(string partner)
         {
-            var ret = DataManager.GetDatas(Partners.GetAddress(partner));
+            List<Data> ret = DataManager.GetDatas(Partners.GetAddress(partner));
             return ret;
         }
 
