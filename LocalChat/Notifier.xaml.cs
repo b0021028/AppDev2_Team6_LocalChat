@@ -6,13 +6,6 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace LocalChat
 {
@@ -29,13 +22,15 @@ namespace LocalChat
         public Notifier(string message)
         {
             InitializeComponent();
-            _ = message;
-            
+
             NotifierMessage.Content = message;
         }
         
         async public new void Show()
         {
+            WindowStartupLocation = WindowStartupLocation.Manual;
+            Left = System.Windows.SystemParameters.WorkArea.Width - Width;
+            Top = System.Windows.SystemParameters.WorkArea.Height - Height;
             base.Show();
             await Task.Delay(3000);
             this.Close();
