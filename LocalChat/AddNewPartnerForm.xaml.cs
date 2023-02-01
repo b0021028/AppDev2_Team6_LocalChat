@@ -31,6 +31,7 @@ namespace LocalChat
         /// <param name="e"></param>
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
+            // テキストボックスから、ボックス内の値を取得
             string textValue = @"NewAddTextBox.Text";
 
             IPAddress ipaddr;

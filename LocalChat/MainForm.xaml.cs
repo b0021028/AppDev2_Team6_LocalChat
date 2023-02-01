@@ -39,7 +39,6 @@ namespace LocalChat
         {
 
             var Partners_List = new List<string>();
-            var ip_num = 0;
             DataManager.InitializeData();
             Connectioner.StartListen();
             //Connectioner.EvStartSession += ;
@@ -116,7 +115,6 @@ namespace LocalChat
                 this.PartnersList.Children.Add(new Button());
                 }
             }
-        }
             /// <summary>
             /// メッセージ送信
             /// </summary>
