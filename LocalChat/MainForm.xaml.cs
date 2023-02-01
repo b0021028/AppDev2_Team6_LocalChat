@@ -140,7 +140,7 @@ namespace LocalChat
             // メッセージ数分繰り返す
             foreach (var messagedata in LocalChatBase.Messenger.ReferenceMessage(selectedPartner))
             {
-                var grid = new Grid();
+                var stack = new StackPanel();
 
 
                 if (messagedata.receptionFlag)
@@ -149,22 +149,22 @@ namespace LocalChat
                     // 送信者 ipアドレス
                     var pLabel = new Label();
                     pLabel.Content = messagedata.ip;
-                    grid.Children.Add(pLabel);
+                    stack.Children.Add(pLabel);
                 }
                 // タイムスタンプ
                 var tLabel = new Label();
                 tLabel.Content = messagedata.time;
-                grid.Children.Add(tLabel);
+                stack.Children.Add(tLabel);
 
                 var mLabel = new Label();
                 mLabel.Content = messagedata.message;
-                grid.Children.Add(mLabel);
+                stack.Children.Add(mLabel);
 
 
-                grid.Width = double.NaN;
+                stack.Width = double.NaN;
 
 
-                DisplayMessage.Children.Add(grid);
+                DisplayMessage.Children.Add(stack);
 
             }
 
@@ -220,7 +220,8 @@ namespace LocalChat
                 if (name != "")
                 {
                     //送信
-                    Messenger.SendMessage(text, name);
+                    var a = Messenger.SendMessage(text, name);
+                    MessageText.Text = a.ToString();
                 }
 
             }

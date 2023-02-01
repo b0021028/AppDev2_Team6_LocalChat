@@ -92,6 +92,8 @@ namespace LocalChatBase
             using (var connect = new SQLiteConnection(s_dataSource))
             {
                 connect.Open();
+                try
+                {
                 // ÉfÅ[É^ÇÃí«â¡ÇééÇ›ÇÈ
                 var cmd = connect.CreateCommand();
                 cmd.CommandText = "INSERT INTO MESSAGES (RECEIVEFLAG, RECIPIENT, TIME, MESSAGE) VALUES (@flag, @ip, @time, @message);";
@@ -100,9 +102,10 @@ namespace LocalChatBase
                 cmd.Parameters.AddWithValue("@time", time);
                 cmd.Parameters.AddWithValue("@message", message);
                 cmd.ExecuteNonQuery();
+                }
+                finally { connect.Close(); }
 
                 EvAddData(null, receptionflag);
-                connect.Close();
             }
         }
 

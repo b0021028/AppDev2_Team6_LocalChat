@@ -177,7 +177,9 @@ namespace LocalChatBase
                 }
 
             }
-            catch(OperationCanceledException e) { }
+            catch (OperationCanceledException e) { }
+            catch (System.IO.IOException e) { }
+            
 
         }
 
