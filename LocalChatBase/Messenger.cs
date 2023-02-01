@@ -31,26 +31,18 @@ namespace LocalChatBase
         /// </summary>
         /// <param name="message">メッセージ</param>
         /// <param name="partner">宛先</param>
-        public static bool SendMessage(string message, string partner)
+        async public static Task<bool> SendMessage(string message, string partner)
         {
             //try
             //{
                 var session = Connectioner.CreateSession(Partners.GetAddress(partner), 6228);
                 session.EvReception += (sender, args) => { if (sender != null) { ((Session)sender).EndSession(); flg = false; } };
                 flg = true;
-                session.SendData(textconvate("Message", message));
+                await session.SendData(textconvate("Message", message));
                 session.StartReception();
-                int i = 0;
-                while (flg&&i<10)
-                {
-                    ()={ Task.Delay(10000); }
-                    i++;
-                }
+
                 session.EndSession();
-                if (i == 10)
-                {
-                    throw new Exception();
-                }
+
             /*}
             catch
             {
