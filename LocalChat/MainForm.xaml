@@ -38,7 +38,7 @@
                     <StackPanel x:Name="PartnersList" >
                     </StackPanel>
                 </ScrollViewer>
-                <Button Grid.Row="2" Content="＋ 新規追加先　" Click="OpenAddNewPartnerForm" Background="White"/>
+                <Button Grid.Row="2" Content="＋ 新規追加先　" Click="OpenAddNewPartnerForm" Background="{x:Null}"/>
                 <Button Grid.Row="3" Content="設定" Click="OpenConfigForm"/>
             </Grid>
         </Grid>
