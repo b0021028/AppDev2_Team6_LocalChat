@@ -15,7 +15,7 @@ namespace LocalChatBase
         /// <summary>
         /// イベントハンドラー メッセージ送信され成功した時
         /// </summary>
-        public static event EventHandler<DateTime> EvSendMessageSuccess = (sender, args) => { };
+        public static event EventHandler<Data> EvSendMessageSuccess = (sender, args) => { };
 
         /// <summary>
         /// イベントハンドラー メッセージ受信した後
@@ -38,13 +38,14 @@ namespace LocalChatBase
         /// <param name="partner">宛先</param>
         async public static Task<bool> SendMessage(string message, string partner)
         {
-            var session = Connectioner.CreateSession(Partners.GetAddress(partner), 6228);
+            var ip = Partners.GetAddress(partner);
+            var session = Connectioner.CreateSession(ip, 6228);
             session.EvReception += (sender, args) => { if (sender != null) { ((Session)sender).EndSession();flg = true; } };
             flg = false;
             await session.SendData(textconvate("Message", message)).WaitAsync(TimeSpan.FromSeconds(10));
             session.StartReception();
 
-            EvSendMessageSuccess(null, DateTime.Now);
+            EvSendMessageSuccess(null, new Data(ip, false, DateTime.Now, message));
             return flg;
 
         }
