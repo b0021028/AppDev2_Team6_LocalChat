@@ -43,18 +43,20 @@ namespace LocalChatBase
         /// </summary>
         static void Main()
         {
-            var sqlConnectionSb = new SQLiteConnectionStringBuilder();
-            sqlConnectionSb.DataSource = s_datapath;
-            using (var cn = new SQLiteConnection(sqlConnectionSb.ToString()))
+            using (var connect = new SQLiteConnection(s_dataSource))
             {
-                cn.Open();
+                connect.Open();
 
-                using (var cmd = new SQLiteCommand(cn))
+                string sql = "CREATE TABLE MESSAGES (RECEIVEFLAG NUMERIC NOT NULL, RECIPIENT TEXT NOT NULL, TIME NUMERIC NOT NULL, MESSAGE TEXT NOT NULL ); ";
+                try
                 {
-                    var beginer = cn.BeginTransaction();
-                    cmd.CommandText = "CREATE TABLE MESSAGES (RECEIVEFLAG NUMERIC NOT NULL, RECIPIENT TEXT NOT NULL, TIME NUMERIC NOT NULL, MESSAGE TEXT NOT NULL ); ";
+                    var cmd = new SQLiteCommand(sql, cn);
                     cmd.ExecuteNonQuery();
-                    beginer.Commit();
+
+                }
+                finally
+                {
+                    connect.Close();
                 }
             }
         }
