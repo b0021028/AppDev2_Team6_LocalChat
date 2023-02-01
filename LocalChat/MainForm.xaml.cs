@@ -59,7 +59,7 @@ namespace LocalChat
         public void EndLocalChatCore()
         {
             Connectioner.StopListen();
-            DataManager.IntializeData();
+            DataManager.InitializeData();
             Configuration.OutputConfigFile();
             this.Close();
         }
@@ -85,8 +85,6 @@ namespace LocalChat
 
             this.PartnersButtons[ip_num].Name = "PartnerButton" + ip_num;
             this.PartnersButtons[ip_num].Content = address;
-            //無くてよいthis.PartnersButtons[ip_num] = new Point(10, 10 + ip_num * 22);
-            // 無くていいthis.PartnersButtons[ip_num].Size = new Size(80, 20);
             ip_num++;
 
             // コーユーの
@@ -99,22 +97,22 @@ namespace LocalChat
         private Label[] MessageLabels;
         public void DisplayChat()
         {
+
             var Message_list = DataManager.GetDatas(IP);
-                // メッセージ数分繰り返す
-                for (int i = 0; i < Message_list.Length; i++)
+            // ボタンのインスタンス作成(リスト分)
+            this.manyLabels = new Label[Message_list.Count];
+            // メッセージ数分繰り返す
+            for (int i = 0; i < Message_list.Count; i++)
                 //for (int message_num = 0; i < this.MessageLabels.Length; i++)
                 {
                     //ここに受信、送信側で位置の分岐を作りたい
+
                     this.MessageLabels[i] = new Label();
 
                     // コントロールのプロパティ
                     this.MessageLabels[i].Name = "MessageLabel" + i;
                     this.MessageLabels[i].Content = "Sample";
-
-
-
-                // コーユーの
-                this.DisplayMessage.Children.Add(new Button());
+                    this.DisplayMessage.Children.Add(new Label());
                 }
         }
             /// <summary>
