@@ -20,6 +20,13 @@ namespace LocalChatBase
             this.receptionFlag = receptionFlag;
             this.message = message;
         }
+        public Data(string ip, string receptionFlag, string time, string message)
+        {
+            this.ip = IPAddress.Parse(ip);
+            this.time = DateTime.Parse(time);
+            this.receptionFlag = bool.Parse(receptionFlag);
+            this.message = message;
+        }
     }
     public class DataManager
     {
@@ -99,7 +106,7 @@ namespace LocalChatBase
         /// </summary>
         /// <param name="ip"></param>
         /// <returns></returns>
-        public static IEnumerator<string> GetDatas(IPAddress ip)
+        public static List<Data> GetDatas(IPAddress ip)
         {
             SQLiteDataReader reader;
 
@@ -112,14 +119,15 @@ namespace LocalChatBase
                 // ÉfÅ[É^ÇÃéÊìæ
                 reader = command.ExecuteReader();
             }
+            var ret = new List<Data>();
             foreach (var data in reader)
             {
-                new Data(reader.GetString(0), reader.GetInt32(1), reader.GetString(2), reader.GetString(3))
+                ret.Add(new Data(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3)));
             }
 
 
 
-            return (IEnumerator<string>)reader.GetEnumerator();
+            return ret;
         }
 
     }

@@ -112,7 +112,8 @@ namespace LocalChatBase
         /// </summary>
         public void StartReception()
         {
-            new Task(Run).Start();
+            var a = new Task(Run);
+            a.Start();
 
         }
 
@@ -121,14 +122,14 @@ namespace LocalChatBase
         /// テキストデータを送信します
         /// </summary>
         /// <param name="data">送信するテキストデータ</param>
-        async public void SendData(string data)
+        public void SendData(string data)
         {
             //データを送信する
             _netStream.WriteTimeout = s_timeOut;
 
             byte[] sendBytes = s_encode.GetBytes(data);
 
-            await _netStream.WriteAsync(sendBytes, 0, sendBytes.Length);
+            _netStream.WriteAsync(sendBytes, 0, sendBytes.Length);
 
         }
 
