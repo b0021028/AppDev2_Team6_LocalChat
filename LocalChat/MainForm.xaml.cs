@@ -49,7 +49,7 @@ namespace LocalChat
         /// </summary>
         public void AddMessage()
         {
-            Messenger.ReferenceMessage();
+         //   Messenger.ReferenceMessage();
         }
 
         /// <summary>
@@ -70,8 +70,6 @@ namespace LocalChat
         /// 宛先リスト更新 
         /// </summary>
         /// <param name="address"></param>
-                // 現在の送信先数
-        private Button[] PartnerButtons;
         public void UpdatePartnersList()
         {
             var partnersList = Partners.GetPartners();
@@ -81,7 +79,7 @@ namespace LocalChat
                     var Button_num = new Button();
                     //Button_num.Name = "PartnerButton" + ;
                     Button_num.Content = partner;
-                    Button_num.Click += (o, e)=> { if (o != null) { DisplayChat(((Button)o).Content); } };
+                    Button_num.Click += (o, e) => { if (o != null) { var t = ((Button)o).Content.ToString(); if (t != null) { DisplayChat(t); } } };
                     PartnersList.Children.Add(Button_num);
                 }
             }
@@ -91,7 +89,6 @@ namespace LocalChat
         /// <summary>
         /// チャット画面表示
         /// </summary>
-        private Label[] MessageLabels;
         public void DisplayChat(string selectedPartner)
         {
             // チャット画面リセット処理
@@ -104,16 +101,19 @@ namespace LocalChat
             // メッセージ数分繰り返す
             foreach (var message in Message_list)
             {
-
-                if (message.receptionFlag)
-                //ここに受信、送信側で位置の分岐を作りたい
-
-                this.MessageLabels[i] = new Label();
+                var Label_num = new Label();
 
                 // コントロールのプロパティ
-                this.MessageLabels[i].Name = "MessageLabel" + i;
-                this.MessageLabels[i].Content = "Sample";
-                this.DisplayMessage.Children.Add(new Label());
+                // Label_num.Name = "MessageLabel" + i;
+                Label_num.Content = message;
+                
+
+                if (message.receptionFlag)
+                //ここに受信、送信側で位置の分岐を作りたい、メッセージラベルを自分が右、相手が左に表示したい
+                {
+                    this.DisplayMessage.Children.Add(new Label());
+                }
+
             }
 
 
@@ -132,7 +132,7 @@ namespace LocalChat
         /// </summary>
         public void UpdateChat()
         {
-            DataManager.GetDatas(IP);
+            //DataManager.GetDatas(IP);
         }
 
             /// <summary>
@@ -155,10 +155,7 @@ namespace LocalChat
 
 
         //　ボタンイベント
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
 
-        }
 
         /// <summary>
         /// メッセージ送信ボタンの送信イベント
@@ -167,13 +164,14 @@ namespace LocalChat
         /// <param name="e"></param>
         private void Send_Click(object sender, RoutedEventArgs e)
         {
-            var text = MessageBox.Text;
+            var text = MessageText.Text;
+            // 文字数が0ではない
             if (text.Length != 0)
             {
                 //現在の宛先取得===========================================================================
                 var name = "";
                 //送信
-                Messenger.SendMessage("sampleメッセージ", name);
+                Messenger.SendMessage(text, name);
 
             }
         }

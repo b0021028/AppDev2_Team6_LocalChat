@@ -30,6 +30,7 @@ namespace LocalChat
         {
             InitializeComponent();
             _ = message;
+            
             NotifierMessage.Content = message;
         }
         
@@ -39,5 +40,6 @@ namespace LocalChat
             await Task.Delay(3000);
             this.Close();
         }
+
     }
 }

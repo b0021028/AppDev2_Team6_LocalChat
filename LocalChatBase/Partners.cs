@@ -30,7 +30,7 @@ namespace LocalChatBase
         /// 宛先の追加登録 とりあえずそのままIPアドレスに変換する
         /// </summary>
         /// <param name="partner">とりあえずstring のIPv4アドレス</param>
-        public static void AddPartners(string partner)
+        public static bool AddPartners(string partner)
         {
             // sintax チェック
             if (Regex.IsMatch(partner, @"[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}"))
@@ -45,9 +45,10 @@ namespace LocalChatBase
                         // イベント発行
                         EvAddDestination(null, partner);
                     }
-                    return;
+                    return true;
                 }
             }
+            return false;
         }
 
 
