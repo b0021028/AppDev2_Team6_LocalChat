@@ -52,6 +52,9 @@ namespace LocalChat
             // データ保存管理の初期化
             DataManager.InitializeData();
 
+            // コンフィグ読込み
+            Configuration.LoadConfigFile();
+
             // イベント登録 宛先が追加された時 -> GUI宛先リスト更新
             Partners.EvAddDestination += (sender,e) => { UpdatePartnersList(); };
 
