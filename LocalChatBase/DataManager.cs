@@ -7,12 +7,12 @@ using System.Net;
 
 namespace LocalChatBase
 {
-    public class Data
+    public struct Data
     {
-        IPAddress ip { get; init; }
-        bool receptionFlag { get; init; }
-        DateTime time { get; init; }
-        string message { get; init; }
+        public IPAddress ip { get; init; }
+        public bool receptionFlag { get; init; }
+        public DateTime time { get; init; }
+        public string message { get; init; }
         public Data(IPAddress ip, bool receptionFlag, DateTime time, string message)
         {
             this.ip = ip;
