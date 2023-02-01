@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -28,12 +30,13 @@ namespace LocalChat
         {
             InitializeComponent();
             _ = message;
+            NotifierMessage.Content = message;
         }
-
+        
         async public new void Show()
         {
             base.Show();
-            await Task.Delay(100);
+            await Task.Delay(3000);
             this.Close();
         }
     }
