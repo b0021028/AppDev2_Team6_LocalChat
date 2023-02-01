@@ -100,7 +100,7 @@ namespace LocalChat
 
             var Message_list = DataManager.GetDatas(IP);
             // ボタンのインスタンス作成(リスト分)
-            this.manyLabels = new Label[Message_list.Count];
+            this.MessageLabels = new Label[Message_list.Count];
             // メッセージ数分繰り返す
             for (int i = 0; i < Message_list.Count; i++)
                 //for (int message_num = 0; i < this.MessageLabels.Length; i++)
