@@ -30,8 +30,7 @@ namespace LocalChat
         }
 
 
-        // 現在の送信先数
-        private int ip_num = 0;
+
 
         /// <summary>
         /// 初期化処理
@@ -73,22 +72,28 @@ namespace LocalChat
             DataManager.GetDatas(IP);
         }
 
-        private Button[] PartnersButtons;
+
 
         /// <summary>
         /// 宛先リスト更新 
         /// </summary>
         /// <param name="address"></param>
-        public void UpdatePartnersList(string address)
+                // 現在の送信先数
+        private Button[] PartnerButtons;
+        public void UpdatePartnersList()
         {
-            var partnersList = Partners.GetAddress(address);
+            var partnersList = Partners.GetPartners();
+            {
+                foreach (var partner in partnersList)
+                {
+                    var Button_num = new Button();
+                    //Button_num.Name = "PartnerButton" + ;
+                    Button_num.Content = partner;
+                    Button_num.Click += DisplayChat();
+                    PartnersList.Children.Add(Button_num);
+                }
+            }
 
-            this.PartnersButtons[ip_num].Name = "PartnerButton" + ip_num;
-            this.PartnersButtons[ip_num].Content = address;
-            ip_num++;
-
-            // コーユーの
-            this.PartnersList.Children.Add(new Button());
         }
 
         /// <summary>
@@ -97,9 +102,8 @@ namespace LocalChat
         private Label[] MessageLabels;
         public void DisplayChat()
         {
-
             // var Message_list = DataManager.GetDatas(IP);
-            var Message_list = LocalChatBase.Messenger.ReferenceMessage();
+            var Message_list = LocalChatBase.Messenger.ReferenceMessage(partner);
             // ボタンのインスタンス作成(リスト分)
             this.MessageLabels = new Label[Message_list.Count];
             // メッセージ数分繰り返す
