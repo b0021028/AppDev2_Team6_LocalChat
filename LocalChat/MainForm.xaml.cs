@@ -173,12 +173,11 @@ namespace LocalChat
             if (ChatTitle.Content != null)
             {
                 string title = ChatTitle.Content.ToString()?? "";
-                if (title != null && title != "")
+                if (title != "")
                 {
                     DisplayChat(title);
                 }
             }
-            MessageBox.Show("jgariosgioarhiouhg");
         }
 
         /// <summary>
