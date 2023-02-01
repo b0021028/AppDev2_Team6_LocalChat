@@ -27,6 +27,7 @@ namespace LocalChat
         public MainForm()
         {
             InitializeComponent();
+            Intialize();
         }
 
 
@@ -37,12 +38,11 @@ namespace LocalChat
         /// </summary>
         public void Intialize()
         {
-
-            var Partners_List = new List<string>();
             DataManager.InitializeData();
             Connectioner.StartListen();
             //Connectioner.EvStartSession += ;
         }
+
 
         /// <summary>
         /// メッセージ追加
@@ -51,6 +51,7 @@ namespace LocalChat
         {
          //   Messenger.ReferenceMessage();
         }
+
 
         /// <summary>
         /// 終了処理
@@ -101,28 +102,24 @@ namespace LocalChat
             // メッセージ数分繰り返す
             foreach (var message in Message_list)
             {
-                var Label_num = new Label();
+                var grid = new Grid();
 
-                // コントロールのプロパティ
-                // Label_num.Name = "MessageLabel" + i;
-                Label_num.Content = message;
                 
 
                 if (message.receptionFlag)
                 //ここに受信、送信側で位置の分岐を作りたい、メッセージラベルを自分が右、相手が左に表示したい
                 {
-                    this.DisplayMessage.Children.Add(new Label());
+                    var label = new Label();
+                    label.Width = double.NaN;
+                    // コントロールのプロパティ
+                    // Label_num.Name = "MessageLabel" + i;
+                    label.Content = message;
                 }
+                this.DisplayMessage.Children.Add();
 
             }
 
 
-
-
-
-
-            // チャット画面更新処理
-            UpdateChat();
 
 
         }
