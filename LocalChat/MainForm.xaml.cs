@@ -36,7 +36,7 @@ namespace LocalChat
         {
 
             var Partners_List = new List<string>();
-            var num = 0;
+            var ip_num = 0;
             DataManager.InitializeData();
             Connectioner.StartListen();
             Connectioner.EvStartSession += ;
@@ -115,44 +115,57 @@ namespace LocalChat
         }
             */
 
-            this.manyButtons[num].Name = "PartnerButton" + num;
-            this.manyButtons[num].Text = address
-            this.manyButtons[num].Location = new Point(10, 10 + num * 22);
-            this.manyButtons[num].Size = new Size(80, 20);
-            num += 1
+            this.manyButtons[ip_num].Name = "PartnerButton" + ip_num;
+            this.manyButtons[ip_num].Text = address
+            this.manyButtons[ip_num].Location = new Point(10, 10 + ip_num * 22);
+            this.manyButtons[ip_num].Size = new Size(80, 20);
+            ip_num += 1
             
         }
 
 
-
-        public void DisplayChat()
+        private Button[] manyLabels;
+        public void DisplayChat(Message)
         {
-            for (int i = 0; i < 20; i++)
             {
-                var tbox = new TextBlock(); //ここでは例としてTextBox
-                tbox.Name = $"label{tsts1++}"; //Name
-                tbox.Margin = new Thickness(10, 10, 10, 0);
-                tbox.Text = $"{tsts1}黒";
-                /*
-                var tbox1 = new TextBlock(); //ここでは例としてTextBox
-                tbox1.Name = $"la1bel{tsts1++}"; //Name
-                tbox1.Margin = new Thickness(10, 10, 10, 0);
-                tbox1.Text = $"{tsts1}@黒";
-                */
-
-                var flm = new Grid();
-                flm.Children.Add(tbox);
-
-
-                stackPanel1.Children.Add(flm); //StackPanel等に追加
-                stackPanel1.RegisterName($"flm{tsts1}", flm); //StackPanel等に登録
-
+                InitializeComponent();
+                this.manyLabels = null;
             }
+            /*public Form1()
+            {
+                InitializeComponent();
+            }
+            */
+            /*
+            private void button1_Click(object sender, EventArgs e)
+            {
+                if (this.manyLabels != null)
+                {
+                    MessageBox.Show("フォームはすでに表示されています");
+                    return;
+                }
+            */
+                // ボタンのインスタンス作成(5つ)
+                this.manyLabels = new Label[5];
+                for (int i = 0; i < this.manyLabels.Length; i++)
+                {
+                    this.manyLabels[i] = new Label();
 
+                    // コントロールのプロパティ
+                    this.manyLabels[i].Name = "MessageLabel" + i;
+                    this.manyLabels[i].Text = "";
+                    this.manyLabels[i].Location = new Point(10, 10 + i * 22);
+                    this.manyLabels[i].Size = new Size(80, 20);
+
+                    // フォームへの追加
+                    this.Controls.Add(this.manyLabels[i]);
+                }
+            }
+        }
             /// <summary>
             /// メッセージ送信
             /// </summary>
-            public void SendMessage()
+        public void SendMessage()
         {
 
         }
