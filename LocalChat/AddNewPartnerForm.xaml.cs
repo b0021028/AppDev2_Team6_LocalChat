@@ -32,6 +32,7 @@ namespace LocalChat
             InitializeComponent();
             this.ResizeMode = ResizeMode.NoResize;
             this.Title = "新規宛先追加";
+            NewAddTextBox.Focus();
         }
 
 
