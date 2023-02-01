@@ -82,6 +82,7 @@ namespace LocalChatBase
             catch
             {
                 s_config = s_defaltConfig.Clone();
+                OutputConfigFile();
                 return false;
             }
             return true;
@@ -111,6 +112,7 @@ namespace LocalChatBase
                 {
                     var b = System.Convert.ToBoolean(value);
                     s_config.Notification = b;
+                    OutputConfigFile();
                 }
                 catch
                 {
