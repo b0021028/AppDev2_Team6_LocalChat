@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SQLite;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace LocalChatBase
 {
@@ -49,30 +51,34 @@ namespace LocalChatBase
 
 
         /// <summary>
-        /// 宛先のメッセージを取得する 未完成 DataManager完成待ち
+        /// 宛先のメッセージを取得する
         /// </summary>
         /// <param name="partner">宛先</param>
         /// <returns></returns>
-        public dynamic ReferenceMessage(string partner)
+        public List<Data> ReferenceMessage(string partner)
         {
-            // 保留
-            //DataManager.GetDatas(Partners.GetAddress(partner).ToString());
-            return new List<string>() { };
+            var ret = DataManager.GetDatas(Partners.GetAddress(partner));
+            return ret;
         }
 
          /// <summary>
+         /// データの受信イベントに登録してください 呼び出すな
          /// メッセージを受け取り
          /// 受信イベントをイベント発行
-         /// </summary>
+        /// </summary>
+        /// <param name="session"></param>
+        /// <param name="data"></param>
         public void ReceptionMessage(Session session, string data)
         {
             if (data != "")
             {
+                
+                //JsonSerializer.Deserialize<Data>(data);
+                EvReceptionMessage(this, DateTime.Now);
                 session.SendData(textconvate("ReMessage", DateTime.Now));
             }
             session.EndSession();
 
-            EvReceptionMessage(this, DateTime.Now);
         }
 
         /// <summary>
@@ -81,7 +87,7 @@ namespace LocalChatBase
         /// <param name="format">データフォーマット</param>
         /// <param name="o"><データ/param>
         /// <returns></returns>
-        private string textconvate(string format, object o)
+        private static string textconvate(string format, object o)
         {
             return $"version{{\"version\":0,\"dataformat\":{{\"name\":\"{format}\",\"version\":1}},\"data\":\"{(o??"").ToString()}";
         }
