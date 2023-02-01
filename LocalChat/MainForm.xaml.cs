@@ -75,11 +75,11 @@ namespace LocalChat
         {
             var partnersList = Partners.GetPartners();
             {
-                foreach (var partner in partnersList)
+                foreach (var partners in partnersList)
                 {
                     var Button_num = new Button();
                     //Button_num.Name = "PartnerButton" + ;
-                    Button_num.Content = partner;
+                    Button_num.Content = partners;
                     Button_num.Click += (o, e) => { if (o != null) { var t = ((Button)o).Content.ToString(); if (t != null) { DisplayChat(t); } } };
                     PartnersList.Children.Add(Button_num);
                 }
