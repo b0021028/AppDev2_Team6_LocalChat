@@ -123,7 +123,8 @@ namespace LocalChatBase
             }
             else
             {
-                NearDatabase.Add(new Data());
+                NearDatabase.Add(new Data(ip, receptionflag, time, message));
+                EvAddData(null, receptionflag);
             }
         }
 
@@ -217,7 +218,8 @@ namespace LocalChatBase
             }
             else
             {
-
+                var x = NearDatabase.Where(x => x.ip == ip);
+                return (List<Data>)x;
             }
         }
 
