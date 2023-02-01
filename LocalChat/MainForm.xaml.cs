@@ -88,13 +88,32 @@ namespace LocalChat
 
         public void DisplayChat()
         {
+            for (int i = 0; i < 20; i++)
+            {
+                var tbox = new TextBlock(); //ここでは例としてTextBox
+                tbox.Name = $"label{tsts1++}"; //Name
+                tbox.Margin = new Thickness(10, 10, 10, 0);
+                tbox.Text = $"{tsts1}黒";
+                /*
+                var tbox1 = new TextBlock(); //ここでは例としてTextBox
+                tbox1.Name = $"la1bel{tsts1++}"; //Name
+                tbox1.Margin = new Thickness(10, 10, 10, 0);
+                tbox1.Text = $"{tsts1}@黒";
+                */
 
-        }
+                var flm = new Grid();
+                flm.Children.Add(tbox);
 
-        /// <summary>
-        /// メッセージ送信
-        /// </summary>
-        public void SendMessage()
+
+                stackPanel1.Children.Add(flm); //StackPanel等に追加
+                stackPanel1.RegisterName($"flm{tsts1}", flm); //StackPanel等に登録
+
+            }
+
+            /// <summary>
+            /// メッセージ送信
+            /// </summary>
+            public void SendMessage()
         {
 
         }
