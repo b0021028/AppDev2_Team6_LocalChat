@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using LocalChatBase;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace LocalChat
 {
@@ -231,13 +232,19 @@ namespace LocalChat
         // 新規追加画面に移動
         private void OpenAddNewPartnerForm(object sender, RoutedEventArgs e)
         {
-            new AddNewPartnerForm().ShowDialog();
+            var child = new AddNewPartnerForm();
+            child.Owner = this;
+            child.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            child.ShowDialog();
         }
 
         // 設定画面に移動
         private void OpenConfigForm(object sender, RoutedEventArgs e)
         {
-            new ConfigForm().ShowDialog();
+            var child = new ConfigForm();
+            child.Owner= this;
+            child.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            child.ShowDialog();
         }
 
         private void ScrollPartners(object sender, ContextMenuEventArgs e)

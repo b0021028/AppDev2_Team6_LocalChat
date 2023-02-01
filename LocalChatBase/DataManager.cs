@@ -35,8 +35,8 @@ namespace LocalChatBase
         /// </summary>
         public static event EventHandler<bool> EvAddData = (sender, args) => { };
 
-        private static string s_datapath { get; } = "temptable";
-        private static string s_dataSource { get; } = $"Data Source={s_datapath}";
+        private static string s_datapath { get; } = "temptable.sql";
+        private static string s_dataSource { get; } = $"Data Source={s_datapath};Version=3;";
 
         /// <summary>
         /// データベースの作成とテーブルの作成
@@ -52,7 +52,7 @@ namespace LocalChatBase
                 using (var cmd = new SQLiteCommand(cn))
                 {
                     var beginer = cn.BeginTransaction();
-                    cmd.CommandText = "CREATE TABLE IF NOT EXISTS TEMPTABLE (RECEIVEFLAG NUMERIC NOT NULL, RECIPIENT TEXT NOT NULL, TIME NUMERIC NOT NULL, MESSAGE TEXT NOT NULL  ); ";
+                    cmd.CommandText = "CREATE TABLE MESSAGES (RECEIVEFLAG NUMERIC NOT NULL, RECIPIENT TEXT NOT NULL, TIME NUMERIC NOT NULL, MESSAGE TEXT NOT NULL ); ";
                     cmd.ExecuteNonQuery();
                     beginer.Commit();
                 }
@@ -68,6 +68,7 @@ namespace LocalChatBase
         /// <param name="message"></param>
         public static void AddData(bool reception, IPAddress ip, DateTime time, string message)
         {
+            return;
             using (var conn = new SQLiteConnection(s_dataSource))
             {
                 conn.Open();
@@ -75,7 +76,7 @@ namespace LocalChatBase
                 using (SQLiteTransaction sqlt = conn.BeginTransaction())
                 {
                     var cmd = conn.CreateCommand();
-                    cmd.CommandText = "INSERT INTO TEMPTABLE (RACEIVEFLAG, RECIPIENT, TIME, MESSAGE) VALUES (@reception, @ip, @time, @message);";
+                    cmd.CommandText = "INSERT INTO MESSAGES (RACEIVEFLAG, RECIPIENT, TIME, MESSAGE) VALUES (@reception, @ip, @time, @message);";
                     cmd.Parameters.AddWithValue("@reception", reception);
                     cmd.Parameters.AddWithValue("@ip", ip);
                     cmd.Parameters.AddWithValue("@time", time);
@@ -134,7 +135,7 @@ namespace LocalChatBase
                 }
                 catch { reader = null; }
             }
-            List<Data> ret = new ();
+            List<Data> ret = new() {new Data("10.146.221.28","true",DateTime.Now.ToString(),"testbuck") };
 
             if (reader == null)
             {
