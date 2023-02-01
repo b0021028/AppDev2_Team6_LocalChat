@@ -18,7 +18,7 @@ namespace LocalChatBase
         public  static event EventHandler<Session> EvStartSession = (sender, args) => { };
 
         /// <summary>
-        /// 待ち受けるやつ
+        /// ポート開けて待ち受けるやつ
         /// </summary>
         private static System.Net.Sockets.TcpListener s_listener { get; set; }
 

@@ -168,9 +168,9 @@ namespace LocalChat
             }
         }
 
-            /// <summary>
-            /// メッセージ送信
-            /// </summary>
+        /// <summary>
+        /// メッセージ送信
+        /// </summary>
         public void SendMessage()
         {
             var partner = ChatTitle.Content.ToString();
