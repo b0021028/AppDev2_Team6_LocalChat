@@ -58,7 +58,7 @@ namespace LocalChatBase
         /// </summary>
         /// <param name="partner">宛先</param>
         /// <returns></returns>
-        public List<Data> ReferenceMessage(string partner)
+        public static List<Data> ReferenceMessage(string partner)
         {
             var ret = DataManager.GetDatas(Partners.GetAddress(partner));
             return ret;
