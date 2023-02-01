@@ -61,21 +61,16 @@ namespace LocalChatBase
         {
             try
             {
-                using (StreamReader file = File.OpenText(FILEPATH))
+                using (StreamReader sr = new StreamReader(FILEPATH, System.Text.Encoding.UTF8))
                 {
-                    var serializer = new JsonSerializer();
-                    // Json.netのオブジェクトを作成します
-                    // デシリアライズ関数に
-                    // 読み込んだファイルと、データ用クラスの名称(型)を指定します。
-                    // 
-                    // デシリアライズされたデータは、自動的にaccountの
-                    // メンバ変数に格納されます 
-                    //
-                    string reader = new JsonTextReader(file).ToString()??"{}";
-                    Config jsonData = JsonConvert.DeserializeObject<Config>(reader)??s_config.Clone();
+                    // テキスト取り出し
+                    var jsonData = sr.ReadToEnd();
+
+                    // 型嵌め
+                    Config conf = JsonConvert.DeserializeObject<Config>(jsonData)??s_config.Clone();
 
                     // 設定変更する
-                    s_config.Notification = jsonData.Notification;
+                    s_config.Notification = conf.Notification;
                 }
 
             }
