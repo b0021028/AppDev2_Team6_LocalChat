@@ -50,7 +50,7 @@ namespace LocalChatBase
                 string sql = "CREATE TABLE MESSAGES (RECEIVEFLAG NUMERIC NOT NULL, RECIPIENT TEXT NOT NULL, TIME NUMERIC NOT NULL, MESSAGE TEXT NOT NULL ); ";
                 try
                 {
-                    var cmd = new SQLiteCommand(sql, cn);
+                    var cmd = new SQLiteCommand(sql, connect);
                     cmd.ExecuteNonQuery();
 
                 }
