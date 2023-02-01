@@ -50,5 +50,9 @@ namespace LocalChat
             this.Close();
         }
 
+        private void Notifier_Loaded(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Input.Keyboard.ClearFocus();
+        }
     }
 }
