@@ -38,14 +38,19 @@ namespace LocalChatBase
         private static string s_datapath { get; } = "temptable.sql";
         private static string s_dataSource { get; } = $"Data Source={s_datapath};Version=3;";
 
-
+        /// <summary>
+        /// 緊急デバック用 擬似データベース
+        /// </summary>
         public static List<Data> NearDatabase = new();
+        /// <summary>
+        /// 緊急デバック用 データベースモード切替
+        /// </summary>
         private static bool IsDatabaseMode = false;
 
         /// <summary>
         /// データベースの作成とテーブルの作成
         /// </summary>
-        static void Main()
+        static void CreateTable()
         {
             if (IsDatabaseMode)
             {
@@ -155,7 +160,7 @@ namespace LocalChatBase
         public static void InitializeData(bool? t)
         {
             InitializeData();
-            Main();
+            CreateTable();
         }
 
         /// <summary>

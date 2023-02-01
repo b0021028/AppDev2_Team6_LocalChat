@@ -23,6 +23,11 @@ namespace LocalChatBase
         public static event EventHandler<Data> EvReceptionMessage = (sender, args) => { };
 
         /// <summary>
+        /// 緊急デバック 送信データ型変更
+        /// </summary>
+        private static bool IsTxtJsonSended = false;
+
+        /// <summary>
         /// メッセージ送信フラグ
         /// </summary>
         public static bool flg = false;
@@ -71,8 +76,6 @@ namespace LocalChatBase
                 string data = textdeconvate(rawdata);
                 if (data != "")
                 {
-                    //Messenger.massage = data;
-                    //JsonSerializer.Deserialize<Data>(data);
                     var messagedata = new Data(((Session)session).remoteEndPoint.Address, true, DateTime.Now, data);
                     EvReceptionMessage(null, messagedata);
 
@@ -91,7 +94,14 @@ namespace LocalChatBase
         /// <returns></returns>
         private static string textconvate(string format, object o)
         {
-            return $"{{version{{\"version\":0,\"dataformat\":{{\"name\":\"{format}\",\"version\":1}},\"data\":\"{(o ?? "").ToString()}\"}}";
+            if (IsTxtJsonSended)
+            {
+                return $"{{version{{\"version\":0,\"dataformat\":{{\"name\":\"{format}\",\"version\":1}},\"data\":\"{(o ?? "").ToString()}\"}}";
+            }
+            else
+            {
+                return o.ToString()??"";
+            }
         }
 
         /// <summary>
@@ -102,8 +112,17 @@ namespace LocalChatBase
         /// <returns></returns>
         private static string textdeconvate(string txt)
         {
-            string fixtxt = (JObject.Parse(txt).GetValue("data")?? "").ToString() ;
-            return fixtxt;
+            if (IsTxtJsonSended)
+            {
+                string fixtxt = (JObject.Parse(txt).GetValue("data")?? "").ToString() ;
+                return JObject.Parse(txt).ToString();
+
+            }
+            else
+            {
+                return txt;
+
+            }
         }
 
 
