@@ -140,6 +140,7 @@ namespace LocalChat
             // メッセージ数分繰り返す
             foreach (var messagedata in Messenger.ReferenceMessage(selectedPartner))
             {
+                //var Grid = new Grid();
                 var stack = new StackPanel();
 
 
