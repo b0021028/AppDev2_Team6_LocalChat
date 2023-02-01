@@ -49,12 +49,14 @@ namespace LocalChatBase
 
                 using (var cmd = new SQLiteCommand(cn))
                 {
+                    var beginer = cn.BeginTransaction();
                     cmd.CommandText = "CREATE TABLE IF NOT EXISTS TEMPTABLE (" +
                 "ReceiveFlag NUMERIC NOT NULL," +
                 "Recipient TEXT NOT NULL, " +
                 "Time NUMERIC NOT NULL," +
                 "Message TEXT NOT NULL); ";
                     cmd.ExecuteNonQuery();
+                    beginer.Commit();
                 }
             }
         }
@@ -124,6 +126,7 @@ namespace LocalChatBase
                 command.CommandText = "SELECT Recipient, ReceiveFlag, Time, Message FROM TEMPTABLE WHERE IP=@ip;";
                 command.Parameters.AddWithValue("@ip", ip);
                 // ÉfÅ[É^ÇÃéÊìæ
+                ////
                 try
                 {
                     reader = command.ExecuteReader();
@@ -136,6 +139,7 @@ namespace LocalChatBase
             {
                 return ret;
             }
+            ///
 
             for (int i=0; i< reader.StepCount; i++)
             {
