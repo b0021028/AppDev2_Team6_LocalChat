@@ -53,7 +53,7 @@ namespace LocalChatBase
         /// キャンセルトークン
         /// </summary>
         private CancellationTokenSource _token { get; set; }
-        //private bool _started = false;
+        private bool _started = false;
 
         /// <summary>
         /// クライアントとのコネクションを一つのセッションとする
@@ -102,7 +102,6 @@ namespace LocalChatBase
             {}
             EvEndSession(this, remoteEndPoint);
 
-         
 
         }
 
@@ -112,8 +111,12 @@ namespace LocalChatBase
         /// </summary>
         public void StartReception()
         {
-            var a = new Task(Run);
-            a.Start();
+            if (!_started)
+            {
+                _started = true;
+                var a = new Task(Run);
+                a.Start();
+            }
 
         }
 
