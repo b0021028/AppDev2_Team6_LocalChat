@@ -70,8 +70,6 @@ namespace LocalChat
         /// 宛先リスト更新 
         /// </summary>
         /// <param name="address"></param>
-                // 現在の送信先数
-        private Button[] PartnerButtons;
         public void UpdatePartnersList()
         {
             var partnersList = Partners.GetPartners();
@@ -91,7 +89,6 @@ namespace LocalChat
         /// <summary>
         /// チャット画面表示
         /// </summary>
-        private Label[] MessageLabels;
         public void DisplayChat(string selectedPartner)
         {
             // チャット画面リセット処理
@@ -168,9 +165,9 @@ namespace LocalChat
         private void Send_Click(object sender, RoutedEventArgs e)
         {
             var text = MessageText.Text;
+            // 文字数が0ではない
             if (text.Length != 0)
             {
-                // string massage = TextBox.Text;
                 //現在の宛先取得===========================================================================
                 var name = "";
                 //送信
