@@ -132,9 +132,9 @@ namespace LocalChat
             //DataManager.GetDatas(IP);
         }
 
-            /// <summary>
-            /// メッセージ送信
-            /// </summary>
+        /// <summary>
+        /// メッセージ送信
+        /// </summary>
         public void SendMessage()
         {
 
