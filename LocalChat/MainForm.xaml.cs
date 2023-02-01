@@ -59,7 +59,7 @@ namespace LocalChat
             Connectioner.EvStartSession += (sender, e) => {e.EvReception += Messenger.ReceptionMessage;e.StartReception(); };
 
             // イベント登録 データ保存処理
-            Messenger.EvReceptionMessage += (sender, e) => {DataManager.AddData(e.receptionFlag, e.ip, e.time, e.message };
+            Messenger.EvReceptionMessage += (sender, e) => { DataManager.AddData(e.receptionFlag, e.ip, e.time, e.message); };
             // イベント登録 新規データ取得時チャット画面更新
             DataManager.EvAddData += (sender, e)=> { UpdateChat(); };
             // 受信待ち受け開始
