@@ -6,14 +6,14 @@
         xmlns:local="clr-namespace:LocalChat"
         mc:Ignorable="d"
         Title="NewSendToForm" Height="186" Width="322">
-    <Grid Margin="0,0,0,1" Background="#FFD6D5D5">
+    <Grid Margin="0,0,0,1">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="17*"/>
             <ColumnDefinition Width="6*"/>
         </Grid.ColumnDefinitions>
         <Button x:Name="OKButton" Content="OK" HorizontalAlignment="Left" Height="24" Margin="30,133,0,0" VerticalAlignment="Top" Width="70" Background="White" Click="OKButton_Click"/>
         <Button x:Name="CancelButton" Content="キャンセル" Height="24" Margin="222,133,30,0" VerticalAlignment="Top" BorderBrush="Black" Background="White" Grid.ColumnSpan="2" Click="CancelButton_Click"/>
-        <TextBox x:Name="NewAddTextBox" Height="25" TextWrapping="Wrap" VerticalAlignment="Center" Margin="30,0,30,0" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="NewAddTextBox" Height="25" TextWrapping="Wrap" VerticalAlignment="Center" Margin="30,0,30,0" Grid.ColumnSpan="2" BorderBrush="Black"/>
         <Label x:Name="NewAddLabel" Content="新しい送信先を入力してください" HorizontalAlignment="Left" Height="27" Margin="30,40,0,0" VerticalAlignment="Top" Width="160"/>
 
     </Grid>
