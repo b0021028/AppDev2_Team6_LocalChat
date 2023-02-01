@@ -7,7 +7,7 @@ using System.Net;
 
 namespace LocalChatBase
 {
-    public readonly struct Data
+    public struct Data
     {
         IPAddress ip { get; init; }
         bool receptionFlag { get; init; }

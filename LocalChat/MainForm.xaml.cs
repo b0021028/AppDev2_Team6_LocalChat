@@ -64,14 +64,6 @@ namespace LocalChat
         }
 
 
-        /// <summary>
-        /// チャット更新
-        /// </summary>
-        public void UpdateChat()
-        {
-            DataManager.GetDatas(IP);
-        }
-
 
 
         /// <summary>
@@ -89,7 +81,7 @@ namespace LocalChat
                     var Button_num = new Button();
                     //Button_num.Name = "PartnerButton" + ;
                     Button_num.Content = partner;
-                    Button_num.Click += DisplayChat();
+                    Button_num.Click += (o, e)=> { if (o != null) { DisplayChat(((Button)o).Content); } };
                     PartnersList.Children.Add(Button_num);
                 }
             }
@@ -100,26 +92,49 @@ namespace LocalChat
         /// チャット画面表示
         /// </summary>
         private Label[] MessageLabels;
-        public void DisplayChat()
+        public void DisplayChat(string selectedPartner)
         {
+            // チャット画面リセット処理
+            DisplayMessage.Children.Clear();
+            ChatTitle.Content = selectedPartner;
+
             // var Message_list = DataManager.GetDatas(IP);
-            var Message_list = LocalChatBase.Messenger.ReferenceMessage(partner);
-            // ボタンのインスタンス作成(リスト分)
-            this.MessageLabels = new Label[Message_list.Count];
+            var Message_list = LocalChatBase.Messenger.ReferenceMessage(selectedPartner);
+
             // メッセージ数分繰り返す
-            for (int i = 0; i < Message_list.Count; i++)
-                //for (int message_num = 0; i < this.MessageLabels.Length; i++)
-                {
-                    //ここに受信、送信側で位置の分岐を作りたい
+            foreach (var message in Message_list)
+            {
 
-                    this.MessageLabels[i] = new Label();
+                if (message.receptionFlag)
+                //ここに受信、送信側で位置の分岐を作りたい
 
-                    // コントロールのプロパティ
-                    this.MessageLabels[i].Name = "MessageLabel" + i;
-                    this.MessageLabels[i].Content = "Sample";
-                    this.DisplayMessage.Children.Add(new Label());
-                }
+                this.MessageLabels[i] = new Label();
+
+                // コントロールのプロパティ
+                this.MessageLabels[i].Name = "MessageLabel" + i;
+                this.MessageLabels[i].Content = "Sample";
+                this.DisplayMessage.Children.Add(new Label());
+            }
+
+
+
+
+
+
+            // チャット画面更新処理
+            UpdateChat();
+
+
         }
+
+        /// <summary>
+        /// チャット更新
+        /// </summary>
+        public void UpdateChat()
+        {
+            DataManager.GetDatas(IP);
+        }
+
             /// <summary>
             /// メッセージ送信
             /// </summary>
