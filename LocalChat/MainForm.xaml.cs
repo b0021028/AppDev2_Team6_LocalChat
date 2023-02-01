@@ -98,7 +98,8 @@ namespace LocalChat
         public void DisplayChat()
         {
 
-            var Message_list = DataManager.GetDatas(IP);
+            // var Message_list = DataManager.GetDatas(IP);
+            var Message_list = LocalChatBase.Messenger.ReferenceMessage();
             // ボタンのインスタンス作成(リスト分)
             this.MessageLabels = new Label[Message_list.Count];
             // メッセージ数分繰り返す
@@ -135,28 +136,10 @@ namespace LocalChat
 
 
         //　ボタンイベント
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-
-
 
         /// <summary>
         /// メッセージ送信ボタンの送信イベント
