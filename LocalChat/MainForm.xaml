@@ -15,15 +15,15 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Label Content="通信履歴" HorizontalAlignment="Left" Height="37" VerticalAlignment="Top" Width="95" FontSize="18"/>
+        <Grid Grid.Column="0" Grid.Row="0">
+            <Label Content="通信履歴" FontSize="18" HorizontalAlignment="Center"/>
 
         </Grid>
         <Grid Grid.Column="1" Grid.Row="0">
             <Label x:Name="ChatTitle" Content="" HorizontalAlignment="Left" Height="31" VerticalAlignment="Center" FontSize="18" Margin="10,0,0,0"/>
         </Grid>
         <Grid Grid.Column="0" Grid.Row="1">
-            <Grid Margin="10,0,0,10">
+            <Grid Margin="10,0,10,10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="10*"/>
@@ -38,8 +38,8 @@
                     <StackPanel x:Name="PartnersList" >
                     </StackPanel>
                 </ScrollViewer>
-                <Button Grid.Row="2" Content="＋ 新規追加先　" HorizontalAlignment="Center" VerticalAlignment="Center" Click="OpenAddNewPartnerForm" Background="White"/>
-                <Button Grid.Row="3" Content="設定" HorizontalAlignment="Left" VerticalAlignment="Top" Click="OpenConfigForm"/>
+                <Button Grid.Row="2" Content="＋ 新規追加先　" Click="OpenAddNewPartnerForm" Background="White"/>
+                <Button Grid.Row="3" Content="設定" Click="OpenConfigForm"/>
             </Grid>
         </Grid>
         <Grid Grid.Column="1" Grid.Row="1">
