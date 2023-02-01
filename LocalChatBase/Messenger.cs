@@ -15,23 +15,23 @@ namespace LocalChatBase
         /// <summary>
         /// イベントハンドラー メッセージ送信され成功した時
         /// </summary>
-        public event EventHandler<DateTime> EvSendMessageSuccess = (sender, args) => { };
+        public static event EventHandler<DateTime> EvSendMessageSuccess = (sender, args) => { };
 
         /// <summary>
         /// イベントハンドラー メッセージ受信した後
         /// </summary>
-        public event EventHandler<DateTime> EvReceptionMessage = (sender, args) => { };
+        public static event EventHandler<DateTime> EvReceptionMessage = (sender, args) => { };
 
         /// <summary>
         /// メッセージ保存
         /// </summary>
-        public string massage = "";
+        public static string massage = "";
         /// <summary>
         /// メッセージを送信し 成功したらtrueを返す 仮実装
         /// </summary>
         /// <param name="message">メッセージ</param>
         /// <param name="partner">宛先</param>
-        public bool SendMessage(string message, string partner)
+        public static bool SendMessage(string message, string partner)
         {
             try
             {
@@ -46,7 +46,7 @@ namespace LocalChatBase
                 return false;
             }
 
-            EvSendMessageSuccess(this, DateTime.Now);
+            EvSendMessageSuccess(null, DateTime.Now);
 
             return true;
         }
@@ -71,14 +71,14 @@ namespace LocalChatBase
         /// </summary>
         /// <param name="session"></param>
         /// <param name="data"></param>
-        public void ReceptionMessage(Session session, string data)
+        public static void ReceptionMessage(Session session, string data)
         {
             string message = textdeconvate(data);
             if (message != "")
             {
-                this.massage = message;
+                Messenger.massage = message;
                 //JsonSerializer.Deserialize<Data>(data);
-                EvReceptionMessage(this, DateTime.Now);
+                EvReceptionMessage(null, DateTime.Now);
 
                 session.SendData(textconvate("ReMessage", DateTime.Now));
             }
