@@ -104,16 +104,19 @@ namespace LocalChat
             // メッセージ数分繰り返す
             foreach (var message in Message_list)
             {
-
-                if (message.receptionFlag)
-                //ここに受信、送信側で位置の分岐を作りたい
-
-                this.MessageLabels[i] = new Label();
+                var Label_num = new Label();
 
                 // コントロールのプロパティ
-                this.MessageLabels[i].Name = "MessageLabel" + i;
-                this.MessageLabels[i].Content = "Sample";
-                this.DisplayMessage.Children.Add(new Label());
+                // Label_num.Name = "MessageLabel" + i;
+                Label_num.Content = message;
+                
+
+                if (message.receptionFlag)
+                //ここに受信、送信側で位置の分岐を作りたい、メッセージラベルを自分が右、相手が左に表示したい
+                {
+                    this.DisplayMessage.Children.Add(new Label());
+                }
+
             }
 
 
@@ -164,14 +167,14 @@ namespace LocalChat
         /// <param name="e"></param>
         private void Send_Click(object sender, RoutedEventArgs e)
         {
-            var text = MessageBox.Text;
+            var text = MessageText.Text;
             if (text.Length != 0)
             {
-                string massage = TextBox.Text;
+                // string massage = TextBox.Text;
                 //現在の宛先取得===========================================================================
                 var name = "";
                 //送信
-                Messenger.SendMessage(massage, name);
+                Messenger.SendMessage(text, name);
 
             }
         }
