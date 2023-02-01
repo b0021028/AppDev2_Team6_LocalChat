@@ -49,7 +49,7 @@ namespace LocalChat
         /// </summary>
         public void AddMessage()
         {
-            Messenger.ReferenceMessage();
+         //   Messenger.ReferenceMessage();
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace LocalChat
         /// </summary>
         public void UpdateChat()
         {
-            DataManager.GetDatas(IP);
+            //DataManager.GetDatas(IP);
         }
 
             /// <summary>
