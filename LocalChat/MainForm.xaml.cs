@@ -51,7 +51,7 @@ namespace LocalChat
         {
             DataManager.InitializeData();
             Connectioner.StartListen();
-            Partners.EvAddDestination += (sender,e) => { UpdatePartnersList()};
+            Partners.EvAddDestination += (sender,e) => { UpdatePartnersList(); };
             EvInitialize(this, true);
 
 
