@@ -27,7 +27,7 @@ namespace LocalChatBase
         private static Dictionary<IPAddress, string> partners = new Dictionary<IPAddress, string>();
 
         /// <summary>
-        /// 宛先の追加登録
+        /// 宛先の追加登録 とりあえずそのままIPアドレスに変換する
         /// </summary>
         /// <param name="partner">とりあえずstring のIPv4アドレス</param>
         public static void AddPartners(string partner)
