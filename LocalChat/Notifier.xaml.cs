@@ -28,9 +28,15 @@ namespace LocalChat
         
         async public new void Show()
         {
+            ResizeMode = ResizeMode.NoResize;
+            this.IsEnabled = false;
+            var sysWidth = System.Windows.SystemParameters.WorkArea.Width;
+            var sysHeight = System.Windows.SystemParameters.WorkArea.Height;
+            Width = sysWidth/5;
+            Height = sysHeight/4;
             WindowStartupLocation = WindowStartupLocation.Manual;
-            Left = System.Windows.SystemParameters.WorkArea.Width - Width;
-            Top = System.Windows.SystemParameters.WorkArea.Height - Height;
+            Left = sysWidth - Width;
+            Top = sysHeight - Height;
             base.Show();
             await Task.Delay(3000);
             this.Close();
