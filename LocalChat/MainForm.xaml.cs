@@ -32,8 +32,7 @@ namespace LocalChat
 
         // 現在の送信先数
         private int ip_num = 0;
-        // 現在のメッセージ数
-        private int message_num = 0;
+
         /// <summary>
         /// 初期化処理
         /// </summary>
@@ -100,22 +99,23 @@ namespace LocalChat
         private Label[] MessageLabels;
         public void DisplayChat()
         {
-            DataManager.GetDatas(IP);
-        }
-
-                for (int message_num = 0; i < this.MessageLabels.Length; i++)
+            var Message_list = DataManager.GetDatas(IP);
+                // メッセージ数分繰り返す
+                for (int i = 0; i < Message_list.Lenth; i++)
+                //for (int message_num = 0; i < this.MessageLabels.Length; i++)
                 {
-                    this.message_num[i] = new Label();
+                    //ここに受信、送信側で位置の分岐を作りたい
+                    this.MessageLabels[i] = new Label();
 
                     // コントロールのプロパティ
-                    this.message_num[i].Name = "MessageLabel" + i;
+                    this.MessageLabels[i].Name = "MessageLabel" + i;
                     this.MessageLabels[i].Content = "Sample";
 
 
 
                 // コーユーの
                 this.DisplayMessage.Children.Add(new Button());
-            }
+                }
         }
             /// <summary>
             /// メッセージ送信
