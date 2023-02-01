@@ -92,13 +92,15 @@ namespace LocalChat
             this.PartnersList.Children.Add(new Button());
         }
 
-
+        /// <summary>
+        /// チャット画面表示
+        /// </summary>
         private Label[] MessageLabels;
         public void DisplayChat()
         {
+            DataManager.GetDatas();
+        }
 
-                // ボタンのインスタンス作成(5つ)
-                this.MessageLabels = new Label[5];
                 for (int i = 0; i < this.MessageLabels.Length; i++)
                 {
                     this.MessageLabels[i] = new Label();
@@ -106,13 +108,11 @@ namespace LocalChat
                     // コントロールのプロパティ
                     this.MessageLabels[i].Name = "MessageLabel" + i;
                     this.MessageLabels[i].Content = "Sample";
-                    //this.MessageLabels[i].Location = new Point(10, 10 + i * 22);
-                    //this.MessageLabels[i].Size = new Size(80, 20);
 
-                    // フォームへの追加?=====================================================================
-                    this.Controls.Add(this.MessageLabels[i]);
+
+
                 // コーユーの
-                this.PartnersList.Children.Add(new Button());
+                this.DisplayMessage.Children.Add(new Button());
             }
         }
             /// <summary>
