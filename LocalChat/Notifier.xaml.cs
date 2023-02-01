@@ -31,7 +31,8 @@ namespace LocalChat
         {
             if (Configuration.GetConfig().Notification)
             {
-                /*
+                ShowInTaskbar = false;
+                //*
                 ResizeMode = ResizeMode.NoResize;
                 this.IsEnabled = false;
                 var sysWidth = System.Windows.SystemParameters.WorkArea.Width;
@@ -41,7 +42,7 @@ namespace LocalChat
                 WindowStartupLocation = WindowStartupLocation.Manual;
                 Left = sysWidth - Width;
                 Top = sysHeight - Height;
-                */
+                //*/
                 base.Show();
                 await Task.Delay(3000);
             }

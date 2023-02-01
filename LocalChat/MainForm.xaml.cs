@@ -55,7 +55,7 @@ namespace LocalChat
             Connectioner.EvStartSession += (sender, e) => {e.EvReception += Messenger.ReceptionMessage;e.StartReception(); };
 
             // イベント登録 データ保存処理
-            Messenger.EvReceptionMessage += (sender, e) => { DataManager.AddData(e.receptionFlag, e.ip, e.time, e.message); Partners.AddPartners(e.ip.ToString()??""); Task.Run(new Notifier(e.message).Show); };
+            Messenger.EvReceptionMessage += (sender, e) => { DataManager.AddData(e.receptionFlag, e.ip, e.time, e.message); Partners.AddPartners(e.ip.ToString()??""); new Notifier("メッセージを受信しました").Show(); };
 
             // イベント登録 データ保存処理
             Messenger.EvSendMessageSuccess += (sender, e) => { DataManager.AddData(e.receptionFlag, e.ip, e.time, e.message); };
@@ -149,10 +149,13 @@ namespace LocalChat
                 onemessage.Children.Add(tLabel);
 
                 // メッセージ
-                var mLabel = new Label();
-                mLabel.FontSize = 18;
-                mLabel.Content = messagedata.message;
-                onemessage.Children.Add(mLabel);
+                //var mLabel = new Label();
+                var mTextBlock = new TextBlock();
+                mTextBlock.Margin = new Thickness(5,5,5,5);
+                mTextBlock.Text = messagedata.message;
+                mTextBlock.FontSize = 18;
+                mTextBlock.TextWrapping = TextWrapping.Wrap;
+                onemessage.Children.Add(mTextBlock);
 
                 //ここに受信、送信側で位置の分岐を作りたい、メッセージラベルを自分が右、相手が左に表示したい
                 if (messagedata.receptionFlag)
@@ -173,9 +176,9 @@ namespace LocalChat
                 Grid.SetRow(tLabel, 0);
 
 
-                Grid.SetColumn(mLabel, 0);
-                Grid.SetRow(mLabel, 1);
-                Grid.SetColumnSpan(mLabel, 2);
+                Grid.SetColumn(mTextBlock, 0);
+                Grid.SetRow(mTextBlock, 1);
+                Grid.SetColumnSpan(mTextBlock, 2);
 
 
                 var chatgrid = new Grid();
@@ -218,6 +221,7 @@ namespace LocalChat
                 if (title != "")
                 {
                     DisplayChat(title);
+                    new Notifier("メッセージを送受信しました").Show();
                 }
             }
         }
