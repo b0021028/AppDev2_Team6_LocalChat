@@ -116,20 +116,19 @@ namespace LocalChat
             */
 
             this.PartnersButtons[ip_num].Name = "PartnerButton" + ip_num;
-            this.PartnersButtons[ip_num].Text = address
+            this.PartnersButtons[ip_num].Text = address;
             this.PartnersButtons[ip_num].Location = new Point(10, 10 + ip_num * 22);
             this.PartnersButtons[ip_num].Size = new Size(80, 20);
-            ip_num += 1
-            
+            ip_num += 1;
         }
 
 
-        private Button[] manyLabels;
+        private Label[] MessageLabels;
         public void DisplayChat(Message)
         {
             {
                 InitializeComponent();
-                this.manyLabels = null;
+                this.MessageLabels = null;
             }
             /*public Form1()
             {
@@ -139,26 +138,26 @@ namespace LocalChat
             /*
             private void button1_Click(object sender, EventArgs e)
             {
-                if (this.manyLabels != null)
+                if (this.MessageLabels != null)
                 {
                     MessageBox.Show("フォームはすでに表示されています");
                     return;
                 }
             */
                 // ボタンのインスタンス作成(5つ)
-                this.manyLabels = new Label[5];
-                for (int i = 0; i < this.manyLabels.Length; i++)
+                this.MessageLabels = new Label[5];
+                for (int i = 0; i < this.MessageLabels.Length; i++)
                 {
-                    this.manyLabels[i] = new Label();
+                    this.MessageLabels[i] = new Label();
 
                     // コントロールのプロパティ
-                    this.manyLabels[i].Name = "MessageLabel" + i;
-                    this.manyLabels[i].Text = ;
-                    this.manyLabels[i].Location = new Point(10, 10 + i * 22);
-                    this.manyLabels[i].Size = new Size(80, 20);
+                    this.MessageLabels[i].Name = "MessageLabel" + i;
+                    this.MessageLabels[i].Text = ;
+                    this.MessageLabels[i].Location = new Point(10, 10 + i * 22);
+                    this.MessageLabels[i].Size = new Size(80, 20);
 
                     // フォームへの追加
-                    this.Controls.Add(this.manyLabels[i]);
+                    this.Controls.Add(this.MessageLabels[i]);
                 }
             }
         }
