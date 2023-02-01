@@ -66,6 +66,9 @@ namespace LocalChat
             // イベント登録 データ保存処理
             Messenger.EvReceptionMessage += (sender, e) => { DataManager.AddData(e.receptionFlag, e.ip, e.time, e.message); };
 
+            // イベント登録 データ保存処理
+            Messenger.EvSendMessageSuccess += (sender, e) => { DataManager.AddData(e.receptionFlag, e.ip, e.time, e.message); };
+
             // イベント登録 新規データ取得時チャット画面更新 動いてない
             DataManager.EvAddData += (sender, e)=> { this.Dispatcher.Invoke(UpdateChat); };
 
