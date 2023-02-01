@@ -123,7 +123,7 @@ namespace LocalChatBase
             }
             else
             {
-
+                NearDatabase.Add(new Data());
             }
         }
 
@@ -166,55 +166,59 @@ namespace LocalChatBase
         {
             if (IsDatabaseMode)
             {
-
-            }
-            SQLiteDataReader reader;
-            int count = 0;
-            using (var conntect = new SQLiteConnection(s_dataSource))
-            {
-                conntect.Open();
-                var command = conntect.CreateCommand();
-                command.CommandText = "SELECT COUNT(*) FROM MESSAGES;";
-                try
+                SQLiteDataReader reader;
+                int count = 0;
+                using (var conntect = new SQLiteConnection(s_dataSource))
                 {
-                    count = (int)command.ExecuteReader().GetValue(0);
+                    conntect.Open();
+                    var command = conntect.CreateCommand();
+                    command.CommandText = "SELECT COUNT(*) FROM MESSAGES;";
+                    try
+                    {
+                        count = (int)command.ExecuteReader().GetValue(0);
 
+                    }
+                    catch (InvalidOperationException e)
+                    {
+                        count = 0;
+                    }
+                    command = conntect.CreateCommand();
+                    command.CommandText = "SELECT RECIPIENT, RECEIVEFLAG, TIME, MESSAGE FROM MESSAGES WHERE RECIPIENT=@ip;";
+                    command.Parameters.AddWithValue("@ip", ip);
+
+
+                    // データの取得
+                    ////
+                    try // =========================================================================================================================================================debug
+                    {
+                        reader = command.ExecuteReader();
+                    }
+                    catch { reader = null; }
                 }
-                catch (InvalidOperationException e)
+                // =========================================================================================================================================================debug
+                List<Data> ret = new() {new Data("10.146.221.28","true",DateTime.Now.ToString(),"testbuck") };
+
+                if (reader == null)// =========================================================================================================================================================debug
                 {
-                    count = 0;
+                    return ret;
                 }
-                command = conntect.CreateCommand();
-                command.CommandText = "SELECT RECIPIENT, RECEIVEFLAG, TIME, MESSAGE FROM MESSAGES WHERE RECIPIENT=@ip;";
-                command.Parameters.AddWithValue("@ip", ip);
 
 
-                // データの取得
-                ////
-                try // =========================================================================================================================================================debug
+                for (int i=0; i< count; i++)
                 {
-                    reader = command.ExecuteReader();
+                    ret.Add(new Data(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3)));
+                    reader.NextResult();
                 }
-                catch { reader = null; }
-            }
-            // =========================================================================================================================================================debug
-            List<Data> ret = new() {new Data("10.146.221.28","true",DateTime.Now.ToString(),"testbuck") };
 
-            if (reader == null)// =========================================================================================================================================================debug
-            {
+
+
                 return ret;
+
             }
-
-
-            for (int i=0; i< count; i++)
+            else
             {
-                ret.Add(new Data(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3)));
-                reader.NextResult();
+
             }
-
-
-
-            return ret;
         }
 
     }
