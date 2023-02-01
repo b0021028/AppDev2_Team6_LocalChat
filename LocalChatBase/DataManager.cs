@@ -35,7 +35,8 @@ namespace LocalChatBase
         /// </summary>
         public static event EventHandler<bool> EvAddData = (sender, args) => { };
 
-        private static string s_dataSource { get; } = "Data Source=temptable";
+        private static string s_datapath { get; } = "temptable";
+        private static string s_dataSource { get; } = $"Data Source={s_datapath}";
 
         /// <summary>
         /// データベースの作成とテーブルの作成
@@ -50,11 +51,7 @@ namespace LocalChatBase
                 using (var cmd = new SQLiteCommand(cn))
                 {
                     var beginer = cn.BeginTransaction();
-                    cmd.CommandText = "CREATE TABLE IF NOT EXISTS TEMPTABLE (" +
-                "ReceiveFlag NUMERIC NOT NULL," +
-                "Recipient TEXT NOT NULL, " +
-                "Time NUMERIC NOT NULL," +
-                "Message TEXT NOT NULL); ";
+                    cmd.CommandText = "CREATE TABLE IF NOT EXISTS TEMPTABLE (RECEIVEFLAG NUMERIC NOT NULL, RECIPIENT TEXT NOT NULL, TIME NUMERIC NOT NULL, MESSAGE TEXT NOT NULL  ); ";
                     cmd.ExecuteNonQuery();
                     beginer.Commit();
                 }
@@ -77,7 +74,7 @@ namespace LocalChatBase
                 using (SQLiteTransaction sqlt = conn.BeginTransaction())
                 {
                     var cmd = conn.CreateCommand();
-                    cmd.CommandText = "insert into TEMPTABLE (RaceiveFlag, Recipient, Time, Message) values (@reception, @ip, @time, @message);";
+                    cmd.CommandText = "INSERT INTO TEMPTABLE (RACEIVEFLAG, RECIPIENT, TIME, MESSAGE) VALUES (@reception, @ip, @time, @message);";
                     cmd.Parameters.AddWithValue("@reception", reception);
                     cmd.Parameters.AddWithValue("@ip", ip);
                     cmd.Parameters.AddWithValue("@time", time);
@@ -91,17 +88,17 @@ namespace LocalChatBase
             }
         }
 
+
         /// <summary>
         /// データを初期化します データベース内のファイルを初期化する(データベース自体の削除)
         /// </summary>
         public static void InitializeData()
         {
-            string FilePath = @"temptable.db";
-            if(File.Exists(FilePath))
+            if(File.Exists(s_datapath))
             {
                 try
                 {
-                    File.Delete(FilePath);
+                    File.Delete(s_datapath);
                 }
                 catch
                 {
@@ -123,7 +120,7 @@ namespace LocalChatBase
             {
                 conn.Open();
                 var command = conn.CreateCommand();
-                command.CommandText = "SELECT Recipient, ReceiveFlag, Time, Message FROM TEMPTABLE WHERE IP=@ip;";
+                command.CommandText = "SELECT RECIPIENT, RECEIVEFLAG, TIME, MESSAGE FROM TEMPTABLE WHERE IP=@ip;";
                 command.Parameters.AddWithValue("@ip", ip);
                 // データの取得
                 ////

@@ -20,7 +20,7 @@ namespace LocalChatBase
         /// <summary>
         /// イベントハンドラー メッセージ受信した後
         /// </summary>
-        public static event EventHandler<DateTime> EvReceptionMessage = (sender, args) => { };
+        public static event EventHandler<Data> EvReceptionMessage = (sender, args) => { };
 
         /// <summary>
         /// メッセージ保存
@@ -71,18 +71,22 @@ namespace LocalChatBase
         /// </summary>
         /// <param name="session"></param>
         /// <param name="data"></param>
-        public static void ReceptionMessage(Session session, string data)
+        public static void ReceptionMessage(object? session, string rawdata)
         {
-            string message = textdeconvate(data);
-            if (message != "")
+            if (session != null)
             {
-                Messenger.massage = message;
-                //JsonSerializer.Deserialize<Data>(data);
-                EvReceptionMessage(null, DateTime.Now);
+                string data = textdeconvate(rawdata);
+                if (data != "")
+                {
+                    //Messenger.massage = data;
+                    //JsonSerializer.Deserialize<Data>(data);
+                    var messagedata = new Data(((Session)session).remoteEndPoint.Address, true, DateTime.Now, data);
+                    EvReceptionMessage(null, messagedata);
 
-                session.SendData(textconvate("ReMessage", DateTime.Now));
+                    ((Session)session).SendData(textconvate("ReMessage", DateTime.Now));
+                }
+                ((Session)session).EndSession();
             }
-            session.EndSession();
 
         }
 

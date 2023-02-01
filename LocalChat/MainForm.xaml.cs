@@ -45,13 +45,25 @@ namespace LocalChat
 
 
         /// <summary>
-        /// 初期化処理
+        /// 初期化処理 元内部コアと外部コア処理
         /// </summary>
         public void Intialize()
         {
+            // データ保存管理の初期化
             DataManager.InitializeData();
-            Connectioner.StartListen();
+
+            // イベント登録 宛先が追加された時 -> GUI宛先リスト更新
             Partners.EvAddDestination += (sender,e) => { UpdatePartnersList(); };
+
+            // イベント登録 通信セッション開始 -> データ受信時 -> メッセージ受け取り
+            Connectioner.EvStartSession += (sender, e) => {e.EvReception += Messenger.ReceptionMessage;e.StartReception(); };
+
+            // イベント登録 データ保存処理
+            Messenger.EvReceptionMessage += (sender, e) => {DataManager.AddData(e.receptionFlag, e.ip, e.time, e.message };
+            // イベント登録 新規データ取得時チャット画面更新
+            DataManager.EvAddData += (sender, e)=> { UpdateChat(); };
+            // 受信待ち受け開始
+            Connectioner.StartListen();
             EvInitialize(this, true);
 
 
