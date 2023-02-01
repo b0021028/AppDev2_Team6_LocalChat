@@ -109,6 +109,7 @@ namespace LocalChatBase
         public static void InitializeData(bool? t)
         {
             InitializeData();
+            Main();
         }
 
         /// <summary>
@@ -128,19 +129,20 @@ namespace LocalChatBase
                 command.Parameters.AddWithValue("@ip", ip);
                 // ÉfÅ[É^ÇÃéÊìæ
                 ////
-                try
+                try // =========================================================================================================================================================debug
                 {
                     reader = command.ExecuteReader();
                 }
                 catch { reader = null; }
             }
+            // =========================================================================================================================================================debug
             List<Data> ret = new() {new Data("10.146.221.28","true",DateTime.Now.ToString(),"testbuck") };
 
-            if (reader == null)
+            if (reader == null)// =========================================================================================================================================================debug
             {
                 return ret;
             }
-            ///
+
 
             for (int i=0; i< reader.StepCount; i++)
             {

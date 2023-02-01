@@ -52,7 +52,7 @@ namespace LocalChat
         public void Intialize()
         {
             // データ保存管理の初期化
-            DataManager.InitializeData(null);
+            DataManager.InitializeData(true);
 
             // コンフィグ読込み
             Configuration.LoadConfigFile();
