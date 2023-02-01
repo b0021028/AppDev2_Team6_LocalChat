@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -23,7 +22,20 @@ namespace LocalChat
     /// </summary>
     public partial class AddNewPartnerForm : Window
     {
-        
+
+
+        /// <summary>
+        /// 設定画面生成
+        /// </summary>
+        public AddNewPartnerForm()
+        {
+            InitializeComponent();
+            this.ResizeMode = ResizeMode.NoResize;
+            this.Title = "新規宛先追加";
+        }
+
+
+
         /// <summary>
         /// OKボタンを押したときの処理
         /// </summary>
@@ -32,19 +44,21 @@ namespace LocalChat
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
             // テキストボックスから、ボックス内の値を取得
-            string textValue = @"NewAddTextBox.Text";
+            string textValue = NewAddTextBox.Text.Trim(' ', '　','\n');
 
-            IPAddress ipaddr;
-
-            bool ret = IPAddress.TryParse(textValue, out ipaddr);
+            bool ret = Partners.AddPartners(textValue);
             if(!ret) {
                 MessageBox.Show("IPアドレスを読み込めませんでした。もう一度IPアドレスをご確認ください。",
                     "エラー",
                     MessageBoxButton.OK);
 
             }
+            else
+            {
+                this.Close();
+            }
 
-            /// <summary>
+            /*// <summary>
             /// データベースの欄にこのIPアドレスを追加する(データベースの方にアドレスの値を渡す)
             /// </summary>
             var sqlConnection = new SQLiteConnectionStringBuilder { DataSource = "temptable.db" };
@@ -58,7 +72,7 @@ namespace LocalChat
                     string.Format("", ipaddr);
                     cmd.Inserttemptable(string.Format("{}, NULL, NULL, NULL", ipaddr));
                 }
-            }
+            }*/
 
         }
 
