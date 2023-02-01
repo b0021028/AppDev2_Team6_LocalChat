@@ -1,17 +1,25 @@
-using Org.BouncyCastle.Tls;
-using Org.BouncyCastle.Utilities.Net;
+
 using System;
 using System.Data;
 using System.Data.SQLite;
+using System.Net;
+
 
 namespace LocalChatBase
 {
-    public struct Data
+    public readonly struct Data
     {
-        string ip;
-        string reception;
-        string time;
-        string message;
+        IPAddress ip { get; init; }
+        bool receptionFlag { get; init; }
+        DateTime time { get; init; }
+        string message { get; init; }
+        public Data(IPAddress ip, bool receptionFlag, DateTime time, string message)
+        {
+            this.ip = ip;
+            this.time = time;
+            this.receptionFlag = receptionFlag;
+            this.message = message;
+        }
     }
     public class DataManager
     {
@@ -47,7 +55,11 @@ namespace LocalChatBase
         /// <summary>
         /// データの追加をします 順番：受信フラグ、受け取り人、時間、メッセージ
         /// </summary>
-        public static void AddData(IPAddress ip, bool reception, DateTime time, string message)
+        /// <param name="reception"></param>
+        /// <param name="ip"></param>
+        /// <param name="time"></param>
+        /// <param name="message"></param>
+        public static void AddData(bool reception, IPAddress ip, DateTime time, string message)
         {
             using (var conn = new SQLiteConnection(s_dataSource))
             {
@@ -87,7 +99,7 @@ namespace LocalChatBase
         /// </summary>
         /// <param name="ip"></param>
         /// <returns></returns>
-        async public static IAsyncEnumerable<object> GetDatas(IPAddress ip)
+        public static IEnumerator<string> GetDatas(IPAddress ip)
         {
             SQLiteDataReader reader;
 
@@ -95,21 +107,19 @@ namespace LocalChatBase
             {
                 conn.Open();
                 var command = conn.CreateCommand();
-                command.CommandText =
-                    $"SELECT RaceiveFlag, Recipient, Time, Message FROM TEMPTABLE " +
-                    "WHERE IP='{ip.ToString()}';";
+                command.CommandText = "SELECT RaceiveFlag, Recipient, Time, Message FROM TEMPTABLE WHERE IP=@ip;";
+                command.Parameters.AddWithValue("@ip", ip);
                 // データの取得
                 reader = command.ExecuteReader();
-
             }
-            foreach(var data in reader)
+            foreach (var data in reader)
             {
-                yield data;
+                new Data(reader.GetString(0), reader.GetInt32(1), reader.GetString(2), reader.GetString(3))
             }
 
 
 
-            return new Data();
+            return (IEnumerator<string>)reader.GetEnumerator();
         }
 
     }
