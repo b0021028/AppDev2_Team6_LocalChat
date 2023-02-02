@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Threading;
 using LocalChatBase;
-using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace LocalChat
 {
@@ -58,15 +49,18 @@ namespace LocalChat
             Configuration.LoadConfigFile();
 
             // イベント登録 宛先が追加された時 -> GUI宛先リスト更新
-            Partners.EvAddDestination += (sender,e) => { UpdatePartnersList(); };
+            Partners.EvAddDestination += (sender,e) => { Dispatcher.Invoke(UpdatePartnersList); };
 
             // イベント登録 通信セッション開始 -> データ受信時 -> メッセージ受け取り
             Connectioner.EvStartSession += (sender, e) => {e.EvReception += Messenger.ReceptionMessage;e.StartReception(); };
 
             // イベント登録 データ保存処理
-            Messenger.EvReceptionMessage += (sender, e) => { DataManager.AddData(e.receptionFlag, e.ip, e.time, e.message); };
+            Messenger.EvReceptionMessage += (sender, e) => { DataManager.AddData(e.receptionFlag, e.ip, e.time, e.message); Partners.AddPartners(e.ip.ToString()??""); new Notifier("メッセージを受信しました").Show(); };
 
-            // イベント登録 新規データ取得時チャット画面更新
+            // イベント登録 データ保存処理
+            Messenger.EvSendMessageSuccess += (sender, e) => { DataManager.AddData(e.receptionFlag, e.ip, e.time, e.message); };
+
+            // イベント登録 新規データ取得時チャット画面更新 動いてない
             DataManager.EvAddData += (sender, e)=> { this.Dispatcher.Invoke(UpdateChat); };
 
             // 受信待ち受け開始
@@ -136,37 +130,81 @@ namespace LocalChat
             // タイトル変更
             ChatTitle.Content = selectedPartner;
 
+
             // メッセージ履歴取得
             // メッセージ数分繰り返す
-            foreach (var messagedata in LocalChatBase.Messenger.ReferenceMessage(selectedPartner))
+            foreach (var messagedata in Messenger.ReferenceMessage(selectedPartner))
             {
-                var grid = new Grid();
 
+                var onemessage = new Grid();
+                onemessage.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+                onemessage.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+                onemessage.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
+                onemessage.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
+                onemessage.Width = double.NaN;
 
-                if (messagedata.receptionFlag)
+                // タイムスタンプ
+                var tLabel = new Label();
+                tLabel.Content = messagedata.time.ToString();
+                onemessage.Children.Add(tLabel);
+
+                // メッセージ
+                //var mLabel = new Label();
+                var mTextBlock = new TextBlock();
+                mTextBlock.Margin = new Thickness(5,5,5,5);
+                mTextBlock.Text = messagedata.message;
+                mTextBlock.FontSize = 18;
+                mTextBlock.TextWrapping = TextWrapping.Wrap;
+                onemessage.Children.Add(mTextBlock);
+
                 //ここに受信、送信側で位置の分岐を作りたい、メッセージラベルを自分が右、相手が左に表示したい
+                if (messagedata.receptionFlag)
                 {
                     // 送信者 ipアドレス
                     var pLabel = new Label();
                     pLabel.Content = messagedata.ip;
-                    grid.Children.Add(pLabel);
+                    onemessage.Children.Add(pLabel);
+                    Grid.SetColumn(pLabel, 0);
+                    Grid.SetRow(pLabel, 0);
+
+                    Grid.SetColumn(tLabel, 1);
                 }
-                // タイムスタンプ
-                var tLabel = new Label();
-                tLabel.Content = messagedata.time;
-                grid.Children.Add(tLabel);
-
-                var mLabel = new Label();
-                mLabel.Content = messagedata.message;
-                grid.Children.Add(mLabel);
+                else
+                {
+                    Grid.SetColumn(tLabel, 0);
+                }
+                Grid.SetRow(tLabel, 0);
 
 
-                grid.Width = double.NaN;
+                Grid.SetColumn(mTextBlock, 0);
+                Grid.SetRow(mTextBlock, 1);
+                Grid.SetColumnSpan(mTextBlock, 2);
 
 
-                DisplayMessage.Children.Add(grid);
+                var chatgrid = new Grid();
+                chatgrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+                chatgrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+                chatgrid.Width = double.NaN;
+                var borderline = new Border() { BorderBrush = new SolidColorBrush(Colors.Black), BorderThickness = new Thickness(1) };
+                chatgrid.Children.Add(borderline);
+                chatgrid.Children.Add(onemessage);
+
+                if (messagedata.receptionFlag)
+                {
+                    Grid.SetColumn(borderline, 0);
+                    Grid.SetColumn(onemessage, 0);
+                }
+                else
+                {
+                    Grid.SetColumn(borderline, 1);
+                    Grid.SetColumn(onemessage, 1);
+                }
+
+                DisplayMessage.Children.Add(chatgrid);
+                ChatScroll.ScrollToBottom();
 
             }
+
 
 
 
@@ -179,10 +217,11 @@ namespace LocalChat
         {
             if (ChatTitle.Content != null)
             {
-                var title = ChatTitle.Content.ToString();
-                if (title != null && title != "")
+                string title = ChatTitle.Content.ToString()?? "";
+                if (title != "")
                 {
                     DisplayChat(title);
+                    new Notifier("メッセージを送受信しました").Show();
                 }
             }
         }
@@ -190,15 +229,21 @@ namespace LocalChat
         /// <summary>
         /// メッセージ送信
         /// </summary>
-        public void SendMessage()
+        async public Task SendMessage()
         {
-            var partner = ChatTitle.Content.ToString();
-            string message = MessageText.Text;
-            if (partner != null && message.Trim('　',' ','\n')!="")
+            sendButton.IsEnabled = false;
+            //現在の宛先取得
+            string name = ChatTitle.Content.ToString()??"";
+            string text = MessageText.Text;
+            // 文字数が0ではない
+            if (name != "" && text.Trim('　',' ','\n','\t').Length != 0)
             {
-                LocalChatBase.Messenger.SendMessage(message, partner);
-
+                //送信
+                var a = await Messenger.SendMessage(text, name).WaitAsync(TimeSpan.FromSeconds(10));
+                var t = a;
+                MessageText.Text = "";
             }
+            sendButton.IsEnabled = true;
 
         }
 
@@ -211,19 +256,7 @@ namespace LocalChat
         /// <param name="e"></param>
         private void Send_Click(object sender, RoutedEventArgs e)
         {
-            string text = MessageText.Text;
-            // 文字数が0ではない
-            if (text.Length != 0)
-            {
-                //現在の宛先取得
-                string name = ChatTitle.Content.ToString()??"";
-                if (name != "")
-                {
-                    //送信
-                    Messenger.SendMessage(text, name);
-                }
-
-            }
+            SendMessage();
         }
 
 

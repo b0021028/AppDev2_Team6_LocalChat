@@ -1,10 +1,8 @@
-
-using Mysqlx.Crud;
-using Org.BouncyCastle.Cms;
 using System;
 using System.Data;
 using System.Data.SQLite;
 using System.Net;
+using System.Linq;
 
 
 namespace LocalChatBase
@@ -40,42 +38,60 @@ namespace LocalChatBase
         private static string s_dataSource { get; } = $"Data Source={s_datapath};Version=3;";
 
         /// <summary>
+        /// 緊急デバック用 擬似データベース
+        /// </summary>
+        public static List<Data> NearDatabase = new();
+        /// <summary>
+        /// 緊急デバック用 データベースモード切替
+        /// </summary>
+        private static bool IsDatabaseMode = false;
+
+        /// <summary>
         /// データベースの作成とテーブルの作成
         /// </summary>
-        static void Main()
+        static void CreateTable()
         {
-            using (var connect = new SQLiteConnection(s_dataSource))
+            if (IsDatabaseMode)
             {
-                connect.Open();
-
-                string sql =
-                    "CREATE TABLE MESSAGES ("+
-                    "RECEIVEFLAG NUMERIC NOT NULL, "+
-                    "RECIPIENT TEXT NOT NULL, "+"" +
-                    "TIME NUMERIC NOT NULL, "+
-                    "MESSAGE TEXT NOT NULL"+
-                    "); ";
-                try
+                using (var connect = new SQLiteConnection(s_dataSource))
                 {
-                    var cmd = new SQLiteCommand(sql, connect);
-                    cmd.ExecuteNonQuery();
+                    connect.Open();
 
-                    sql = "SELECT RECIPIENT, RECEIVEFLAG, TIME, MESSAGE FROM MESSAGES WHERE RECIPIENT='10.146.221.28';";
-                    cmd = new SQLiteCommand(sql, connect);
-                    cmd.ExecuteNonQuery();
+                    string sql =
+                        "CREATE TABLE MESSAGES ("+
+                        "RECEIVEFLAG NUMERIC NOT NULL, "+
+                        "RECIPIENT TEXT NOT NULL, "+"" +
+                        "TIME NUMERIC NOT NULL, "+
+                        "MESSAGE TEXT NOT NULL"+
+                        "); ";
+                    try
+                    {
+                        var cmd = new SQLiteCommand(sql, connect);
+                        cmd.ExecuteNonQuery();
 
-                    cmd = connect.CreateCommand();
-                    cmd.CommandText = "INSERT INTO MESSAGES (RECEIVEFLAG, RECIPIENT, TIME, MESSAGE) VALUES (@flag, @ip, @time, @message);";
-                    cmd.Parameters.AddWithValue("@flag", true);
-                    cmd.Parameters.AddWithValue("@ip", IPAddress.Parse("0.0.0.0"));
-                    cmd.Parameters.AddWithValue("@time", DateTime.Now);
-                    cmd.Parameters.AddWithValue("@message", "testtestesttesttest");
-                    cmd.ExecuteNonQuery();
+
+                        cmd = connect.CreateCommand();
+                        cmd.CommandText = "INSERT INTO MESSAGES (RECEIVEFLAG, RECIPIENT, TIME, MESSAGE) VALUES (@flag, @ip, @time, @message);";
+                        cmd.Parameters.AddWithValue("@flag", true);
+                        cmd.Parameters.AddWithValue("@ip", IPAddress.Parse("127.255.255.255"));
+                        cmd.Parameters.AddWithValue("@time", DateTime.Now);
+                        cmd.Parameters.AddWithValue("@message", "testtestesttesttest");
+                        cmd.ExecuteNonQuery();
+
+                        sql = "SELECT RECIPIENT, RECEIVEFLAG, TIME, MESSAGE FROM MESSAGES WHERE RECIPIENT='10.146.221.28';";
+                        cmd = new SQLiteCommand(sql, connect);
+                        cmd.ExecuteNonQuery();
+                    }
+                    finally
+                    {
+                        connect.Close();
+                    }
                 }
-                finally
-                {
-                    connect.Close();
-                }
+
+            }
+            else
+            {
+
             }
         }
 
@@ -88,20 +104,31 @@ namespace LocalChatBase
         /// <param name="message"></param>
         public static void AddData(bool receptionflag, IPAddress ip, DateTime time, string message)
         {
-            using (var connect = new SQLiteConnection(s_dataSource))
+            if (IsDatabaseMode)
             {
-                connect.Open();
-                // データの追加を試みる
-                var cmd = connect.CreateCommand();
-                cmd.CommandText = "INSERT INTO MESSAGES (RECEIVEFLAG, RECIPIENT, TIME, MESSAGE) VALUES (@flag, @ip, @time, @message);";
-                cmd.Parameters.AddWithValue("@flag", receptionflag);
-                cmd.Parameters.AddWithValue("@ip", ip);
-                cmd.Parameters.AddWithValue("@time", time);
-                cmd.Parameters.AddWithValue("@message", message);
-                cmd.ExecuteNonQuery();
-
+                using (var connect = new SQLiteConnection(s_dataSource))
+                {
+                    connect.Open();
+                    try
+                    {
+                        // データの追加を試みる
+                        var cmd = connect.CreateCommand();
+                        cmd.CommandText = "INSERT INTO MESSAGES (RECEIVEFLAG, RECIPIENT, TIME, MESSAGE) VALUES (@flag, @ip, @time, @message);";
+                        cmd.Parameters.AddWithValue("@flag", receptionflag);
+                        cmd.Parameters.AddWithValue("@ip", ip);
+                        cmd.Parameters.AddWithValue("@time", time);
+                        cmd.Parameters.AddWithValue("@message", message);
+                        cmd.ExecuteNonQuery(); // デッドロック
+                    }
+                    finally { connect.Close(); }
+                }
                 EvAddData(null, receptionflag);
-                connect.Close();
+
+            }
+            else
+            {
+                NearDatabase.Add(new Data(ip, receptionflag, time, message));
+                EvAddData(null, receptionflag);
             }
         }
 
@@ -111,21 +138,28 @@ namespace LocalChatBase
         /// </summary>
         public static void InitializeData()
         {
-            if(File.Exists(s_datapath))
+            if (IsDatabaseMode)
             {
-                try
+                if (File.Exists(s_datapath))
                 {
-                    File.Delete(s_datapath);
+                    try
+                    {
+                        File.Delete(s_datapath);
+                    }
+                    catch
+                    {
+                    }
                 }
-                catch
-                {
-                }
+            }
+            else
+            {
+
             }
         }
         public static void InitializeData(bool? t)
         {
             InitializeData();
-            Main();
+            CreateTable();
         }
 
         /// <summary>
@@ -135,53 +169,62 @@ namespace LocalChatBase
         /// <returns></returns>
         public static List<Data> GetDatas(IPAddress ip)
         {
-            SQLiteDataReader reader;
-            int count = 0;
-            using (var conntect = new SQLiteConnection(s_dataSource))
+            if (IsDatabaseMode)
             {
-                conntect.Open();
-                var command = conntect.CreateCommand();
-                command.CommandText = "SELECT COUNT(*) FROM MESSAGES;";
-                try
+                SQLiteDataReader reader;
+                int count = 0;
+                using (var conntect = new SQLiteConnection(s_dataSource))
                 {
-                    count = (int)command.ExecuteReader().GetValue(0);
+                    conntect.Open();
+                    var command = conntect.CreateCommand();
+                    command.CommandText = "SELECT COUNT(*) FROM MESSAGES;";
+                    try
+                    {
+                        count = (int)command.ExecuteReader().GetValue(0);
 
+                    }
+                    catch (InvalidOperationException e)
+                    {
+                        count = 0;
+                    }
+                    command = conntect.CreateCommand();
+                    command.CommandText = "SELECT RECIPIENT, RECEIVEFLAG, TIME, MESSAGE FROM MESSAGES WHERE RECIPIENT=@ip;";
+                    command.Parameters.AddWithValue("@ip", ip);
+
+
+                    // データの取得
+                    ////
+                    try // =========================================================================================================================================================debug
+                    {
+                        reader = command.ExecuteReader();
+                    }
+                    catch { reader = null; }
                 }
-                catch (InvalidOperationException e)
+                // =========================================================================================================================================================debug
+                List<Data> ret = new() {new Data("10.146.221.28","true",DateTime.Now.ToString(),"testbuck") };
+
+                if (reader == null)// =========================================================================================================================================================debug
                 {
-                    count = 0;
+                    return ret;
                 }
-                command = conntect.CreateCommand();
-                command.CommandText = "SELECT RECIPIENT, RECEIVEFLAG, TIME, MESSAGE FROM MESSAGES WHERE RECIPIENT=@ip;";
-                command.Parameters.AddWithValue("@ip", ip);
 
 
-                // データの取得
-                ////
-                try // =========================================================================================================================================================debug
+                for (int i=0; i< count; i++)
                 {
-                    reader = command.ExecuteReader();
+                    ret.Add(new Data(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3)));
+                    reader.NextResult();
                 }
-                catch { reader = null; }
-            }
-            // =========================================================================================================================================================debug
-            List<Data> ret = new() {new Data("10.146.221.28","true",DateTime.Now.ToString(),"testbuck") };
 
-            if (reader == null)// =========================================================================================================================================================debug
-            {
+
+
                 return ret;
+
             }
-
-
-            for (int i=0; i< count; i++)
+            else
             {
-                ret.Add(new Data(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3)));
-                reader.NextResult();
+                var x = NearDatabase.Where(x => x.ip.Equals(ip)).ToList();
+                return x;
             }
-
-
-
-            return ret;
         }
 
     }

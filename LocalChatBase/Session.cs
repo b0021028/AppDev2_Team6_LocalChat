@@ -114,8 +114,7 @@ namespace LocalChatBase
             if (!_started)
             {
                 _started = true;
-                var a = new Task(Run);
-                a.Start();
+                _ = Task.Run(Run);
             }
 
         }
@@ -125,21 +124,21 @@ namespace LocalChatBase
         /// テキストデータを送信します
         /// </summary>
         /// <param name="data">送信するテキストデータ</param>
-        public void SendData(string data)
+        async public Task SendData(string data)
         {
             //データを送信する
             _netStream.WriteTimeout = s_timeOut;
 
             byte[] sendBytes = s_encode.GetBytes(data);
 
-            _netStream.WriteAsync(sendBytes, 0, sendBytes.Length);
+            await _netStream.WriteAsync(sendBytes, 0, sendBytes.Length);
 
         }
 
         /// <summary>
         /// データ受信処理部
         /// </summary>
-        async private void Run()
+        async private Task Run()
         {
             try
             {
@@ -177,7 +176,9 @@ namespace LocalChatBase
                 }
 
             }
-            catch(OperationCanceledException e) { }
+            catch (OperationCanceledException e) { }
+            catch (System.IO.IOException e) { }
+            
 
         }
 

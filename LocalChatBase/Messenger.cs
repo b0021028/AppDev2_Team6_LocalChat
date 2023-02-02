@@ -15,7 +15,7 @@ namespace LocalChatBase
         /// <summary>
         /// イベントハンドラー メッセージ送信され成功した時
         /// </summary>
-        public static event EventHandler<DateTime> EvSendMessageSuccess = (sender, args) => { };
+        public static event EventHandler<Data> EvSendMessageSuccess = (sender, args) => { };
 
         /// <summary>
         /// イベントハンドラー メッセージ受信した後
@@ -23,32 +23,31 @@ namespace LocalChatBase
         public static event EventHandler<Data> EvReceptionMessage = (sender, args) => { };
 
         /// <summary>
-        /// メッセージ保存
+        /// 緊急デバック 送信データ型変更
         /// </summary>
-        public static string massage = "";
+        private static bool IsTxtJsonSended = false;
+
         /// <summary>
-        /// メッセージを送信し 成功したらtrueを返す 仮実装
+        /// メッセージ送信フラグ
+        /// </summary>
+        public static bool flg = false;
+        /// <summary>
+        /// メッセージを送信し 成功したらtrueを返すかも(曖昧) 仮実装
         /// </summary>
         /// <param name="message">メッセージ</param>
         /// <param name="partner">宛先</param>
-        public static bool SendMessage(string message, string partner)
+        async public static Task<bool> SendMessage(string message, string partner)
         {
-            try
-            {
-                var session = Connectioner.CreateSession(Partners.GetAddress(partner), 6228);
-                session.EvReception += (sender, args) => { if (sender != null) { ((Session)sender).EndSession(); } };
-                session.SendData(textconvate("Message", message));
-                session.StartReception();
+            var ip = Partners.GetAddress(partner);
+            var session = Connectioner.CreateSession(ip, 6228);
+            session.EvReception += (sender, args) => { if (sender != null) { ((Session)sender).EndSession();flg = true; } };
+            flg = false;
+            await session.SendData(textconvate("Message", message)).WaitAsync(TimeSpan.FromSeconds(10));
+            session.StartReception();
 
-            }
-            catch
-            {
-                return false;
-            }
+            EvSendMessageSuccess(null, new Data(ip, false, DateTime.Now, message));
+            return flg;
 
-            EvSendMessageSuccess(null, DateTime.Now);
-
-            return true;
         }
 
 
@@ -78,8 +77,6 @@ namespace LocalChatBase
                 string data = textdeconvate(rawdata);
                 if (data != "")
                 {
-                    //Messenger.massage = data;
-                    //JsonSerializer.Deserialize<Data>(data);
                     var messagedata = new Data(((Session)session).remoteEndPoint.Address, true, DateTime.Now, data);
                     EvReceptionMessage(null, messagedata);
 
@@ -98,7 +95,14 @@ namespace LocalChatBase
         /// <returns></returns>
         private static string textconvate(string format, object o)
         {
-            return $"version{{\"version\":0,\"dataformat\":{{\"name\":\"{format}\",\"version\":1}},\"data\":\"{(o ?? "").ToString()}";
+            if (IsTxtJsonSended)
+            {
+                return $"{{version{{\"version\":0,\"dataformat\":{{\"name\":\"{format}\",\"version\":1}},\"data\":\"{(o ?? "").ToString()}\"}}";
+            }
+            else
+            {
+                return o.ToString()??"";
+            }
         }
 
         /// <summary>
@@ -109,7 +113,17 @@ namespace LocalChatBase
         /// <returns></returns>
         private static string textdeconvate(string txt)
         {
-            return txt ;
+            if (IsTxtJsonSended)
+            {
+                string fixtxt = (JObject.Parse(txt).GetValue("data")?? "").ToString() ;
+                return JObject.Parse(txt).ToString();
+
+            }
+            else
+            {
+                return txt;
+
+            }
         }
 
 
