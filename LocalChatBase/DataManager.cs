@@ -33,7 +33,6 @@ namespace LocalChatBase
         /// ƒf[ƒ^‚ğ’Ç‰Á‚µ‚½Û‚É”­‰Î‚µ‚Ü‚·
         /// </summary>
         public static event EventHandler<bool> EvAddData = (sender, args) => { };
-
         private static string s_datapath { get; } = "temptable.sql";
         private static string s_dataSource { get; } = $"Data Source={s_datapath};Version=3;";
 
