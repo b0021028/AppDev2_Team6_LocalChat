@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.IO;
 
 namespace LocalChatBase
 {
@@ -90,19 +89,19 @@ namespace LocalChatBase
                 _token.Cancel();
             }
             catch
-            {}
+            { }
             try
             {
                 _netStream.Close();
             }
             catch
-            {}
+            { }
             try
             {
                 _client.Close();
             }
             catch
-            {}
+            { }
             EvEndSession(this, remoteEndPoint);
 
 
@@ -145,10 +144,10 @@ namespace LocalChatBase
         {
             try
             {
-                while(true)
+                while (true)
                 {
                     //クライアントから送られたデータを受信する
-                    MemoryStream ms = new ();
+                    MemoryStream ms = new();
                     byte[] resBytes = new byte[256];
                     int resSize = 0;
                     do
@@ -181,7 +180,7 @@ namespace LocalChatBase
             }
             catch (OperationCanceledException e) { }
             catch (IOException e) { }
-            
+
 
         }
 

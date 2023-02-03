@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Security.Cryptography.X509Certificates;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
 
 
 namespace LocalChatBase
@@ -30,8 +20,8 @@ namespace LocalChatBase
         /// イベントハンドラー 設定が変更された時
         /// </summary>
         public static event EventHandler<string> EvConfigChange = (sender, args) => { };
-        private static Config s_config = new Config() {Notification=true };
-        private static Config s_defaltConfig = new Config() { Notification=true};
+        private static Config s_config = new Config() { Notification = true };
+        private static Config s_defaltConfig = new Config() { Notification = true };
 
         public static string Notification = "Notification";
         const string FILEPATH = "config.json";
@@ -68,7 +58,7 @@ namespace LocalChatBase
                     var jsonData = sr.ReadToEnd();
 
                     // 型嵌め
-                    Config conf = JsonConvert.DeserializeObject<Config>(jsonData)??s_config.Clone();
+                    Config conf = JsonConvert.DeserializeObject<Config>(jsonData) ?? s_config.Clone();
 
                     // 設定変更する
                     s_config.Notification = conf.Notification;

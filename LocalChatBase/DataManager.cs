@@ -39,7 +39,7 @@ namespace LocalChatBase
         /// <summary>
         /// 緊急デバック用 擬似データベース
         /// </summary>
-        public static List<Data> NearDatabase = new();
+        private static List<Data> NearDatabase = new();
         /// <summary>
         /// 緊急デバック用 データベースモード切替
         /// </summary>
@@ -57,11 +57,11 @@ namespace LocalChatBase
                     connect.Open();
 
                     string sql =
-                        "CREATE TABLE MESSAGES ("+
-                        "RECEIVEFLAG NUMERIC NOT NULL, "+
-                        "RECIPIENT TEXT NOT NULL, "+"" +
-                        "TIME NUMERIC NOT NULL, "+
-                        "MESSAGE TEXT NOT NULL"+
+                        "CREATE TABLE MESSAGES (" +
+                        "RECEIVEFLAG NUMERIC NOT NULL, " +
+                        "RECIPIENT TEXT NOT NULL, " + "" +
+                        "TIME NUMERIC NOT NULL, " +
+                        "MESSAGE TEXT NOT NULL" +
                         "); ";
                     try
                     {
@@ -200,7 +200,7 @@ namespace LocalChatBase
                     catch { reader = null; }
                 }
                 // =========================================================================================================================================================debug
-                List<Data> ret = new() {new Data("10.146.221.28","true",DateTime.Now.ToString(),"testbuck") };
+                List<Data> ret = new() { new Data("10.146.221.28", "true", DateTime.Now.ToString(), "testbuck") };
 
                 if (reader == null)// =========================================================================================================================================================debug
                 {
@@ -208,7 +208,7 @@ namespace LocalChatBase
                 }
 
 
-                for (int i=0; i< count; i++)
+                for (int i = 0; i < count; i++)
                 {
                     ret.Add(new Data(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3)));
                     reader.NextResult();

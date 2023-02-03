@@ -75,7 +75,7 @@ namespace LocalChat
                 g.Children.Add(grp);
 
                 // コンフィグデータとして登録
-                Func<object> a = ()=> radio.IsChecked;
+                Func<object> a = () => radio.IsChecked;
                 config.Add(Configuration.Notification, a);
 
             }

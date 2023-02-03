@@ -1,10 +1,10 @@
-﻿using System;
+﻿using LocalChatBase;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
-using LocalChatBase;
 
 namespace LocalChat
 {
@@ -49,19 +49,19 @@ namespace LocalChat
             Configuration.LoadConfigFile();
 
             // イベント登録 宛先が追加された時 -> GUI宛先リスト更新
-            Partners.EvAddDestination += (sender,e) => { Dispatcher.Invoke(UpdatePartnersList); };
+            Partners.EvAddDestination += (sender, e) => { Dispatcher.Invoke(UpdatePartnersList); };
 
             // イベント登録 通信セッション開始 -> データ受信時 -> メッセージ受け取り
-            Connectioner.EvStartSession += (sender, e) => {e.EvReception += Messenger.ReceptionMessage;e.StartReception(); };
+            Connectioner.EvStartSession += (sender, e) => { e.EvReception += Messenger.ReceptionMessage; e.StartReception(); };
 
             // イベント登録 データ保存処理
-            Messenger.EvReceptionMessage += (sender, e) => { DataManager.AddData(e.receptionFlag, e.ip, e.time, e.message); Partners.AddPartners(e.ip.ToString()??""); new Notifier("メッセージを受信しました").Show(); };
+            Messenger.EvReceptionMessage += (sender, e) => { DataManager.AddData(e.receptionFlag, e.ip, e.time, e.message); Partners.AddPartners(e.ip.ToString() ?? ""); new Notifier("メッセージを受信しました").Show(); };
 
             // イベント登録 データ保存処理
             Messenger.EvSendMessageSuccess += (sender, e) => { DataManager.AddData(e.receptionFlag, e.ip, e.time, e.message); };
 
             // イベント登録 新規データ取得時チャット画面更新
-            DataManager.EvAddData += (sender, e)=> { this.Dispatcher.Invoke(UpdateChat); };
+            DataManager.EvAddData += (sender, e) => { this.Dispatcher.Invoke(UpdateChat); };
 
             // 受信待ち受け開始
             Connectioner.StartListen();
@@ -76,7 +76,7 @@ namespace LocalChat
         /// </summary>
         public void AddMessage()
         {
-         //   Messenger.ReferenceMessage();
+            //   Messenger.ReferenceMessage();
         }
 
 
@@ -151,7 +151,7 @@ namespace LocalChat
                 // メッセージ
                 //var mLabel = new Label();
                 var mTextBlock = new TextBlock();
-                mTextBlock.Margin = new Thickness(5,5,5,5);
+                mTextBlock.Margin = new Thickness(5, 5, 5, 5);
                 mTextBlock.Text = messagedata.message;
                 mTextBlock.FontSize = 18;
                 mTextBlock.TextWrapping = TextWrapping.Wrap;
@@ -217,7 +217,7 @@ namespace LocalChat
         {
             if (ChatTitle.Content != null)
             {
-                string title = ChatTitle.Content.ToString()?? "";
+                string title = ChatTitle.Content.ToString() ?? "";
                 if (title != "")
                 {
                     DisplayChat(title);
@@ -233,10 +233,10 @@ namespace LocalChat
         {
             sendButton.IsEnabled = false;
             //現在の宛先取得
-            string name = ChatTitle.Content.ToString()??"";
+            string name = ChatTitle.Content.ToString() ?? "";
             string text = MessageText.Text;
             // 文字数が0ではない
-            if (name != "" && text.Trim('　',' ','\n','\t').Length != 0)
+            if (name != "" && text.Trim('　', ' ', '\n', '\t').Length != 0)
             {
                 //送信
                 var a = await Messenger.SendMessage(text, name).WaitAsync(TimeSpan.FromSeconds(10));
@@ -275,7 +275,7 @@ namespace LocalChat
         private void OpenConfigForm(object sender, RoutedEventArgs e)
         {
             var child = new ConfigForm();
-            child.Owner= this;
+            child.Owner = this;
             child.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             child.ShowDialog();
         }

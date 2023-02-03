@@ -11,7 +11,7 @@ namespace LocalChatBase
         /// <summary>
         /// セッションが生まれた時に発火する
         /// </summary>
-        public  static event EventHandler<Session> EvStartSession = (sender, args) => { };
+        public static event EventHandler<Session> EvStartSession = (sender, args) => { };
 
         /// <summary>
         /// ポート開けて待ち受けるやつ
@@ -32,7 +32,7 @@ namespace LocalChatBase
         /// キャンセル用
         /// </summary>
         private static CancellationTokenSource s_canceller = new CancellationTokenSource();
-        private static bool s_started  = false;
+        private static bool s_started = false;
 
         /// <summary>
         /// クライアント待ち受けを開始する (ip=any, port=6228)
@@ -54,7 +54,8 @@ namespace LocalChatBase
         /// </summary>
         static private void Run()
         {
-            while (true){
+            while (true)
+            {
                 s_canceller.Token.ThrowIfCancellationRequested();
                 var cl = s_listener.AcceptTcpClient();
                 var session = new Session(cl);

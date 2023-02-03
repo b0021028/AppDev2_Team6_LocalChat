@@ -30,7 +30,7 @@ namespace LocalChatBase
             {
                 IPAddress ip;
                 var isip = IPAddress.TryParse(partner, out ip);
-                if (isip &&ip != null)
+                if (isip && ip != null)
                 {
                     // 許可されたIPか確認
                     if (checkip(ip))
@@ -68,7 +68,7 @@ namespace LocalChatBase
         /// <exception cref="IndexOutOfRangeException"></exception>
         public static IPAddress GetAddress(string name)
         {
-            foreach(var partner in partners)
+            foreach (var partner in partners)
             {
                 if (partner.Value == name)
                 {
@@ -76,7 +76,7 @@ namespace LocalChatBase
                 }
             }
             throw new IndexOutOfRangeException();
-;
+            ;
         }
 
 

@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 
 
 namespace LocalChatBase
@@ -26,6 +25,7 @@ namespace LocalChatBase
         /// メッセージ送信フラグ
         /// </summary>
         public static bool flg = false;
+
         /// <summary>
         /// メッセージを送信し 成功したらtrueを返すかも(曖昧) 仮実装
         /// </summary>
@@ -35,7 +35,7 @@ namespace LocalChatBase
         {
             var ip = Partners.GetAddress(partner);
             var session = Connectioner.CreateSession(ip, 6228);
-            session.EvReception += (sender, args) => { if (sender != null) { ((Session)sender).EndSession();flg = true; } };
+            session.EvReception += (sender, args) => { if (sender != null) { ((Session)sender).EndSession(); flg = true; } };
             flg = false;
             await session.SendData(textconvate("Message", message)).WaitAsync(TimeSpan.FromSeconds(10));
             session.StartReception();
@@ -58,14 +58,14 @@ namespace LocalChatBase
             return ret;
         }
 
-         /// <summary>
-         /// データの受信イベントに登録してください 呼び出さないこと
-         /// メッセージを受け取り
-         /// 受信イベントをイベント発行
+        /// <summary>
+        /// データの受信イベントに登録してください 呼び出さないこと
+        /// メッセージを受け取り
+        /// 受信イベントをイベント発行
         /// </summary>
         /// <param name="session"></param>
         /// <param name="data"></param>
-        public static void ReceptionMessage(object? session, string rawdata)
+        public static async void ReceptionMessage(object? session, string rawdata)
         {
             if (session != null)
             {
@@ -75,7 +75,7 @@ namespace LocalChatBase
                     var messagedata = new Data(((Session)session).remoteEndPoint.Address, true, DateTime.Now, data);
                     EvReceptionMessage(null, messagedata);
 
-                    ((Session)session).SendData(textconvate("ReMessage", DateTime.Now));
+                    await ((Session)session).SendData(textconvate("ReMessage", DateTime.Now)).WaitAsync(TimeSpan.FromSeconds(10));
                 }
                 ((Session)session).EndSession();
             }
@@ -96,7 +96,7 @@ namespace LocalChatBase
             }
             else
             {
-                return o.ToString()??"";
+                return o.ToString() ?? "";
             }
         }
 
@@ -110,7 +110,7 @@ namespace LocalChatBase
         {
             if (IsTxtJsonSended)
             {
-                string fixtxt = (JObject.Parse(txt).GetValue("data")?? "").ToString() ;
+                string fixtxt = (JObject.Parse(txt).GetValue("data") ?? "").ToString();
                 return JObject.Parse(txt).ToString();
 
             }
