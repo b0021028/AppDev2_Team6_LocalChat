@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:LocalChat"
         mc:Ignorable="d"
         Title="設定画面" Height="400" Width="550">
+
     <Grid>
         <Button x:Name="OkButton" Content="OK" HorizontalAlignment="Left" Margin="75,0,0,25" VerticalAlignment="Bottom" Width="100" Height="25" Click="OkButton_Click"/>
         <Button x:Name="CancelButton" Content="キャンセル" HorizontalAlignment="Right" Margin="0,0,75,25" VerticalAlignment="Bottom" Height="25" Width="100" Click="CancelButton_Click"/>

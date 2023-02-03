@@ -1,4 +1,7 @@
-﻿using System.Threading;
+﻿using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using System.IO;
 
 namespace LocalChatBase
 {
@@ -13,7 +16,7 @@ namespace LocalChatBase
         /// <summary>
         /// セッションが終了したとき発火する
         /// </summary>
-        public event EventHandler<System.Net.IPEndPoint> EvEndSession = (sender, args) => { };
+        public event EventHandler<IPEndPoint> EvEndSession = (sender, args) => { };
 
         /// <summary>
         /// StartReception() の後 データを受信したとき発火する
@@ -23,19 +26,19 @@ namespace LocalChatBase
         /// <summary>
         /// クライアントのエンドポイント
         /// </summary>
-        public System.Net.IPEndPoint remoteEndPoint { get; init; }
+        public IPEndPoint remoteEndPoint { get; init; }
 
 
         // Private
         /// <summary>
         /// 接続している Client
         /// </summary>
-        private System.Net.Sockets.TcpClient _client { get; init; }
+        private TcpClient _client { get; init; }
 
         /// <summary>
         /// 接続している Client　の NetStream
         /// </summary>
-        private System.Net.Sockets.NetworkStream _netStream { get; init; }
+        private NetworkStream _netStream { get; init; }
 
 
         //  Static Private
@@ -47,7 +50,7 @@ namespace LocalChatBase
         /// <summary>
         /// 送受信する時のStringの文字コード
         /// </summary>
-        static private System.Text.Encoding s_encode { get; } = System.Text.Encoding.Default;
+        static private Encoding s_encode { get; } = Encoding.Default;
 
         /// <summary>
         /// キャンセルトークン
@@ -60,14 +63,14 @@ namespace LocalChatBase
         /// </summary>
         /// <param name="client">接続されたTcpClient</param>
         /// <throw>Tia</throw>
-        public Session(System.Net.Sockets.TcpClient client)
+        public Session(TcpClient client)
         {
             _client = client;
             if (_client.Client.RemoteEndPoint != null)
             {
                 _netStream = _client.GetStream();
                 _netStream.WriteTimeout = s_timeOut;
-                remoteEndPoint = (System.Net.IPEndPoint)_client.Client.RemoteEndPoint;
+                remoteEndPoint = (IPEndPoint)_client.Client.RemoteEndPoint;
                 _token = new CancellationTokenSource();
             }
             else
@@ -145,7 +148,7 @@ namespace LocalChatBase
                 while(true)
                 {
                     //クライアントから送られたデータを受信する
-                    System.IO.MemoryStream ms = new System.IO.MemoryStream();
+                    MemoryStream ms = new ();
                     byte[] resBytes = new byte[256];
                     int resSize = 0;
                     do
@@ -177,7 +180,7 @@ namespace LocalChatBase
 
             }
             catch (OperationCanceledException e) { }
-            catch (System.IO.IOException e) { }
+            catch (IOException e) { }
             
 
         }

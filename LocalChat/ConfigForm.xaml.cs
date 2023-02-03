@@ -1,18 +1,8 @@
 ﻿using LocalChatBase;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace LocalChat
 {
@@ -64,7 +54,7 @@ namespace LocalChat
 
                 var radio2 = new RadioButton();
                 radio2.Content = "Off";
-                if (LocalChatBase.Configuration.GetConfig().Notification)
+                if (Configuration.GetConfig().Notification)
                 {
                     radio.IsChecked = true;
                     radio2.IsChecked = false;
@@ -86,7 +76,7 @@ namespace LocalChat
 
                 // コンフィグデータとして登録
                 Func<object> a = ()=> radio.IsChecked;
-                config.Add(LocalChatBase.Configuration.Notification, a);
+                config.Add(Configuration.Notification, a);
 
             }
 
@@ -121,7 +111,7 @@ namespace LocalChat
         {
             foreach (var conf in config)
             {
-                LocalChatBase.Configuration.ChangeConfig(conf.Key, conf.Value());
+                Configuration.ChangeConfig(conf.Key, conf.Value());
 
             }
         }

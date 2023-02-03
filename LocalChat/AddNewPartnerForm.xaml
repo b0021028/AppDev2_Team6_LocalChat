@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:LocalChat"
         mc:Ignorable="d"
         Title="NewSendToForm" Height="186" Width="322">
+    
     <Grid Margin="10,10,10,10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>

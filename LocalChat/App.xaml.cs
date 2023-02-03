@@ -14,4 +14,5 @@ namespace LocalChat
     public partial class App : Application
     {
     }
+
 }

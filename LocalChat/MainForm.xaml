@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:LocalChat"
         mc:Ignorable="d"
         Title="MainForm" Height="436" Width="750">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
