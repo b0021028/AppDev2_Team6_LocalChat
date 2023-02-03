@@ -20,8 +20,8 @@ namespace LocalChatBase
         /// イベントハンドラー 設定が変更された時
         /// </summary>
         public static event EventHandler<string> EvConfigChange = (sender, args) => { };
-        private static Config s_config = new Config() { Notification = true };
-        private static Config s_defaltConfig = new Config() { Notification = true };
+        private static Config s_config = new () { Notification = true };
+        private static Config s_defaltConfig = new () { Notification = true };
 
         public static string Notification = "Notification";
         const string FILEPATH = "config.json";
@@ -52,7 +52,7 @@ namespace LocalChatBase
         {
             try
             {
-                using (StreamReader sr = new StreamReader(FILEPATH, System.Text.Encoding.UTF8))
+                using (StreamReader sr = new (FILEPATH, System.Text.Encoding.UTF8))
                 {
                     // テキスト取り出し
                     var jsonData = sr.ReadToEnd();

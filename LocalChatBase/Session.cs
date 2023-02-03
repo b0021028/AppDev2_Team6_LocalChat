@@ -178,8 +178,8 @@ namespace LocalChatBase
                 }
 
             }
-            catch (OperationCanceledException e) { }
-            catch (IOException e) { }
+            catch (OperationCanceledException) { }
+            catch (IOException) { }
 
 
         }
