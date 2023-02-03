@@ -170,7 +170,7 @@ namespace LocalChatBase
         {
             if (IsDatabaseMode)
             {
-                SQLiteDataReader reader;
+                SQLiteDataReader? reader;
                 int count = 0;
                 using (var conntect = new SQLiteConnection(s_dataSource))
                 {
@@ -182,7 +182,7 @@ namespace LocalChatBase
                         count = (int)command.ExecuteReader().GetValue(0);
 
                     }
-                    catch (InvalidOperationException e)
+                    catch (InvalidOperationException)
                     {
                         count = 0;
                     }
