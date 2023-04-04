@@ -48,20 +48,23 @@ namespace LocalChat
             // コンフィグ読込み
             Configuration.LoadConfigFile();
 
-            // イベント登録 宛先が追加された時 -> GUI宛先リスト更新
-            Partners.EvAddDestination += (sender, e) => { Dispatcher.Invoke(UpdatePartnersList); };
-
             // イベント登録 通信セッション開始 -> データ受信時 -> メッセージ受け取り
             Connectioner.EvStartSession += (sender, e) => { e.EvReception += Messenger.ReceptionMessage; e.StartReception(); };
 
             // イベント登録 データ保存処理
-            Messenger.EvReceptionMessage += (sender, e) => { DataManager.AddData(e.receptionFlag, e.ip, e.time, e.message); Partners.AddPartners(e.ip.ToString() ?? ""); };
-            Messenger.EvReceptionMessage += (sender, e) => { this.Dispatcher.Invoke(new Notifier("メッセージを受信しました").Show); };
+            Messenger.EvReceptionMessage += (sender, e) => { Partners.AddPartners(e.ip.ToString() ?? ""); DataManager.AddData(e.receptionFlag, e.ip, e.time, e.message); };
 
             // イベント登録 データ保存処理
             Messenger.EvSendMessageSuccess += (sender, e) => { DataManager.AddData(e.receptionFlag, e.ip, e.time, e.message); };
 
-            // イベント登録 新規データ取得時チャット画面更新
+
+            // Gui:: イベント登録 宛先が追加された時 -> GUI宛先リスト更新
+            Partners.EvAddDestination += (sender, e) => { Dispatcher.Invoke(UpdatePartnersList); };
+
+            // Gui:: イベント登録 データ保存処理
+            Messenger.EvReceptionMessage += (sender, e) => { this.Dispatcher.Invoke(()=> { new Notifier("メッセージを受信しました").Show(); }); };
+
+            // Gui:: イベント登録 新規データ取得時チャット画面更新
             DataManager.EvAddData += (sender, e) => { this.Dispatcher.Invoke(UpdateChat); };
 
             // 受信待ち受け開始
@@ -222,7 +225,7 @@ namespace LocalChat
                 if (title != "")
                 {
                     DisplayChat(title);
-                    new Notifier("メッセージを送受信しました").Show();
+                    //new Notifier("メッセージを送受信しました").Show();
                 }
             }
         }
