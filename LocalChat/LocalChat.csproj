@@ -8,11 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MySql.Data" Version="8.0.32" />
-    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.117" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\LocalChatBase\LocalChatBase.csproj" />
   </ItemGroup>
 
